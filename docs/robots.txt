@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# /sprint/ is an internal startup validation document, not public content.
+# Disallow + noindex in the HTML blocks both crawling and indexing.
+Disallow: /sprint/
+
 # Taxonomy pages (/tags/, /categories/ and their term pages) are kept out of
 # search results via a noindex meta tag emitted from layouts/partials/head.html
 # rather than a Disallow here. A robots.txt Disallow blocks crawling, which
