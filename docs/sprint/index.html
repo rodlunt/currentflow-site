@@ -2030,6 +2030,8 @@
           <tr><td><strong>E9</strong> Post-Install Follow-Up</td><td>6 and 12 month automated follow-up sequence triggered from install date. Review request, referral prompt, service check-in. Performance report (actual vs quoted generation) once inverter monitoring API integrated (v2 dependency).</td><td><span class="tag tag-assum">To expand</span></td><td>v1 (sequence) / v2 (inverter data)</td></tr>
           <tr><td><strong>E10</strong> Xero Integration</td><td>Create invoice in Xero on job completion. STC receivable as a separate line item. Payment reconciliation. No accounting UI inside CurrentFlow — Xero owns that boundary.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E11</strong> Settings and Administration</td><td>Business profile, user and role management, branding (logo, colours), notification preferences, email template customisation, API keys (Formbay, Nearmap, Xero), SLA response time targets, supplier onboarding.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E12</strong> Security and Data Compliance</td><td>Multi-tenant data isolation, role-scoped access enforcement, customer PII handling under the Privacy Act 1988 and Australian Privacy Principles (APPs), Notifiable Data Breaches (NDB) scheme readiness, call recording consent compliance, encryption at rest and in transit, audit logging, session management, API credential security, and a documented incident response process.</td><td><span class="tag tag-val">Seeded</span></td><td>v1 — must be cross-cutting, not a late addition</td></tr>
+          <tr><td><strong>E13</strong> Payments and Customer Sign-Off</td><td>Customer-facing completion checklist and digital sign-off at job completion. Final payment collection via embedded payment platform (card, bank transfer). Receipt generation. STC receivable shown as a deduction on the customer's final balance. Handoff to Xero for reconciliation. Installer collects payment on-site via PWA.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
         </tbody>
       </table>
 
@@ -2090,7 +2092,91 @@
         <li><strong>AC:</strong> Temperature calculated from: days since last contact, number of interactions, whether a site visit or proposal has been sent, customer responsiveness (replies vs no-replies). Displayed as a colour-coded indicator (hot / warm / cold) on the pipeline card. Configurable weighting per business (stretch). Leads inactive beyond a configurable window auto-move to a "needs attention" view.</li>
       </ul>
 
-      <div class="subhead">9a.3 Remaining Epics (to expand)</div>
+      <div class="subhead">9a.3 Epic E12 — Security and Data Compliance (seeded)</div>
+      <p class="note">Security is not a late-stage concern. These stories must be satisfied by architecture decisions in Stage 9c and enforced from the first line of code. Non-compliance with the Privacy Act or the NDB scheme carries legal and reputational risk that cannot be patched after launch.</p>
+
+      <div class="subhead-sm">E12.1 — Multi-Tenant Data Isolation</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want certainty that my customer and job data is inaccessible to any other business on the platform, so that a data breach in another tenant cannot expose my data.</li>
+        <li><strong>AC:</strong> Every data query is scoped to the authenticated tenant's ID at the ORM or query layer — never filtered in application logic post-fetch. Penetration test (prior to launch) must confirm no cross-tenant data leakage via any API endpoint, direct object reference, or error message. Architect decision recorded in ADR-05.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.2 — Role-Scoped Access Enforcement</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a subcontractor, I can only see jobs assigned to me or available for claiming — I cannot access the CRM, pricing, other contractors' details, or any business financials, even by guessing URLs.</li>
+        <li><strong>AC:</strong> All API endpoints enforce RBAC server-side. Subcontractor tokens cannot retrieve contact records, quote values, or other jobs. Automated test suite includes a role-crossing test for every protected endpoint. No client-side-only access control anywhere in the codebase.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.3 — Privacy Act and APP Compliance</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a customer whose data is held by a solar business using CurrentFlow, I want my personal information handled in accordance with the Australian Privacy Principles, so that I have rights over how it is used, stored, and disclosed.</li>
+        <li><strong>AC:</strong> Privacy Policy published and linked from the customer-facing booking widget and any customer-facing portal. Data collected is limited to what is necessary for the solar installation workflow (APP 3 — collection of solicited personal information). Customers can request access to their data and request deletion (APP 12/13). Retention policy defined and enforced — data not kept beyond the period needed for legal and tax obligations. Legal review of Privacy Policy before launch.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.4 — Notifiable Data Breaches (NDB) Readiness</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As the operator of CurrentFlow, I want an documented process for detecting, assessing, and notifying affected parties in the event of a data breach, so that we meet the 30-day NDB scheme notification requirement under the Privacy Act.</li>
+        <li><strong>AC:</strong> Incident response runbook written and accessible to the founding team before launch. Audit logs (see E12.6) provide the evidence trail needed to assess scope of a breach. OAIC notification process documented. Notification template for affected customers and businesses drafted. Annual review scheduled.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.5 — Call Recording Consent</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson using call recording, I want the system to handle consent notification correctly for my jurisdiction, so that recordings are legally obtained.</li>
+        <li><strong>AC:</strong> In all Australian states, at least one party must consent to recording — in practice this means the salesperson (who opts in to recording) satisfies this. However, some businesses may want both-party consent. The system must display a clear opt-in prompt to the salesperson before each recorded call. A consent configuration option (one-party / two-party) must be available in business settings. If two-party is selected, the system must prompt the salesperson to notify the customer verbally before recording begins — this is not automated (the system cannot intercept a call). Legal note documented in Settings UI.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.6 — Audit Logging</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want a tamper-evident log of who accessed or changed sensitive records, so that I can investigate any suspicious activity and demonstrate compliance if audited.</li>
+        <li><strong>AC:</strong> Audit log captures: actor (user ID + role), action (read/create/update/delete), resource (entity type + ID), timestamp, IP address. Logged for: all contact record access, all quote creation/modification, all STC lodgement actions, all user permission changes, all API key access. Log entries are append-only — no update or delete permitted. Log retained for minimum 7 years (tax record obligation). Log accessible to Business Owner role only, not to standard users.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.7 — Encryption and Credential Security</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As the platform operator, I want all data encrypted in transit and at rest, and all third-party API credentials stored securely, so that a server compromise does not expose customer data or integration credentials in plaintext.</li>
+        <li><strong>AC:</strong> TLS 1.2 minimum on all endpoints (TLS 1.3 preferred). Database encryption at rest (managed by hosting provider — document in ADR-14). API keys for Formbay, Nearmap, Xero stored in a secrets manager (AWS Secrets Manager, Doppler, or equivalent) — never in environment variable files committed to version control. Call recording audio files encrypted at rest in object storage. Passwords hashed with bcrypt or Argon2 — no MD5, no SHA-1, no plaintext.</li>
+      </ul>
+
+      <div class="subhead-sm">E12.8 — Session Management</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want sessions to expire after inactivity and for staff to be forcibly logged out when their account is deactivated, so that ex-employees cannot retain access after leaving.</li>
+        <li><strong>AC:</strong> Session timeout: 8 hours of inactivity for desktop, 30 days for mobile (with remember-me). Deactivating a user account immediately invalidates all active sessions for that user. MFA available for Business Owner and Admin roles (optional at launch, required for v2). Session tokens are rotated on privilege escalation (e.g. accessing audit logs).</li>
+      </ul>
+
+      <div class="subhead">9a.4 Epic E13 — Payments and Customer Sign-Off (seeded)</div>
+      <p class="note">Payment is collected at job completion — the installer (or salesperson) takes final payment on-site or remotely. This epic sits at the boundary between CurrentFlow and Xero: CurrentFlow owns the payment collection and sign-off flow; Xero owns invoice reconciliation and tax records.</p>
+
+      <div class="subhead-sm">E13.1 — Customer Completion Checklist</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer completing a job, I want to walk the customer through a configurable completion checklist on my phone, so that every installation is handed over consistently and the customer understands what has been installed.</li>
+        <li><strong>AC:</strong> Checklist is configurable per business (business owner manages the template in Settings). Default items include: system overview demonstrated, inverter location shown, monitoring app installed and logged in, grid connection confirmed, warranty documentation provided, STC process explained. Each item requires a tick by the installer. Customer signs off on the completed checklist via touchscreen or typed name. Signed checklist stored as a PDF against the job record.</li>
+      </ul>
+
+      <div class="subhead-sm">E13.2 — Customer Digital Sign-Off</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want the customer's digital signature on the job completion record, so that I have documented evidence of acceptance before processing final payment.</li>
+        <li><strong>AC:</strong> Sign-off screen presented to the customer on the installer's device after the completion checklist is ticked. Customer types their name or draws a signature. Timestamp and geolocation recorded. Signed record emailed to the customer immediately. Signature stored against the job — accessible to the business owner but not editable.</li>
+      </ul>
+
+      <div class="subhead-sm">E13.3 — On-Site Payment Collection</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer, I want to take the customer's final payment on my phone at job completion, so that the business receives payment on the day rather than chasing invoices afterward.</li>
+        <li><strong>AC:</strong> Payment amount pulled from the job's quote — outstanding balance shown after any deposit already paid. Payment methods: card via Stripe Terminal or tap-to-pay (where supported), bank transfer (BSB/account, reference pre-filled), or BNPL (Brighte, Smart Ease — if integrated). STC receivable shown as a line item deducted from the customer's balance, with a note explaining the timing. Receipt emailed to customer on payment. Payment status updates the job record to Paid. Xero invoice marked as paid via API.</li>
+      </ul>
+
+      <div class="subhead-sm">E13.4 — Remote Final Payment (for customers not paying on-site)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to send a customer a payment link for their outstanding balance, so that customers who prefer to pay by bank transfer or card from home can do so without a phone call.</li>
+        <li><strong>AC:</strong> Payment link generated from the job record. Customer lands on a branded payment page showing the outstanding amount, STC deduction, and available payment methods. Confirmation email sent on payment. Job record updated automatically. Link expires after 14 days (configurable).</li>
+      </ul>
+
+      <div class="subhead-sm">E13.5 — Payment Platform Selection (ADR dependency)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As the operator of CurrentFlow, I want a payment platform decision made before wireframes are finalised, so that the sign-off and payment flows are designed around the correct integration constraints.</li>
+        <li><strong>AC:</strong> Add ADR-16 to Stage 9c: Stripe (full AU support, Terminal for tap-to-pay, strong API) vs Square (tap-to-pay strong, less developer-friendly) vs Monoova (AU bank transfer specialist). PCI DSS compliance handled by the chosen provider — CurrentFlow must never store card numbers. Decision required before Stage 9b wireframes for E13 begin.</li>
+      </ul>
+
+      <div class="subhead">9a.5 Remaining Epics (to expand)</div>
       <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. Seed the stories from the scope decision log (Jun 14 2026) and the interview synthesis (Stage 5). Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
     </section>
 
@@ -2140,6 +2226,8 @@
           <tr><td>E9 — Post-Install Follow-Up (sequence builder, performance report)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E10 — Xero Integration (invoice preview, STC line item, sync status)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E11 — Settings (roles, branding, SLA, email templates, API keys)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E12 — Security (consent UI, audit log view, session/MFA settings)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E13 — Payments and Sign-Off (completion checklist, sign-off screen, payment page, receipt)</td><td>—</td><td><em>Primary</em></td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>Analytics dashboard</td><td><span class="tag tag-val">Done</span></td><td>—</td><td><span class="tag tag-val">Signed off</span></td></tr>
         </tbody>
       </table>
@@ -2184,6 +2272,7 @@
           <tr><td>ADR-13</td><td><strong>Notifications</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>SLA breach alerts, job claim notifications, appointment reminders, STC lodgement status. Channels: push (PWA), email, SMS. SMS provider options: Twilio, MessageBird, Australian-local (MessageMedia, Burst SMS).</td></tr>
           <tr><td>ADR-14</td><td><strong>Hosting and infrastructure</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>AU data residency for customer data. Options: AWS ap-southeast-2 (Sydney), Fly.io (Melbourne region), Render. Determine CI/CD pipeline, container vs serverless, and managed vs self-managed database.</td></tr>
           <tr><td>ADR-15</td><td><strong>STC lodgement integration (Formbay vs Bridge Select)</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Formbay Priority 1 — OAS 3.0 REST API, requires phone activation. Bridge Select / Greenbank Priority 2 — OpenSolar has a live integration proving feasibility. Decision: build Formbay first or build an abstraction layer that can swap.</td></tr>
+          <tr><td>ADR-16</td><td><strong>Payment platform</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Must support: card-present (tap-to-pay on installer's phone), card-not-present (remote payment link), AU bank transfer, BNPL handoff (Brighte / Smart Ease). PCI DSS compliance must be provider-handled — CurrentFlow cannot store card data. Options: Stripe (Terminal + PaymentIntents, strong AU support), Square (tap-to-pay strong), Monoova (AU bank transfer specialist, may need Stripe alongside). Decision blocks E13 wireframes.</td></tr>
         </tbody>
       </table>
 
