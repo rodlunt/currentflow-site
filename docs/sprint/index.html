@@ -1116,7 +1116,7 @@
       <div style="margin-bottom:6px;">
         <a href="https://currentflow.com.au" target="_blank" rel="noopener">currentflow.com.au</a>
       </div>
-      <div>Last updated: 13 June 2026</div>
+      <div>Last updated: 14 June 2026</div>
     </div>
   </aside>
 
@@ -1129,7 +1129,7 @@
         <span>Startup Sprint · Discovery &amp; Validation</span>
       </div>
       <h1 class="page-title">Current<em>Flow</em></h1>
-      <p class="page-subtitle">Solar CRM, quoting and project management platform — the live validation and build record for the Australian solar install workflow.</p>
+      <p class="page-subtitle">End-to-end solar business operating system — design, quoting, CRM, procurement, scheduling, compliance, and post-install follow-up for the Australian solar install workflow.</p>
       <div class="page-meta">
         <div class="meta-item">
           <span class="meta-label">Founder</span>
@@ -1145,7 +1145,7 @@
         </div>
         <div class="meta-item">
           <span class="meta-label">Updated</span>
-          <span class="meta-value">13 Jun 2026</span>
+          <span class="meta-value">14 Jun 2026</span>
         </div>
       </div>
     </div>
@@ -1177,14 +1177,13 @@
       <div class="subhead">Parking Lot</div>
       <p class="note">Ideas deferred from v1 scope. Revisit at Stage 12+.</p>
       <ul class="check-list">
-        <li>STC trading API integration (v2)</li>
+        <li>Inverter monitoring API integrations for automated 6/12 month performance reports (Fronius Solar.web, SMA, SolarEdge, Growatt, Goodwe) — v2</li>
         <li>Accounting integrations beyond Xero (v2)</li>
-        <li>Multi-user team features (v2)</li>
-        <li>Battery and energy monitoring integrations (v3)</li>
+        <li>CEC accreditation real-time API verification (v2 — currently requires manual upload)</li>
         <li>Service and maintenance scheduling module (v2)</li>
         <li>Solar cleaning partnership and referral commission model (v2)</li>
-        <li>Close rate benchmarking analytics (v2)</li>
-        <li>Procurement workflow for panel and product substitution (v2)</li>
+        <li>Close rate benchmarking analytics across the installer base (v2)</li>
+        <li>Multi-trader STC API switching (v2 — v1 targets Formbay then Greenbank/Bridge Select)</li>
       </ul>
 
       <div class="subhead">Decision Log</div>
@@ -1198,6 +1197,7 @@
           <tr><td>Mar 2026 / Stage 1</td><td>Subcontractor login gap in Pylon confirmed by Daniel Lake (Sure Solar) as a direct conversation. Added as partial validation for A9.</td></tr>
           <tr><td>Mar 2026 / Stage 1b</td><td>Landing page live at currentflow.com.au. Waitlist form to Google Sheets. Email forwarding hello@currentflow.com.au active. GitHub repo connected.</td></tr>
           <tr><td>Mar 2026 / Stage 2</td><td>Personas B (Growth-Stage Operator) and D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona A (Owner-Operator) deprioritised as a launch target and will self-select over time. Persona C (Enterprise) excluded from v1 go-to-market as the competitor market adequately serves that segment. Persona E (Solar Quoter / Sales Rep) added as a user persona present within B and D businesses. Decision anchored to revenue potential and structural market gap.</td></tr>
+          <tr><td>Jun 14 2026 / Pre-Stage 9</td><td>Product scope confirmed as a full end-to-end solar business operating system — not a CRM with design bolt-on. Design is integral to the quoting process and is v1 scope, not a future add-on. Full scope: solar design (aerial imagery, panel overlay, string voltage, MPPT, temperature derating, CEC compliance), quoting, CRM (pipeline, lead temperature, follow-up sequences), procurement (BOM, supplier price lists), scheduling (employees and contractors, weather rescheduling, customer booking), compliance (STC/SRES lodgement via Formbay/Greenbank, CEC component checks), and post-install follow-up (6/12 month automated performance review). Xero handles accounting only — invoice, STC receivable as a line item, payment reconciliation. Out of scope for v1: inverter monitoring API integrations for automated performance data (v2), multi-trader STC switching (v2), real-time CEC accreditation API verification (v2). Contractor pool model confirmed as v1: self-service job claiming, first-come-first-served, eligibility gated by CEC accreditation, quals, and tickets. Hungry installers earn work; Persona D is served natively. Decisions taken in session; no competitor research contradicted any scope item.</td></tr>
         </tbody>
       </table>
     </section>
@@ -1885,13 +1885,20 @@
           <tr><td>A6</td><td>Xero is the dominant accounting tool in the installer market</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
           <tr><td>A7</td><td>Installers are willing to participate in a structured beta program</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A8</td><td>Rodney's network gives a warm channel to first 20 customers</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>—</td></tr>
-          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed in Pylon</td><td><span class="tag tag-partial">PARTIAL</span></td><td>Medium</td><td>Daniel Lake, Sure Solar — direct conversation</td></tr>
+          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed across all major tools</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Daniel Lake (Sure Solar) direct conversation + June 2026 firecrawl sweep confirming gap across Pylon, SolarPlus, OpenSolar, ServiceM8, and all others surveyed</td></tr>
           <tr><td>A10</td><td>Data re-entry is a documented, measurable operational problem</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 13 entry points reduced to 3</td></tr>
           <tr><td>A11</td><td>Quoting speed directly impacts revenue and close rate</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 30+ min to 2 min</td></tr>
           <tr><td>A12</td><td>Industry average close rate is unknown and untracked</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>No published data found — confirmed via research</td></tr>
           <tr><td>A13</td><td>Procurement substitution workflow is a real operational gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A14</td><td>Maintenance and service follow-up scheduling is a gap in current tools</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A15</td><td>Solar sales reps and quoters have material influence over their employer's software purchasing decision</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A16</td><td>Aerial imagery with panel overlay is a day-one expectation — not a differentiator</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct statement June 14 2026; every competitor offers it; omission would be a dealbreaker</td></tr>
+          <tr><td>A17</td><td>CEC component compliance checking (approved inverters, panels) must be in-tool</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct requirement June 14 2026; manual CEC list cross-check is a common installer pain point</td></tr>
+          <tr><td>A18</td><td>String voltage calculation, MPPT configuration, and temperature derating must be automated in the design layer</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct requirement June 14 2026; missing from any CRM-only tool and underspecified in some design tools</td></tr>
+          <tr><td>A19</td><td>Procurement / bill of materials and supplier price list integration is v1 scope</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — direct requirement June 14 2026; no competitor offers native procurement layer; confirmed in scope decision</td></tr>
+          <tr><td>A20</td><td>Post-install 6 and 12 month performance follow-up automation is expected by installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — design intent June 14 2026; requires inverter monitoring API integration (v2 dependency) for actual vs quoted generation comparison</td></tr>
+          <tr><td>A21</td><td>Contractor pool model (first-in-first-served job claiming, eligibility by quals) is viable for v1</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — direct requirement June 14 2026; no competitor offers this; serves Persona D natively</td></tr>
+          <tr><td>A22</td><td>CRM-led lead temperature gauges and follow-up sequences improve close rates for solar installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>Rodney — design intent June 14 2026; assumed from general CRM research; needs interview validation with Persona B/D</td></tr>
         </tbody>
       </table>
     </section>
@@ -2171,13 +2178,20 @@
           <tr><td>A6</td><td>Xero is the dominant accounting tool in the installer market</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
           <tr><td>A7</td><td>Installers are willing to participate in a structured beta program</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A8</td><td>Rodney's network gives a warm channel to first 20 customers</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>—</td></tr>
-          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed in Pylon</td><td><span class="tag tag-partial">PARTIAL</span></td><td>Medium</td><td>Daniel Lake, Sure Solar — direct conversation</td></tr>
+          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed across all major tools</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Daniel Lake (Sure Solar) direct conversation + June 2026 firecrawl sweep confirming gap across Pylon, SolarPlus, OpenSolar, ServiceM8, and all others surveyed</td></tr>
           <tr><td>A10</td><td>Data re-entry is a documented, measurable operational problem</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 13 entry points to 3</td></tr>
           <tr><td>A11</td><td>Quoting speed directly impacts revenue and close rate</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 30+ min to 2 min</td></tr>
           <tr><td>A12</td><td>Industry average close rate is unknown and untracked</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>No published Australian data found</td></tr>
           <tr><td>A13</td><td>Procurement substitution workflow is a real operational gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A14</td><td>Maintenance and service follow-up scheduling is a gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
           <tr><td>A15</td><td>Solar sales reps and quoters have material influence over their employer's software purchasing decision</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A16</td><td>Aerial imagery with panel overlay is a day-one expectation — not a differentiator</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct statement June 14 2026; every competitor offers it; omission would be a dealbreaker</td></tr>
+          <tr><td>A17</td><td>CEC component compliance checking (approved inverters, panels) must be in-tool</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct requirement June 14 2026</td></tr>
+          <tr><td>A18</td><td>String voltage calculation, MPPT configuration, and temperature derating must be automated in the design layer</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>Rodney — direct requirement June 14 2026</td></tr>
+          <tr><td>A19</td><td>Procurement / bill of materials and supplier price list integration is v1 scope</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — direct requirement June 14 2026; confirmed in scope decision</td></tr>
+          <tr><td>A20</td><td>Post-install 6 and 12 month performance follow-up automation is expected by installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — design intent June 14 2026; v2 dependency on inverter monitoring API</td></tr>
+          <tr><td>A21</td><td>Contractor pool model (first-in-first-served job claiming, eligibility by quals) is viable for v1</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>Rodney — direct requirement June 14 2026; serves Persona D natively</td></tr>
+          <tr><td>A22</td><td>CRM-led lead temperature gauges and follow-up sequences improve close rates for solar installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>Rodney — design intent June 14 2026; needs interview validation</td></tr>
         </tbody>
       </table>
 
@@ -2221,7 +2235,7 @@
           <tr><td><strong>Job scheduling / dispatch</strong></td><td>Dashboard only</td><td>None</td><td>None</td><td>ServiceM8 (extra cost)</td><td><span class="tag tag-val">GAP</span></td></tr>
           <tr><td><strong>AU state rebate tracking</strong></td><td>None</td><td>VEECs only</td><td>None</td><td>None</td><td>PDRS, ESS, VEECs</td></tr>
           <tr><td><strong>Xero integration</strong></td><td>Optional add-on</td><td>Yes</td><td>Paid connector</td><td>ServiceM8 preferred</td><td>Baseline</td></tr>
-          <tr><td><strong>Solar design (built-in)</strong></td><td>Strong</td><td>Strong</td><td>Strong</td><td>Yes</td><td>Integrate/partner</td></tr>
+          <tr><td><strong>Solar design (built-in)</strong></td><td>Strong</td><td>Strong</td><td>Strong</td><td>Yes</td><td>v1 — full design tool (aerial imagery, string voltage, MPPT, CEC compliance, panel overlay)</td></tr>
         </tbody>
       </table>
 
@@ -2257,6 +2271,7 @@
           <tr><td>Mar 2026</td><td>Stage 1 — Problem Canvas. Problem statement written and locked. Four personas identified. CurrentFlow named and domain secured. Assumption Register seeded A1 to A14. Subcontractor login gap in Pylon confirmed by Daniel Lake (A9 partial). Data re-entry (A10) and quoting speed (A11) validated from Envirogroup. Landing page live at currentflow.com.au. Waitlist to Google Sheets. Email forwarding active. GitHub repo connected.</td></tr>
           <tr><td>Mar 2026</td><td>Stage 2 complete. Persona strategy confirmed: Persona B (Growth-Stage Operator) and Persona D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona E (Solar Quoter / Sales Rep) added as user persona present within B and D businesses. Persona A deprioritised as launch target. Persona C excluded from v1 go-to-market. Persona B canvas built. Persona E canvas and interview script built. Assumption A15 added. Stage 2 locked.</td></tr>
           <tr><td>Jun 2026</td><td>Competitor landscape research completed via firecrawl sweep (10 tools). Full detail in vault/20_Research/competitor-landscape.md. Key finding: STC/SRES workflow and subcontractor management are unaddressed across the entire market. A9 extended beyond Pylon to all tools. Appendix C added to sprint document. CurrentFlow site CI/CD wired up (GitHub Actions to currentflow-site deploy repo via webhook on opti). ntfy notifications added to tenant config. Research vault expanded with expand-research run.</td></tr>
+          <tr><td>Jun 14 2026</td><td>Product scope expanded from CRM-with-design-bolt-on to full solar business operating system. Confirmed scope: solar design (aerial imagery, panel overlay, CEC component compliance, string voltage, MPPT, temperature derating), quoting (BOM, supplier price lists, proposal generation), CRM (pipeline, lead temperature gauges, follow-up sequences), procurement layer (supplier API integrations, price list management), job management (employee and contractor scheduling, wet weather rescheduling, customer online booking), contractor pool model (first-in-first-served job claiming, eligibility by quals and CEC accreditation), compliance (STC/SRES lodgement via Formbay Priority 1, Greenbank/Bridge Select Priority 2), post-install follow-up (6 and 12 month performance review automation). Xero API integration for accounting only (invoice, STC receivable as line item, payment reconciliation). V2 deferred: inverter monitoring API (Fronius, SMA, SolarEdge, Growatt, Goodwe) for automated performance data, real-time CEC accreditation API verification, multi-trader STC switching. A9 formally upgraded to VALID. New assumptions A16 to A22 added. Parking Lot updated: items now confirmed as v1 (STC lodgement, procurement, multi-user team features) removed; v2 items added. Appendix C capability matrix updated: solar design row changed from Integrate/partner to v1 full design tool. Research vault: SurgePV competitor reviews (Aurora, SolarPlus, OpenSolar) added; OpenSolar-users-need-crm-stc brief added (ready status).</td></tr>
         </tbody>
       </table>
     </section>
