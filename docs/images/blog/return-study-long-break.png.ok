@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "b54dc45df9b97e28e8aa4b8548c8ba06020a0ff8606cccf2dddc66ac5a9e717e",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 495863297,
+  "slug": "return-study-long-break",
+  "timestamp": "2026-06-12T08:08:05.352606+00:00"
+}

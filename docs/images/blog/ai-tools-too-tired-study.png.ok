@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "cc1d321908af0e602012ef66f9cef44d09b1b5012c60d874096993b6955889e6",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3959300424,
+  "slug": "ai-tools-too-tired-study",
+  "timestamp": "2026-06-12T07:43:34.912019+00:00"
+}

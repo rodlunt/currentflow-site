@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "640262edf803d8a10e63518e6d4dea325355494d07b71343ea07224650a85562",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3258481240,
+  "slug": "write-critical-analysis",
+  "timestamp": "2026-06-12T08:19:03.829073+00:00"
+}

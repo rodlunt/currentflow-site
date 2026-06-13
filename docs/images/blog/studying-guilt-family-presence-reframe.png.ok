@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "8c2b5008f92b70dead3ab474cfbdad36de96b2704a6450bace24d7b23b6380a7",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3967341282,
+  "slug": "studying-guilt-family-presence-reframe",
+  "timestamp": "2026-06-12T08:13:35.718520+00:00"
+}

@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "f6ee2dbc05cc2c38db4cbd03e9c8c91e6526741ffaf4c979812a273ec307f099",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2744913418,
+  "slug": "wam-postgrad-entry-employer-thresholds",
+  "timestamp": "2026-05-31T15:35:45.748183+00:00"
+}

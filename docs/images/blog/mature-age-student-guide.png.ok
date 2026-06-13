@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "5a9b22b7dbc5165e242e3f97ed51e099199798dd7a2f6dc6cd398cce1ace1930",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3835853137,
+  "slug": "mature-age-student-guide",
+  "timestamp": "2026-06-12T07:57:52.808416+00:00"
+}

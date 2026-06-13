@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Taxonomy pages (/tags/, /categories/ and their term pages) are kept out of
+# search results via a noindex meta tag emitted from layouts/partials/head.html
+# rather than a Disallow here. A robots.txt Disallow blocks crawling, which
+# means Google can't see the noindex tag — and any URL still in sitemap.xml
+# becomes a "Indexed, though blocked by robots.txt" warning in Search Console.
+# noindex lets crawlers fetch and discover internal links from term pages while
+# keeping the pages out of the index.
+
+# Sitemap reference helps search engines discover all canonical URLs
+Sitemap: https://currentflow.com.au/sitemap.xml

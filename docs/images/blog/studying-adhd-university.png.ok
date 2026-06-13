@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "780e9fc70912fa7a913ea8d51e635c6f86a181b3bdc05b087c4b41587f158a85",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2180582829,
+  "slug": "studying-adhd-university",
+  "timestamp": "2026-06-12T08:12:55.778350+00:00"
+}

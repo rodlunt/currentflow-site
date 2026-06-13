@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CurrentFlow — Pitch Deck</title>
+  <meta name="description" content="CurrentFlow pitch deck — Moreton Bay Startup Lab Cohort 2 application. Purpose-built platform for the Australian solar install workflow." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Brand Tokens (shared with index.html) ──────────────────────────── */
+    :root {
+      --bg:           #0B0E14;
+      --surface:      #13171F;
+      --surface-2:    #1A1F2C;
+      --border:       #1E2430;
+      --border-light: #2A3245;
+      --text:         #E8ECF4;
+      --text-muted:   #6B7794;
+      --text-dim:     #3D4560;
+      --accent:       #4E9FFF;
+      --accent-dim:   #1A3D6B;
+      --accent-pale:  #0D2040;
+      --white:        #FFFFFF;
+      --success:      #34D399;
+      --warning:      #FBBF24;
+      --radius-sm:    4px;
+      --radius:       8px;
+      --radius-lg:    14px;
+      --font-head:    'Syne', sans-serif;
+      --font-body:    'Instrument Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Noise texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.30;
+    }
+
+    /* ─── Deck shell ─────────────────────────────────────────────────────── */
+    .deck {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    .deck::-webkit-scrollbar { display: none; }
+
+    .slide {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 88px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .slide-inner {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .slide.in-view .slide-inner { opacity: 1; transform: translateY(0); }
+
+    /* Persistent corner brand mark */
+    .deck-brand {
+      position: fixed;
+      top: 26px; left: 32px;
+      z-index: 20;
+      display: flex; align-items: center; gap: 9px;
+      font-family: var(--font-head);
+      font-size: 13px; font-weight: 800; letter-spacing: 0.06em;
+      color: var(--white);
+      mix-blend-mode: difference;
+    }
+    .brand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(78,159,255,0.6);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(78,159,255,0.6); }
+      50% { opacity: 0.6; box-shadow: 0 0 16px rgba(78,159,255,0.3); }
+    }
+
+    /* Slide counter + nav hint */
+    .deck-counter {
+      position: fixed;
+      bottom: 24px; right: 32px;
+      z-index: 20;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .deck-hint {
+      position: fixed;
+      bottom: 24px; left: 32px;
+      z-index: 20;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* Dot navigation */
+    .deck-dots {
+      position: fixed;
+      top: 50%; right: 22px;
+      transform: translateY(-50%);
+      z-index: 20;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .deck-dots button {
+      width: 8px; height: 8px; padding: 0;
+      border-radius: 50%;
+      border: 1px solid var(--border-light);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .deck-dots button.active { background: var(--accent); border-color: var(--accent); transform: scale(1.25); }
+    .deck-dots button:hover { border-color: var(--accent); }
+
+    /* ─── Slide typography ───────────────────────────────────────────────── */
+    .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-head);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+    }
+    .kicker::before {
+      content: ''; width: 22px; height: 2px; background: var(--accent); display: inline-block;
+    }
+
+    h1.title {
+      font-family: var(--font-head);
+      font-size: 72px; font-weight: 800; line-height: 1.04;
+      letter-spacing: -0.03em; color: var(--white);
+      margin-bottom: 20px;
+    }
+    h1.title em { font-style: normal; color: var(--accent); }
+
+    h2.headline {
+      font-family: var(--font-head);
+      font-size: 46px; font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.02em; color: var(--white);
+      margin-bottom: 22px;
+    }
+    h2.headline em { font-style: normal; color: var(--accent); }
+
+    .lead {
+      font-size: 20px; line-height: 1.6; color: var(--text-muted);
+      max-width: 720px;
+    }
+    .lead strong { color: var(--text); font-weight: 600; }
+
+    .sub {
+      font-size: 17px; line-height: 1.6; color: var(--text-muted);
+      max-width: 680px; margin-top: 8px;
+    }
+
+    /* Metric row */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 36px;
+    }
+    .metric {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      position: relative; overflow: hidden;
+    }
+    .metric::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent);
+    }
+    .metric-num {
+      font-family: var(--font-head);
+      font-size: 34px; font-weight: 800; color: var(--white);
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    .metric-num.accent { color: var(--accent); }
+    .metric-label {
+      font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.4;
+    }
+
+    /* Feature / bullet grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 32px;
+    }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .feature:hover { border-color: var(--accent-dim); background: var(--surface-2); }
+    .feature-title {
+      font-family: var(--font-head); font-size: 15px; font-weight: 700;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* Plain emphasised list */
+    .points { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .points li {
+      position: relative; padding-left: 24px;
+      font-size: 18px; color: var(--text); line-height: 1.5;
+    }
+    .points li::before {
+      content: ''; position: absolute; left: 0; top: 10px;
+      width: 8px; height: 8px; border-radius: 2px; background: var(--accent);
+      box-shadow: 0 0 8px rgba(78,159,255,0.5);
+    }
+    .points li strong { color: var(--white); font-weight: 600; }
+
+    /* Two-column split */
+    .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+
+    /* Comparison rows */
+    .versus { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+    .versus-row {
+      display: grid; grid-template-columns: 200px 1fr; gap: 20px;
+      padding: 16px 0; border-bottom: 1px solid var(--border); align-items: baseline;
+    }
+    .versus-row:last-child { border-bottom: none; }
+    .versus-name { font-family: var(--font-head); font-weight: 700; color: var(--text); font-size: 15px; }
+    .versus-gap { font-size: 15px; color: var(--text-muted); line-height: 1.5; }
+    .versus-gap b { color: var(--warning); font-weight: 600; }
+
+    .stamp {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--accent); background: var(--accent-pale);
+      border: 1px solid var(--accent-dim); border-radius: var(--radius-sm);
+      padding: 6px 12px; margin-top: 30px;
+    }
+
+    .footer-note {
+      margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-dim);
+      display: flex; flex-wrap: wrap; gap: 8px 24px;
+    }
+    .footer-note span { color: var(--text-muted); }
+
+    .placeholder-tag {
+      color: var(--warning); font-style: italic; font-size: 0.92em;
+    }
+
+    /* Title slide accent backdrop */
+    .slide.title-slide {
+      background:
+        radial-gradient(900px 500px at 78% 18%, rgba(78,159,255,0.10), transparent 60%),
+        radial-gradient(700px 500px at 12% 90%, rgba(78,159,255,0.06), transparent 55%);
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 760px) {
+      .slide { padding: 56px 28px; }
+      h1.title { font-size: 46px; }
+      h2.headline { font-size: 32px; }
+      .lead { font-size: 17px; }
+      .feature-grid, .split { grid-template-columns: 1fr; gap: 16px; }
+      .versus-row { grid-template-columns: 1fr; gap: 4px; }
+      .deck-dots { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide-inner { transition: none; opacity: 1; transform: none; }
+      .brand-dot { animation: none; }
+      .deck { scroll-behavior: auto; }
+    }
+
+    /* ─── Print → clean PDF (one slide per page) ─────────────────────────── */
+    @media print {
+      @page { size: A4 landscape; margin: 0; }
+      body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body::before { display: none; }
+      .deck { height: auto; overflow: visible; display: block; }
+      .deck-brand, .deck-counter, .deck-hint, .deck-dots { display: none !important; }
+      .slide {
+        min-height: 0; height: auto;
+        page-break-after: always; break-after: page;
+        border-bottom: none;
+        padding: 48px 56px;
+      }
+      .slide-inner { opacity: 1 !important; transform: none !important; }
+      .feature:hover { border-color: var(--border); background: var(--surface); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deck-brand"><span class="brand-dot"></span> CURRENTFLOW</div>
+  <div class="deck-hint">Scroll or use ↑ ↓ · Press P to print/PDF</div>
+  <div class="deck-counter"><span id="cur">01</span> / <span id="total">11</span></div>
+  <nav class="deck-dots" id="dots" aria-label="Slide navigation"></nav>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · TITLE -->
+    <section class="slide title-slide">
+      <div class="slide-inner">
+        <div class="kicker">Moreton Bay Startup Lab · Cohort 2</div>
+        <h1 class="title">Current<em>Flow</em></h1>
+        <p class="lead">The purpose-built operating system for the Australian solar install workflow — quoting, CRM, scheduling, project management and STC compliance in one place.</p>
+        <div class="footer-note">
+          <span>Founder — Rodney Lunt</span>
+          <span>currentflow.com.au</span>
+          <span>Discovery &amp; Validation · 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 · PROBLEM -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">The Problem</div>
+        <h2 class="headline">Installers run their business across <em>three to five tools that don't talk.</em></h2>
+        <p class="lead">Quoting, CRM, scheduling, project management and STC compliance live in separate systems. The same job data is re-entered across each one — so leads get lost when it's busy, follow-ups slip, and schedules break under weather delays and product substitutions.</p>
+        <div class="metrics">
+          <div class="metric"><div class="metric-num accent">3–5</div><div class="metric-label">Separate subscriptions per business</div></div>
+          <div class="metric"><div class="metric-num">0</div><div class="metric-label">Built end-to-end for the AU solar install workflow</div></div>
+          <div class="metric"><div class="metric-num accent">20<span style="font-size:20px"> yrs</span></div><div class="metric-label">The problem has gone unsolved</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · IT COSTS REAL MONEY -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Why It Matters</div>
+        <h2 class="headline">This isn't admin friction — it's <em>frozen cash and wasted spend.</em></h2>
+        <p class="lead">The disconnect hits a small installer where it hurts most: working capital, and money paid to work around tools that were never built for solar.</p>
+        <div class="metrics">
+          <div class="metric"><div class="metric-num accent">Months</div><div class="metric-label">STC rebate cash — tens of thousands per job — frozen when a compliance form is knocked back, late, or missed.</div></div>
+          <div class="metric"><div class="metric-num accent">$130,000</div><div class="metric-label">Quoted to one director just to deploy and customise a generic CRM that still isn't built for solar.</div></div>
+          <div class="metric"><div class="metric-num accent">3–5</div><div class="metric-label">Subscriptions stitched together to cover one workflow — paying for bloat to reach the few features that matter.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · WHY NOW -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Why Now</div>
+        <h2 class="headline">A problem I proved was fixable <em>twenty years ago</em> — and it's only gotten worse.</h2>
+        <div class="split">
+          <p class="lead">At Envirogroup, process work alone cut the same data from 13 entry points to 3, and quote turnaround from 30 minutes to 2. Two decades on it still hasn't been productised. The market just sprawled — more tools that each do most of the job, so installers keep buying the next one.</p>
+          <div class="metrics" style="grid-template-columns:1fr;margin-top:0;">
+            <div class="metric"><div class="metric-num accent">13 → 3</div><div class="metric-label">Data entry points (Envirogroup)</div></div>
+            <div class="metric"><div class="metric-num accent">30 → 2 min</div><div class="metric-label">Quote turnaround (Envirogroup)</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · SOLUTION -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">The Solution</div>
+        <h2 class="headline">One platform, <em>built only for solar.</em></h2>
+        <p class="lead">CurrentFlow replaces the three-to-five tools installers juggle today. Enter job data once, then carry it from <strong>lead → quote → install → invoice</strong> with no re-entry.</p>
+        <div class="feature-grid">
+          <div class="feature"><div class="feature-title">Fast on-site quoting</div><div class="feature-desc">Professional quotes in minutes, on tablet or mobile.</div></div>
+          <div class="feature"><div class="feature-title">STC built in</div><div class="feature-desc">Entitlements calculated and tracked on every job — no lost rebate cash.</div></div>
+          <div class="feature"><div class="feature-title">Subcontractor logins</div><div class="feature-desc">Subbies get their own job view without access to the whole business.</div></div>
+          <div class="feature"><div class="feature-title">Connected scheduling</div><div class="feature-desc">One pipeline from sale to install — no manual handoffs.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 · DIFFERENTIATION -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Where Today's Tools Fall Short</div>
+        <h2 class="headline">Purpose-built beats <em>bolted-together.</em></h2>
+        <div class="versus">
+          <div class="versus-row"><div class="versus-name">Pylon</div><div class="versus-gap"><b>No subcontractor login.</b> Expensive at scale. Not built for the Australian compliance workflow.</div></div>
+          <div class="versus-row"><div class="versus-name">OpenSolar</div><div class="versus-gap">Quoting-focused. <b>Weak on CRM, scheduling and job management.</b></div></div>
+          <div class="versus-row"><div class="versus-name">Generic CRMs</div><div class="versus-gap"><b>Bloated and not solar-specific</b> — plus five-figure customisation bills (up to $130k).</div></div>
+          <div class="versus-row"><div class="versus-name">Spreadsheets / WhatsApp</div><div class="versus-gap">Flexible but break under volume. <b>No audit trail, no automation.</b></div></div>
+        </div>
+        <div class="stamp">CurrentFlow priced at or below the combined cost of the tools it replaces — consolidating spend, not adding to it.</div>
+      </div>
+    </section>
+
+    <!-- 7 · WHO IT'S FOR -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Who It's For</div>
+        <h2 class="headline">Beachhead: <em>growth-stage and subcontractor-led</em> installers.</h2>
+        <div class="feature-grid">
+          <div class="feature"><div class="feature-title">Persona B — Growth-Stage Operator</div><div class="feature-desc">10–30 staff, 20–60 installs/month. Already pays for Pylon plus other tools. Losing revenue in the gaps between them. The owner is the integration layer — and that doesn't scale.</div></div>
+          <div class="feature"><div class="feature-title">Persona D — Subcontractor-Led Operator</div><div class="feature-desc">Runs jobs through subbies. No way to give them job visibility without exposing the whole business. Structurally under-served by every existing tool.</div></div>
+        </div>
+        <p class="sub">Owner-operators (Persona A) self-select over time; enterprise (Persona C) is a later expansion target.</p>
+      </div>
+    </section>
+
+    <!-- 8 · TRACTION / EVIDENCE -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Traction &amp; Evidence</div>
+        <h2 class="headline">Discovery first. <em>Evidence before build.</em></h2>
+        <ul class="points">
+          <li><strong>Landing page live</strong> at currentflow.com.au, capturing a waitlist to Google Sheets.</li>
+          <li><strong>Problem validated:</strong> data re-entry and quoting-speed impact confirmed; Pylon's subcontractor gap confirmed directly by an operator (Sure Solar).</li>
+          <li><strong>Customer interviews underway</strong> — a structured discovery round with growth-stage and subcontractor-led founders, surfacing real software spend.</li>
+          <li><strong>A warm channel to thousands</strong> of installers through 20+ years in the industry.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 9 · FOUNDER -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Founder–Market Fit</div>
+        <h2 class="headline">A founder who lives the problem — and <em>lives in Moreton Bay.</em></h2>
+        <p class="lead">Rodney Lunt — 20+ years in Australian solar, now <strong>Sales Manager at Tradezone Brisbane</strong> (Brendale), where I've grown the branch to a <strong>$120M+ annualised run rate</strong>, up from under $3M/month.</p>
+        <div class="feature-grid">
+          <div class="feature"><div class="feature-title">Both sides of the fence</div><div class="feature-desc">Led sales teams across install <em>and</em> wholesale — I know this workflow from every angle.</div></div>
+          <div class="feature"><div class="feature-title">I can build it</div><div class="feature-desc">Completing a Graduate Diploma in IT (Computer Science) — a Dean's Commendation recipient — specifically to build applications like CurrentFlow myself.</div></div>
+          <div class="feature"><div class="feature-title">A warm channel</div><div class="feature-desc">Direct relationships with thousands of installers to validate and build with.</div></div>
+          <div class="feature"><div class="feature-title">Local founder</div><div class="feature-desc">Based in Brendale and living in Morayfield — both in the City of Moreton Bay.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · THE ASK / WHY THE LAB -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="kicker">Why the Startup Lab</div>
+        <h2 class="headline">The right support at <em>exactly the right stage.</em></h2>
+        <p class="lead">CurrentFlow is at the discovery-and-validation point the Lab is built for. What I'm looking for from Cohort 2:</p>
+        <div class="feature-grid">
+          <div class="feature"><div class="feature-title">Validation discipline</div><div class="feature-desc">Coaching and accountability to turn customer interviews into evidence-led build decisions.</div></div>
+          <div class="feature"><div class="feature-title">Advisor access</div><div class="feature-desc">Legal/IP, fundraising, finance and SaaS go-to-market expertise as the product takes shape.</div></div>
+          <div class="feature"><div class="feature-title">Peer squad</div><div class="feature-desc">Founders solving adjacent problems to stay accountable and sharpen thinking.</div></div>
+          <div class="feature"><div class="feature-title">Local network</div><div class="feature-desc">Connection into the Moreton Bay innovation community and its early-adopter businesses.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · CLOSE -->
+    <section class="slide title-slide">
+      <div class="slide-inner">
+        <div class="kicker">Let's Build It</div>
+        <h2 class="headline">Time to fix the workflow <em>the industry gave up on.</em></h2>
+        <p class="lead">A proven, durable problem. A founder who lives it. A warm channel to the first customers. CurrentFlow is ready to do the work.</p>
+        <div class="footer-note">
+          <span>Rodney Lunt</span>
+          <span><a href="https://currentflow.com.au" target="_blank" rel="noopener">currentflow.com.au</a></span>
+          <span>Moreton Bay Startup Lab — Cohort 2</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      var deck = document.getElementById('deck');
+      var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+      var dotsWrap = document.getElementById('dots');
+      var curEl = document.getElementById('cur');
+      var totalEl = document.getElementById('total');
+      var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+      totalEl.textContent = pad(slides.length);
+
+      // Build dot nav
+      slides.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        b.addEventListener('click', function () {
+          s.scrollIntoView({ behavior: 'smooth' });
+        });
+        dotsWrap.appendChild(b);
+      });
+      var dots = Array.prototype.slice.call(dotsWrap.children);
+
+      // Reveal + active tracking
+      var current = 0;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            current = slides.indexOf(e.target);
+            curEl.textContent = pad(current + 1);
+            dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+          }
+        });
+      }, { threshold: 0.55 });
+      slides.forEach(function (s) { io.observe(s); });
+
+      // Keyboard navigation
+      function go(n) {
+        n = Math.max(0, Math.min(slides.length - 1, n));
+        slides[n].scrollIntoView({ behavior: 'smooth' });
+      }
+      window.addEventListener('keydown', function (ev) {
+        switch (ev.key) {
+          case 'ArrowDown': case 'ArrowRight': case 'PageDown': case ' ':
+            ev.preventDefault(); go(current + 1); break;
+          case 'ArrowUp': case 'ArrowLeft': case 'PageUp':
+            ev.preventDefault(); go(current - 1); break;
+          case 'Home': ev.preventDefault(); go(0); break;
+          case 'End': ev.preventDefault(); go(slides.length - 1); break;
+          case 'p': case 'P': window.print(); break;
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>

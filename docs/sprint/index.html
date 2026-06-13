@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CurrentFlow — Startup Sprint</title>
+  <meta name="description" content="CurrentFlow startup sprint document — discovery and validation for an Australian solar industry CRM, quoting and project management platform." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Brand Tokens ───────────────────────────────────────────────────── */
+    :root {
+      --bg:           #0B0E14;
+      --surface:      #13171F;
+      --surface-2:    #1A1F2C;
+      --border:       #1E2430;
+      --border-light: #2A3245;
+      --text:         #E8ECF4;
+      --text-muted:   #6B7794;
+      --text-dim:     #3D4560;
+      --accent:       #4E9FFF;
+      --accent-dim:   #1A3D6B;
+      --accent-pale:  #0D2040;
+      --accent-glow:  rgba(78,159,255,0.08);
+      --white:        #FFFFFF;
+      --success:      #34D399;
+      --warning:      #FBBF24;
+      --radius-sm:    4px;
+      --radius:       8px;
+      --radius-lg:    14px;
+      --font-head:    'Syne', sans-serif;
+      --font-body:    'Instrument Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+
+    /* ─── Reset ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Noise texture ──────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────────────────── */
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── Sidebar ────────────────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-light) transparent;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+
+    .sidebar-brand {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(78,159,255,0.6);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(78,159,255,0.6); }
+      50% { opacity: 0.7; box-shadow: 0 0 16px rgba(78,159,255,0.3); }
+    }
+
+    .brand-name {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-left: 18px;
+    }
+
+    /* Sidebar nav */
+    .sidebar-nav {
+      padding: 16px 0;
+      flex: 1;
+    }
+
+    .nav-phase {
+      padding: 12px 24px 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover {
+      color: var(--text);
+      background: rgba(78,159,255,0.05);
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: var(--accent-pale);
+    }
+
+    .nav-item.active .nav-num {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* Stages not yet started: dimmed but still navigable */
+    .nav-item.upcoming { opacity: 0.55; }
+    .nav-item.upcoming:hover { opacity: 1; }
+
+    .nav-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      background: var(--border-light);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-status {
+      margin-left: auto;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .status-done   { background: rgba(52,211,153,0.12); color: var(--success); }
+    .status-active { background: rgba(78,159,255,0.12); color: var(--accent); }
+    .status-next   { background: rgba(251,191,36,0.10); color: var(--warning); }
+    .status-locked { background: var(--border); color: var(--text-dim); }
+
+    /* Sidebar footer */
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .sidebar-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ─── Main content ───────────────────────────────────────────────────── */
+    .main {
+      min-width: 0;
+      padding: 48px 64px;
+      max-width: 900px;
+    }
+
+    /* ─── Page header ────────────────────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-dim);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-family: var(--font-head);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .page-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .page-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      font-size: 12px;
+    }
+
+    .meta-label {
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 10px;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .meta-value {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ─── Section ────────────────────────────────────────────────────────── */
+    .section {
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Steps overview grid ────────────────────────────────────────────── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--border-light);
+      transition: background 0.2s;
+    }
+
+    .step-card:hover {
+      border-color: var(--accent-dim);
+      background: var(--surface-2);
+    }
+
+    .step-card:hover::before {
+      background: var(--accent);
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .step-name {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Step detail blocks ─────────────────────────────────────────────── */
+    .step-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .step-block-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .step-block-num {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-dim);
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-block-title {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .step-block-body {
+      padding: 24px;
+    }
+
+    p {
+      color: var(--text);
+      margin-bottom: 14px;
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    p em {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ─── Callout ────────────────────────────────────────────────────────── */
+    .callout {
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-dim);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .callout-label {
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .callout p {
+      font-size: 14px;
+      color: var(--text);
+      margin: 0;
+      font-style: italic;
+    }
+
+    /* ─── Tier / data table ──────────────────────────────────────────────── */
+    .tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 16px 0;
+    }
+
+    .tier-table th {
+      background: #0d1219;
+      padding: 10px 16px;
+      text-align: left;
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--accent-dim);
+    }
+
+    .tier-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+
+    .tier-table tr:last-child td { border-bottom: none; }
+
+    .tier-table tr:hover td { background: rgba(78,159,255,0.03); }
+
+    .tier-table th.col-narrow, .tier-table td.col-narrow { white-space: nowrap; width: 1%; }
+
+    .tier-label {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* ─── Workflow steps ─────────────────────────────────────────────────── */
+    .workflow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 16px 0;
+    }
+
+    .workflow-step {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .workflow-step:last-child { border-bottom: none; }
+
+    .workflow-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .workflow-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+      padding-top: 4px;
+    }
+
+    /* ─── Bullet list ────────────────────────────────────────────────────── */
+    .check-list {
+      list-style: none;
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+      align-items: flex-start;
+    }
+
+    .check-list li::before {
+      content: '–';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── Lock condition block ───────────────────────────────────────────── */
+    .lock-block {
+      background: #0a0d12;
+      border: 1px solid var(--accent-dim);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin-top: 8px;
+    }
+
+    .lock-title {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lock-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.8;
+    }
+
+    .lock-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .lock-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .lock-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      background: var(--accent-dim);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ─── Interview log ──────────────────────────────────────────────────── */
+    .interview-log {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .log-header {
+      display: grid;
+      grid-template-columns: 40px 140px 140px 1fr;
+      padding: 10px 20px;
+      background: #0d1219;
+      border-bottom: 1px solid var(--accent-dim);
+      font-family: var(--font-head);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      gap: 16px;
+    }
+
+    .log-row {
+      display: grid;
+      grid-template-columns: 40px 140px 140px 1fr;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      align-items: start;
+      font-size: 13px;
+    }
+
+    .log-row:last-child { border-bottom: none; }
+
+    .log-row:hover { background: rgba(78,159,255,0.03); }
+
+    .log-index {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      padding-top: 2px;
+    }
+
+    .log-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 32px;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    .log-status-badge {
+      display: inline-flex;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ─── Session summary ────────────────────────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .summary-card-title {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* ─── Progress bar ───────────────────────────────────────────────────── */
+    .progress-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .progress-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .progress-count {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border-light);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.6s ease;
+      box-shadow: 0 0 8px rgba(78,159,255,0.4);
+    }
+
+    /* ─── Warning note ───────────────────────────────────────────────────── */
+    .note {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.6;
+      border-left: 2px solid var(--border-light);
+      padding-left: 14px;
+      margin: 12px 0;
+    }
+
+    /* ─── Phase banner ───────────────────────────────────────────────────── */
+    .phase-banner {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 30px;
+    }
+
+    .phase-banner .pb-label {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .phase-banner .pb-name {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .phase-banner .pb-rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-dim), transparent);
+    }
+
+    /* ─── Stage block ────────────────────────────────────────────────────── */
+    .stage { scroll-margin-top: 24px; }
+
+    .stage-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stage-head-num {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius);
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-dim);
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stage-head-meta { flex: 1; min-width: 0; }
+
+    .stage-kicker {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .stage-head-title {
+      font-family: var(--font-head);
+      font-size: 25px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    .stage-pill {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 11px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .pill-done   { background: rgba(52,211,153,0.12); color: var(--success); }
+    .pill-active { background: rgba(78,159,255,0.12); color: var(--accent); }
+    .pill-locked { background: var(--border); color: var(--text-muted); }
+
+    /* Subsection heading */
+    .subhead {
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 28px 0 10px;
+    }
+
+    .subhead:first-child { margin-top: 0; }
+
+    .subhead-sm {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      margin: 20px 0 8px;
+    }
+
+    /* Status strip */
+    .status-strip {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #0a0d12;
+      border: 1px solid var(--accent-dim);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 22px;
+    }
+
+    .status-strip.is-done { border-left-color: var(--success); }
+
+    .ss-tag {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .status-strip.is-done .ss-tag { color: var(--success); }
+
+    .ss-text { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+
+    /* Inline evidence tags */
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+      margin-right: 3px;
+      vertical-align: 1px;
+    }
+
+    .tag-val     { background: rgba(52,211,153,0.12); color: var(--success); }
+    .tag-partial { background: rgba(251,191,36,0.12); color: var(--warning); }
+    .tag-assum   { background: var(--surface-2);      color: var(--text-muted); }
+    .tag-invalid { background: rgba(255,107,107,0.12); color: #ff6b6b; }
+
+    /* Placeholder for not-yet-started stages */
+    .placeholder {
+      background: var(--surface);
+      border: 1px dashed var(--border-light);
+      border-radius: var(--radius);
+      padding: 26px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .placeholder strong { color: var(--text); }
+
+    /* Plain bullet list (non-accent) */
+    .plain-list { list-style: none; margin: 10px 0; display: flex; flex-direction: column; gap: 7px; }
+    .plain-list li { display: flex; gap: 10px; font-size: 14px; color: var(--text); line-height: 1.5; align-items: flex-start; }
+    .plain-list li::before { content: '–'; color: var(--text-dim); flex-shrink: 0; }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+      .main { padding: 32px 24px; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .log-header, .log-row { grid-template-columns: 30px 1fr 1fr; }
+      .log-header > *:last-child, .log-row > *:last-child { display: none; }
+      .page-title { font-size: 34px; }
+    }
+
+    @media (max-width: 600px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Utility ────────────────────────────────────────────────────────── */
+    strong { color: var(--white); font-weight: 600; }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--surface-2);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--accent);
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">
+        <div class="brand-dot"></div>
+        <span class="brand-name">CURRENTFLOW</span>
+      </div>
+      <div class="brand-sub">Startup Sprint</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-phase">Overview</div>
+      <a href="#dashboard" class="nav-item">
+        <span class="nav-num">·</span> Project Dashboard
+      </a>
+
+      <div class="nav-phase">Phase 1 — Foundation</div>
+      <a href="#stage1" class="nav-item">
+        <span class="nav-num">1</span> Problem Canvas
+        <span class="nav-status status-done">Done</span>
+      </a>
+
+      <div class="nav-phase">Phase 2 — Discovery</div>
+      <a href="#stage2" class="nav-item">
+        <span class="nav-num">2</span> Personas
+        <span class="nav-status status-done">Done</span>
+      </a>
+      <a href="#stage3" class="nav-item">
+        <span class="nav-num">3</span> Interview Scripts
+        <span class="nav-status status-done">Done</span>
+      </a>
+      <a href="#stage4" class="nav-item">
+        <span class="nav-num">4</span> Customer Interviews
+        <span class="nav-status status-active">Active</span>
+      </a>
+
+      <div class="nav-phase">Phase 3 — Validation</div>
+      <a href="#stage5" class="nav-item upcoming">
+        <span class="nav-num">5</span> Synthesis
+        <span class="nav-status status-next">Next</span>
+      </a>
+      <a href="#stage6" class="nav-item upcoming">
+        <span class="nav-num">6</span> Assumptions
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage7" class="nav-item upcoming">
+        <span class="nav-num">7</span> HMW Statements
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage8" class="nav-item upcoming">
+        <span class="nav-num">8</span> Ideation
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+
+      <div class="nav-phase">Phase 4 — Solution</div>
+      <a href="#stage9" class="nav-item upcoming">
+        <span class="nav-num">9</span> Concepts
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage10" class="nav-item upcoming">
+        <span class="nav-num">10</span> Difficulty
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage11" class="nav-item upcoming">
+        <span class="nav-num">11</span> Competitors
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+
+      <div class="nav-phase">Phase 5 — Business Case</div>
+      <a href="#stage12" class="nav-item upcoming">
+        <span class="nav-num">12</span> Financial Model
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage13" class="nav-item upcoming">
+        <span class="nav-num">13</span> Go-to-Market
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+
+      <div class="nav-phase">Phase 6 — Investment</div>
+      <a href="#stage14" class="nav-item upcoming">
+        <span class="nav-num">14</span> Investor Pitch
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+
+      <div class="nav-phase">Reference</div>
+      <a href="#workstream" class="nav-item upcoming">
+        <span class="nav-num">W</span> Sales Pipeline
+      </a>
+      <a href="#appendix" class="nav-item upcoming">
+        <span class="nav-num">A</span> Appendices
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div style="margin-bottom:6px;">
+        <a href="https://currentflow.com.au" target="_blank" rel="noopener">currentflow.com.au</a>
+      </div>
+      <div>Last updated: 19 March 2026</div>
+    </div>
+  </aside>
+
+  <!-- ── Main ─────────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Document header -->
+    <div class="page-header" id="top">
+      <div class="stage-badge">
+        <span>Startup Sprint · Discovery &amp; Validation</span>
+      </div>
+      <h1 class="page-title">Current<em>Flow</em></h1>
+      <p class="page-subtitle">Solar CRM, quoting and project management platform — the live validation and build record for the Australian solar install workflow.</p>
+      <div class="page-meta">
+        <div class="meta-item">
+          <span class="meta-label">Founder</span>
+          <span class="meta-value">Rodney Lunt</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Current Stage</span>
+          <span class="meta-value">4 — Customer Interviews</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Started</span>
+          <span class="meta-value">March 2026</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Updated</span>
+          <span class="meta-value">19 Mar 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════ DASHBOARD ════════════════ -->
+    <section class="section stage" id="dashboard">
+      <div class="section-header">
+        <span class="section-title">Project Dashboard</span>
+        <div class="section-rule"></div>
+      </div>
+      <p><em>Live snapshot of the project. Update after every session.</em></p>
+
+      <div class="subhead">Current Status</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Item</th><th>Status / Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Current Stage</strong></td><td>Stage 4 — Customer Interviews</td></tr>
+          <tr><td><strong>Product Name</strong></td><td>CurrentFlow — currentflow.com.au secured</td></tr>
+          <tr><td><strong>Interviews Completed</strong></td><td>0 / 5 minimum — target 5 before Stage 5</td></tr>
+          <tr><td><strong>Assumptions Validated</strong></td><td>3 partial (A9, A10, A11) — see Assumption Register</td></tr>
+          <tr><td><strong>Landing Page</strong></td><td>Live — currentflow.com.au, waitlist capturing to Google Sheets</td></tr>
+          <tr><td><strong>Lead Data Uploaded</strong></td><td>No — activate at Stage 4</td></tr>
+          <tr><td><strong>Investor Conversations</strong></td><td>0 — target Tier 1 list by Stage 14</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">Parking Lot</div>
+      <p class="note">Ideas deferred from v1 scope. Revisit at Stage 12+.</p>
+      <ul class="check-list">
+        <li>STC trading API integration (v2)</li>
+        <li>Accounting integrations beyond Xero (v2)</li>
+        <li>Multi-user team features (v2)</li>
+        <li>Battery and energy monitoring integrations (v3)</li>
+        <li>Service and maintenance scheduling module (v2)</li>
+        <li>Solar cleaning partnership and referral commission model (v2)</li>
+        <li>Close rate benchmarking analytics (v2)</li>
+        <li>Procurement workflow for panel and product substitution (v2)</li>
+      </ul>
+
+      <div class="subhead">Decision Log</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Date / Stage</th><th>Decision and Rationale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mar 2026 / Stage 1</td><td>Product named CurrentFlow. Domain currentflow.com.au secured. Name chosen for immediate industry comprehension.</td></tr>
+          <tr><td>Mar 2026 / Stage 1</td><td>Problem Canvas locked. Four personas identified: A (owner-operator), B (growth-stage), C (enterprise/Pylon-tier), D (subcontractor-led operator).</td></tr>
+          <tr><td>Mar 2026 / Stage 1</td><td>Subcontractor login gap in Pylon confirmed by Daniel Lake (Sure Solar) as a direct conversation. Added as partial validation for A9.</td></tr>
+          <tr><td>Mar 2026 / Stage 1b</td><td>Landing page live at currentflow.com.au. Waitlist form to Google Sheets. Email forwarding hello@currentflow.com.au active. GitHub repo connected.</td></tr>
+          <tr><td>Mar 2026 / Stage 2</td><td>Personas B (Growth-Stage Operator) and D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona A (Owner-Operator) deprioritised as a launch target and will self-select over time. Persona C (Enterprise) excluded from v1 go-to-market as the competitor market adequately serves that segment. Persona E (Solar Quoter / Sales Rep) added as a user persona present within B and D businesses. Decision anchored to revenue potential and structural market gap.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 1 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 1</span><span class="pb-name">Foundation</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 1 -->
+    <section class="section stage" id="stage1">
+      <div class="stage-head">
+        <div class="stage-head-num">1</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 1 — Foundation</div>
+          <div class="stage-head-title">Problem Canvas</div>
+        </div>
+        <span class="stage-pill pill-done">Locked</span>
+      </div>
+
+      <div class="status-strip is-done">
+        <span class="ss-tag">Status: Locked</span>
+        <span class="ss-text">Lock conditions met. Do not modify without a formal Problem Canvas review.</span>
+      </div>
+
+      <div class="subhead">1.1 Problem Statement</div>
+      <p>Australian solar installers are losing revenue and wasting hours every week because the tools they use for quoting, CRM, scheduling, project management, and STC compliance do not work together. They pay for three to five separate subscriptions that create manual handoffs, data re-entry, and gaps where sales fall through. Smaller operators become overwhelmed during busy periods and lose track of active leads. Schedulers manage complexity across weather delays, product substitutions, warranty recalls, and subcontractor availability without any purpose-built workflow to support them. There is no single platform built end-to-end for the Australian solar install workflow.</p>
+
+      <div class="subhead-sm">Quantified Evidence (pre-interview)</div>
+      <ul class="check-list">
+        <li><span class="tag tag-val">VALIDATED</span> Rodney, Envirogroup — data re-entry for the same information measured at 13 separate entry points. Reduced to 3 with process work alone. Could have reached 1 with middleware.</li>
+        <li><span class="tag tag-val">VALIDATED</span> Rodney, Envirogroup — quote turnaround for solar hot water reduced from 30+ minutes average to 2 minutes by redesigning the quoting process.</li>
+        <li><span class="tag tag-partial">PARTIAL</span> Daniel Lake, Sure Solar — Pylon provides no subcontractor login capability; an entire class of business operator is structurally underserved by the market leader.</li>
+      </ul>
+
+      <div class="subhead">1.2 People</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Persona</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="tier-label">Persona A</span><br>Owner-Operator</td><td>Owner-operated residential solar install business, 1 to 6 staff, 5 to 20 installs per month. Gets overwhelmed. Loses leads when busy. Does quoting, sales, and some installs themselves. High pain, high motivation.</td></tr>
+          <tr><td><span class="tier-label">Persona B</span><br>Growth-Stage Operator</td><td>Scaling past 10 staff, 20 to 60 installs per month. Has some systems but they do not connect. May have a dedicated scheduler. Losing revenue in the gaps between tools.</td></tr>
+          <tr><td><span class="tier-label">Persona C</span><br>Enterprise / Pylon Tier</td><td>Larger installer, 60+ installs per month. Already on Pylon or similar. Pain is integration, reporting, and subcontractor management. Later expansion target — not the beachhead.</td></tr>
+          <tr><td><span class="tier-label">Persona D</span><br>Subcontractor-Led</td><td>Runs jobs primarily through subcontractors. Confirmed gap: Pylon has no subcontractor login or job visibility for this model. Under-served by every existing tool. Strong early adopter candidate.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead-sm">Influencers / Adjacent Stakeholders</div>
+      <ul class="plain-list">
+        <li>Schedulers — often a separate role in Persona B businesses</li>
+        <li>Sales reps within larger install businesses managing their own pipeline</li>
+        <li>CEC-accredited electricians responsible for sign-off and compliance</li>
+        <li>NECA (National Electrical and Communications Association)</li>
+        <li>Master Electricians Australia</li>
+      </ul>
+
+      <div class="subhead">1.3 Consequences</div>
+      <div class="subhead-sm">Negative Impacts</div>
+      <ul class="check-list">
+        <li><span class="tag tag-assum">ASSUMPTION</span> Installers lose sales because slow quoting lets competitors respond to the same lead first</li>
+        <li><span class="tag tag-val">VALIDATED</span> Rodney, Envirogroup — data re-entry multiplies errors and admin time across disconnected systems</li>
+        <li><span class="tag tag-assum">ASSUMPTION</span> Install scheduling conflicts caused by manual coordination create customer complaints and rework costs</li>
+        <li><span class="tag tag-assum">ASSUMPTION</span> Unbilled or under-billed STC entitlements reduce margin on every job</li>
+        <li><span class="tag tag-assum">ASSUMPTION</span> Weather delays and product substitutions have no managed workflow, creating cascade failures in the schedule</li>
+        <li><span class="tag tag-partial">PARTIAL</span> Daniel Lake — Pylon subcontractor gap forces operators into manual workarounds (WhatsApp, spreadsheets, phone calls)</li>
+      </ul>
+
+      <div class="subhead-sm">Desired Outcomes</div>
+      <ul class="check-list">
+        <li>Installer produces a professional, accurate quote in under 10 minutes, on-site or remotely</li>
+        <li>All jobs tracked from lead through to invoice with no re-entry</li>
+        <li>Schedule managed automatically with alerts for conflicts, delays, and substitutions</li>
+        <li>Subcontractors have their own login and job view without full business system access</li>
+        <li>STC entitlements calculated and tracked accurately on every job</li>
+        <li>Business owner can see pipeline health, close rate, and revenue forecast at a glance</li>
+      </ul>
+
+      <div class="subhead">1.4 Approach</div>
+      <div class="subhead-sm">Constraints</div>
+      <ul class="check-list">
+        <li><span class="tag tag-assum">ASSUMPTION</span> Pricing must be competitive with or below the combined cost of Pylon plus separate CRM and scheduling tools — validate total software spend in Stage 4 interviews</li>
+        <li>CEC and STC compliance requirements must be met — not optional</li>
+        <li>Must work on tablet and mobile for on-site quoting</li>
+        <li>Must integrate with Xero as minimum accounting requirement</li>
+        <li>Australian Privacy Act compliance required — product handles customer personal data</li>
+        <li>PCI DSS-aware architecture required from day one — payment processing is a planned revenue stream</li>
+        <li>Rodney building v1 — scope must be achievable by a solo developer with selective specialist help</li>
+      </ul>
+
+      <div class="subhead-sm">Collaborators</div>
+      <ul class="plain-list">
+        <li>Solar installers — beta testers and early adopters via Rodney's direct network of several thousand contacts</li>
+        <li>Named investor targets who are also real personas: Marcin (Volteam), Daniel Lake (Sure Solar), Nick Scafidi (Surge It), Scott (Waysco), Paul (Adapt), Gary (Halcol)</li>
+        <li>Tradezone — distribution relationship, handle carefully, manage conflict of interest</li>
+        <li>Xero — accounting integration via Xero partner program</li>
+        <li>Security architect — engage at Stage 9 for pre-build review</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 2 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 2</span><span class="pb-name">Customer Discovery</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <section class="section stage" id="stage2">
+      <div class="stage-head">
+        <div class="stage-head-num">2</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 2 — Discovery</div>
+          <div class="stage-head-title">Stakeholder Scanning &amp; Personas</div>
+        </div>
+        <span class="stage-pill pill-done">Locked</span>
+      </div>
+
+      <div class="status-strip is-done">
+        <span class="ss-tag">Status: Locked</span>
+        <span class="ss-text">Lock conditions met. Persona B and Persona D confirmed as primary beachhead targets. Minimum 2 persona canvases complete, each based on a real archetype, at least one interviewable within 2 weeks.</span>
+      </div>
+
+      <div class="subhead">2.1 Persona Canvas — Persona A: The Owner-Operator</div>
+      <table class="tier-table">
+        <tbody>
+          <tr><td class="col-narrow"><strong>Role / Title</strong></td><td>Owner, residential solar installation business</td></tr>
+          <tr><td><strong>Business Size</strong></td><td>1 to 6 staff, 5 to 20 installs per month</td></tr>
+          <tr><td><strong>Location</strong></td><td>Australia-wide, high concentration in QLD, NSW, VIC, SA</td></tr>
+          <tr><td><strong>Age Range</strong></td><td>35 to 55</td></tr>
+          <tr><td><strong>Tech Comfort</strong></td><td>Moderate — uses phone apps, not averse to software but not technical</td></tr>
+          <tr><td><strong>Current Tools</strong></td><td>Pylon or OpenSolar for quoting, spreadsheets, WhatsApp for scheduling, paper job sheets</td></tr>
+          <tr><td><strong>Primary Goal</strong></td><td>Get more jobs done with less chaos. Stop losing leads when it gets busy.</td></tr>
+          <tr><td><strong>Biggest Frustration</strong></td><td>Gets overwhelmed. Sales fall through because follow-up does not happen. Quoting takes too long.</td></tr>
+          <tr><td><strong>Workarounds</strong></td><td>Relies on memory, WhatsApp group chats, spreadsheets only they understand</td></tr>
+          <tr><td><strong>Decision Trigger</strong></td><td>Losing a job they should have won, or a competitor quoting faster and looking more professional</td></tr>
+          <tr><td><strong>Budget Sensitivity</strong></td><td>Price-sensitive. Needs clear time or revenue gain to justify cost. Likely $150 to $299/month ceiling without strong ROI case.</td></tr>
+          <tr><td><strong>Where to Find</strong></td><td>Rodney's direct network, Tradezone customer list, CEC member directory, solar industry Facebook groups</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">2.2 Persona Canvas — Persona D: The Subcontractor-Led Operator</div>
+      <table class="tier-table">
+        <tbody>
+          <tr><td class="col-narrow"><strong>Role / Title</strong></td><td>Business owner, solar installation company using subcontractor labour model</td></tr>
+          <tr><td><strong>Business Size</strong></td><td>5 to 25 installs per month — volume varies, fixed overhead is low</td></tr>
+          <tr><td><strong>Location</strong></td><td>Australia-wide</td></tr>
+          <tr><td><strong>Age Range</strong></td><td>35 to 55</td></tr>
+          <tr><td><strong>Tech Comfort</strong></td><td>Moderate</td></tr>
+          <tr><td><strong>Current Tools</strong></td><td>Pylon or spreadsheets for quoting, WhatsApp or phone for subcontractor coordination, no formal job tracking for subbies</td></tr>
+          <tr><td><strong>Primary Goal</strong></td><td>Run a scalable install operation without the overhead of employed electricians</td></tr>
+          <tr><td><strong>Biggest Frustration</strong></td><td>No way to give subcontractors visibility of their own jobs without giving them access to the whole business</td></tr>
+          <tr><td><strong>Workarounds</strong></td><td>Separate WhatsApp groups per subcontractor, PDF job sheets texted or emailed, follow-up calls to confirm completion</td></tr>
+          <tr><td><strong>Decision Trigger</strong></td><td>A subcontractor mistake that costs money or a customer complaint, or a competitor using a system that looks more professional</td></tr>
+          <tr><td><strong>Budget Sensitivity</strong></td><td>Moderate. Willing to pay for genuine operational efficiency. $200 to $450/month realistic if subcontractor management works properly.</td></tr>
+          <tr><td><strong>Where to Find</strong></td><td>Rodney's network, Tradezone customers, Daniel Lake (Sure Solar) as a direct confirmed example</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">2.3 Persona Canvas — Persona B: The Growth-Stage Operator</div>
+      <table class="tier-table">
+        <tbody>
+          <tr><td class="col-narrow"><strong>Role / Title</strong></td><td>Owner, solar installation business in active growth phase</td></tr>
+          <tr><td><strong>Business Size</strong></td><td>10 to 30 staff, 20 to 60 installs per month</td></tr>
+          <tr><td><strong>Location</strong></td><td>Australia-wide. High concentration in QLD, NSW, VIC.</td></tr>
+          <tr><td><strong>Age Range</strong></td><td>35 to 55</td></tr>
+          <tr><td><strong>Tech Comfort</strong></td><td>Moderate. On Pylon already, has made at least one deliberate software decision, time-poor but not averse to tools.</td></tr>
+          <tr><td><strong>Current Tools</strong></td><td>Pylon as primary platform. Likely a separate CRM or none. Spreadsheets for scheduling at the entry end. Possibly a part-time admin managing coordination at the top end.</td></tr>
+          <tr><td><strong>Staff Structure</strong></td><td>Entry tier: owner plus installers, moving toward a part-time admin. Top tier: dedicated scheduler and/or admin alongside the owner who is still running day-to-day operations.</td></tr>
+          <tr><td><strong>Primary Goal</strong></td><td>Scale install volume without the business falling apart operationally. Keep the pipeline full and jobs moving without personally managing every handoff.</td></tr>
+          <tr><td><strong>Biggest Frustration</strong></td><td>Pylon handles quoting but does not connect to the rest of the business. Scheduling is still manual or admin-dependent. The owner is the integration layer between every tool and that does not scale.</td></tr>
+          <tr><td><strong>Workarounds</strong></td><td>Admin staff managing scheduling via phone and spreadsheets. Owner chasing job status personally. WhatsApp groups for subcontractor coordination where applicable.</td></tr>
+          <tr><td><strong>Decision Trigger</strong></td><td>A period of growth that exposed the cracks. Jobs falling through, a customer complaint that should not have happened, or the realisation that adding more staff is not solving the coordination problem.</td></tr>
+          <tr><td><strong>Budget Sensitivity</strong></td><td>Moderate to low sensitivity. Already paying for Pylon plus additional tools. Willing to spend $300 to $600 per month if the consolidation case is clear and the time saving is real. The pitch is replacing what they already pay, not adding a new cost.</td></tr>
+          <tr><td><strong>Where to Find</strong></td><td>Rodney's direct network, Tradezone customer base, CEC member directory.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">2.4 Persona Canvas — Persona E: The Solar Quoter / Sales Rep</div>
+      <p><em>User persona, not a buyer. Present inside Persona B and C businesses. Does not control the purchasing decision but has significant influence over adoption and retention.</em></p>
+      <table class="tier-table">
+        <tbody>
+          <tr><td class="col-narrow"><strong>Role / Title</strong></td><td>Solar sales consultant, quoter, or business development rep within an install business</td></tr>
+          <tr><td><strong>Business Size</strong></td><td>Works inside a Persona B or C business. 10 to 60+ installs per month with at least one dedicated sales or quoting function.</td></tr>
+          <tr><td><strong>Location</strong></td><td>Australia-wide</td></tr>
+          <tr><td><strong>Age Range</strong></td><td>25 to 45</td></tr>
+          <tr><td><strong>Tech Comfort</strong></td><td>Moderate to high. Uses quoting tools daily, comfortable with software.</td></tr>
+          <tr><td><strong>Current Tools</strong></td><td>Pylon, OpenSolar, or similar quoting platform. CRM often absent or owner-managed. Uses phone and email heavily.</td></tr>
+          <tr><td><strong>Primary Goal</strong></td><td>Close quotes fast and at a high rate. Look professional in front of customers. Not waste time on admin that should be automated.</td></tr>
+          <tr><td><strong>Biggest Frustration</strong></td><td>Quoting tool is slow or requires re-entry of information already captured elsewhere. No visibility of where their quotes are at without chasing the owner. Scheduling changes land on them without warning.</td></tr>
+          <tr><td><strong>Workarounds</strong></td><td>Manually tracks their own pipeline in a notebook or phone notes. Follows up via personal WhatsApp. Screenshots of quotes sent to themselves.</td></tr>
+          <tr><td><strong>Decision Trigger</strong></td><td>A quote that went cold because no follow-up reminder existed. A job that fell apart because scheduling was not communicated. A competitor who quoted the same customer faster and better.</td></tr>
+          <tr><td><strong>Budget Sensitivity</strong></td><td>Not a buyer. Does not control budget. Influence over the owner's tool decision is high if they advocate loudly for or against a product.</td></tr>
+          <tr><td><strong>Why They Matter</strong></td><td>Daily users shape adoption. If the product reduces their admin and makes them look good in front of customers, they become internal champions. If it adds friction they will resist it. Anchor contact: Nick, Sure Solar.</td></tr>
+          <tr><td><strong>Where to Find</strong></td><td>Rodney's direct network. Sales reps inside Tradezone customer businesses.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 3 -->
+    <section class="section stage" id="stage3">
+      <div class="stage-head">
+        <div class="stage-head-num">3</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 2 — Discovery</div>
+          <div class="stage-head-title">Customer Interview Scripts</div>
+        </div>
+        <span class="stage-pill pill-done">Locked</span>
+      </div>
+
+      <div class="status-strip is-done">
+        <span class="ss-tag">Status: Locked</span>
+        <span class="ss-text">Stage 3 complete. Four interview scripts finalised across all personas. No additional scripts required before Stage 4 interviews begin.</span>
+      </div>
+
+      <div class="subhead">3.1 Interview Script — Persona A: The Owner-Operator</div>
+      <p><em>Conduct via phone or video. Record with Otter.ai. State consent before starting.</em></p>
+      <div class="callout">
+        <div class="callout-label">Verbal Consent Statement</div>
+        <p>"Before we get into it, I'd like to record this conversation so I can refer back to my notes accurately. Is that okay with you?"</p>
+      </div>
+      <div class="subhead-sm">Section 1 — Introduction (2 min)</div>
+      <p>Hi [name], thanks for making time. I'm Rodney. I've been in the solar industry for over 20 years, most recently at Tradezone. I'm doing some research into how solar businesses manage their workflow and I'm talking to a bunch of operators to understand what's actually working and what isn't. This is not a sales call. I'm not selling anything today. I just want to understand how you run your business. Sound good?</p>
+      <div class="subhead-sm">Section 2 — Their Current World (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Walk me through how you manage a job from when a lead comes in to when you get paid.</li>
+        <li>What tools do you use day to day? How do they work together?</li>
+        <li>What part of that process causes you the most stress or wasted time?</li>
+        <li>Walk me through every software subscription your business pays for, what you pay, and what you'd give up tomorrow if something replaced it.</li>
+      </ul>
+      <div class="subhead-sm">Section 3 — The Problem Area (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Tell me about a time a sale did not go the way you wanted. What happened?</li>
+        <li>How long does it take you to produce a quote? What happens after you send it?</li>
+        <li>How do you currently manage your install schedule? What goes wrong?</li>
+        <li>What happens when a product you have quoted is no longer available?</li>
+        <li>How do you handle warranty issues or recall jobs — LG, SiEnergy, others?</li>
+      </ul>
+      <div class="subhead-sm">Section 4 — Alternatives and Workarounds (3 to 5 min)</div>
+      <ul class="check-list">
+        <li>What have you tried to solve these problems? Did it work?</li>
+        <li>What do you use Pylon / OpenSolar / [other] for? What do you wish it did differently?</li>
+        <li>If you could change one thing about how your business runs tomorrow, what would it be?</li>
+      </ul>
+      <div class="subhead-sm">Section 5 — Wrap-Up (2 min)</div>
+      <p>This has been really useful, thank you. I'm building something in this space and I'd love to keep you in the loop as it develops. Would you be open to a follow-up conversation in a few months? And if something came out of this that could genuinely help your business, would you be interested in being one of the first people to try it?</p>
+
+      <div class="subhead">3.2 Interview Script — Persona D: The Subcontractor-Led Operator</div>
+      <p><em>Mirror structure from the Persona A script. Tailor Section 3 to subcontractor coordination.</em></p>
+      <div class="subhead-sm">Additional Section 3 Questions for Persona D</div>
+      <ul class="check-list">
+        <li>How do your subcontractors know what jobs they have coming up?</li>
+        <li>What information do they need to complete a job, and how do you get it to them?</li>
+        <li>What happens when a subcontractor has a question on-site? How does that flow back to you?</li>
+        <li>Have you looked at tools that give subbies their own login or job view? What happened?</li>
+      </ul>
+
+      <div class="subhead">3.3 Interview Script — Persona B: The Growth-Stage Operator</div>
+      <p><em>Mirror structure from the Persona A script. Tailor Section 3 to the coordination and scaling pain specific to this business size.</em></p>
+      <div class="callout">
+        <div class="callout-label">Verbal Consent Statement</div>
+        <p>"Before we get into it, I'd like to record this conversation so I can refer back to my notes accurately. Is that okay with you?"</p>
+      </div>
+      <div class="subhead-sm">Section 1 — Introduction (2 min)</div>
+      <p>Hi [name], thanks for making time. I'm Rodney. I've been in the solar industry for over 20 years, most recently at Tradezone. I'm doing some research into how growing solar businesses manage their workflow and I'm talking to a range of operators to understand what's actually working and what isn't. This is not a sales call. I'm not pitching anything today. I just want to understand how you run your business. Sound good?</p>
+      <div class="subhead-sm">Section 2 — Their Current World (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Walk me through how you manage a job from when a lead comes in to when you get paid.</li>
+        <li>What tools do you use day to day? How do they work together?</li>
+        <li>What part of that process causes you the most stress or wasted time?</li>
+        <li>Walk me through every software subscription your business pays for, what you pay, and what you'd give up tomorrow if something replaced it.</li>
+      </ul>
+      <div class="subhead-sm">Section 3 — The Problem Area (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Tell me about a time a sale did not go the way you wanted. What happened?</li>
+        <li>How long does it take to produce a quote? What happens after you send it?</li>
+        <li>How do you manage your install schedule? What breaks down when you're busy?</li>
+        <li>Who in your business is responsible for scheduling? How do they manage it?</li>
+        <li>What happens when a product you have quoted is no longer available?</li>
+        <li>How does information get from the sale to the install team? Where does it break?</li>
+      </ul>
+      <div class="subhead-sm">Section 4 — Alternatives and Workarounds (3 to 5 min)</div>
+      <ul class="check-list">
+        <li>What have you tried to solve these problems? Did it work?</li>
+        <li>What do you use Pylon for? What do you wish it did differently?</li>
+        <li>If you could change one thing about how your business runs tomorrow, what would it be?</li>
+      </ul>
+      <div class="subhead-sm">Section 5 — Wrap-Up (2 min)</div>
+      <p>This has been really useful, thank you. I'm building something in this space and I'd love to keep you in the loop as it develops. Would you be open to a follow-up conversation in a few months? And if something came out of this that could genuinely help your business, would you be interested in being one of the first people to try it?</p>
+
+      <div class="subhead">3.4 Interview Script — Persona E: The Solar Quoter / Sales Rep</div>
+      <div class="callout">
+        <div class="callout-label">Verbal Consent Statement</div>
+        <p>"Before we get into it, I'd like to record this conversation so I can refer back to my notes accurately. Is that okay with you?"</p>
+      </div>
+      <div class="subhead-sm">Section 1 — Introduction (2 min)</div>
+      <p>Hi [name], thanks for making time. I'm Rodney. I've spent 20+ years in solar, most recently at Tradezone. I'm doing research into how solar businesses manage their quoting and sales workflow, and I want to understand it from the person who is actually doing it day to day. This is not a sales call. I'm not pitching anything today. I just want to understand your world. Sound good?</p>
+      <div class="subhead-sm">Section 2 — Their Current World (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Walk me through how you handle a new lead from when it lands to when you send a quote.</li>
+        <li>What tools do you use to produce a quote? How long does it typically take?</li>
+        <li>Once you've sent a quote, how do you track where it is at?</li>
+        <li>Walk me through every piece of software you touch in a normal day. What does each one do for you?</li>
+      </ul>
+      <div class="subhead-sm">Section 3 — The Problem Area (5 to 8 min)</div>
+      <ul class="check-list">
+        <li>Tell me about a quote that should have closed but didn't. What happened?</li>
+        <li>What is the most frustrating part of producing a quote?</li>
+        <li>Do you ever have to enter the same information in more than one place? Walk me through that.</li>
+        <li>How do you find out about scheduling changes that affect a job you have sold? How does that land with the customer?</li>
+        <li>What do you wish the quoting tool did that it does not do right now?</li>
+        <li>If your business was looking at switching quoting tools, how much input would you have in that decision?</li>
+      </ul>
+      <div class="subhead-sm">Section 4 — Alternatives and Workarounds (3 to 5 min)</div>
+      <ul class="check-list">
+        <li>What workarounds have you built for yourself outside the official tools?</li>
+        <li>If the tool your business uses changed tomorrow, what is the one thing you would want kept and the one thing you would want fixed?</li>
+        <li>Have you used tools at previous jobs that worked better? What made them better?</li>
+      </ul>
+      <div class="subhead-sm">Section 5 — Wrap-Up (2 min)</div>
+      <p>This has been really useful. I'm building something in this space and the sales rep perspective is one I don't hear enough about. I'd love to keep you in the loop as it develops. Would you be open to a follow-up conversation in a few months?</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ STAGE 4 (ACTIVE) ════════════════ -->
+    <section class="section stage" id="stage4">
+      <div class="stage-head">
+        <div class="stage-head-num">4</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 2 — Discovery</div>
+          <div class="stage-head-title">Customer Interviews</div>
+        </div>
+        <span class="stage-pill pill-active">Active</span>
+      </div>
+
+      <p class="page-subtitle" style="margin-bottom:24px;">Five minimum. Problem-focused, not pitch-focused. Every transcript feeds Stage 5 synthesis.</p>
+
+      <div class="status-strip">
+        <span class="ss-tag">Lead Data Trigger</span>
+        <span class="ss-text">At Stage 4, upload the installer lead list. Segment by relationship strength, state, business size, and install volume. Tier 1 (known personally) — direct phone call. Tier 2 (warm) — phone call or personal email. Tier 3 (cold) — phone call first, verify contact details before calling.</span>
+      </div>
+
+      <!-- Interview progress -->
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span class="progress-title">Interviews completed</span>
+          <span class="progress-count">0 / 5 minimum</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Step overview -->
+      <div class="section-header">
+        <span class="section-title">The 6 Steps</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">Step 01</div>
+          <div class="step-name">Lead List Activation</div>
+          <div class="step-desc">Upload installer CSV to Google Sheets. Segment by tier, state, and business size.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 02</div>
+          <div class="step-name">Calendly Setup</div>
+          <div class="step-desc">Live bookable 30-min research chat link for warm contacts to self-schedule.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 03</div>
+          <div class="step-name">Outreach by Tier</div>
+          <div class="step-desc">Tier 1: phone. Tier 2: phone or email. Tier 3: phone call before any electronic message.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 04</div>
+          <div class="step-name">Conduct Interviews</div>
+          <div class="step-desc">Min 5 interviews using Stage 3 scripts. Otter.ai handles recording and transcription.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 05</div>
+          <div class="step-name">Transcript Processing</div>
+          <div class="step-desc">Paste each transcript into Claude. Structured log entry produced after each interview.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">Step 06</div>
+          <div class="step-name">Investor Contacts</div>
+          <div class="step-desc">Marcin, Daniel, Nick, Scott, Paul, Gary — discovery mode only. Never pitch mode.</div>
+        </div>
+      </div>
+
+      <!-- Step detail -->
+      <div class="section-header" style="margin-top:32px;">
+        <span class="section-title">Step Detail</span>
+        <div class="section-rule"></div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">1</div>
+          <div class="step-block-title">Lead List Activation</div>
+        </div>
+        <div class="step-block-body">
+          <p>The lead list is the engine of Stage 4. Without it, outreach is ad hoc and untraceable. With it, every call is deliberate and every contact is logged against a specific tier and persona.</p>
+          <p><strong>What to prepare:</strong></p>
+          <ul class="check-list">
+            <li>Export installer contacts as CSV from any existing source (phone contacts, email, LinkedIn, Tradezone records)</li>
+            <li>Upload to a new Google Sheet — <strong>CurrentFlow Stage 4 Lead List</strong></li>
+            <li>Required columns: Name, Business Name, State, Tier (1/2/3), Phone, Email, Install Volume (estimate), Status, Notes</li>
+          </ul>
+          <div class="callout">
+            <div class="callout-label">Segmentation Priority</div>
+            <p>Tier 1 known personally first. Mix of states. Both Persona B (Growth-Stage Operator) and Persona D (Subcontractor-Led Operator) represented in the first 10 contacts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">2</div>
+          <div class="step-block-title">Calendly Setup</div>
+        </div>
+        <div class="step-block-body">
+          <p>A bookable link removes friction for interested contacts who cannot talk right now. Set up one 30-minute event type before outreach begins.</p>
+          <ul class="check-list">
+            <li>Name: <strong>Solar Business Research Chat</strong></li>
+            <li>Duration: 30 minutes, with a 15-minute buffer after</li>
+            <li>Description: A short research conversation about how you currently manage quoting, scheduling, and customer follow-up. No product pitch.</li>
+          </ul>
+          <p class="note">Do not label it a demo or a product conversation. It is research. That framing gets more bookings and produces better interview data.</p>
+        </div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">3</div>
+          <div class="step-block-title">Outreach by Tier</div>
+        </div>
+        <div class="step-block-body">
+          <p>Outreach approach is determined by relationship strength, not convenience. The Spam Act (Cth) applies to unsolicited commercial electronic messages — calling first keeps every contact compliant and personal.</p>
+          <table class="tier-table">
+            <thead>
+              <tr><th>Tier</th><th>Who</th><th>Approach</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="tier-label">Tier 1</span></td><td>Known personally</td><td>Direct phone call. No email sequence.</td></tr>
+              <tr><td><span class="tier-label">Tier 2</span></td><td>Met or connected (warm)</td><td>Phone call or personal email referencing the Tradezone relationship.</td></tr>
+              <tr><td><span class="tier-label">Tier 3</span></td><td>Cold — list only</td><td>Phone call first to verify contact and introduce, before any electronic message goes out.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">4</div>
+          <div class="step-block-title">Conduct the Interviews</div>
+        </div>
+        <div class="step-block-body">
+          <p>Five is the minimum. Fewer than three and Stage 5 does not open. Each interview follows the Stage 3 scripts with persona-appropriate adjustments.</p>
+          <div class="callout">
+            <div class="callout-label">Non-negotiable question — ask in every interview</div>
+            <p>"Walk me through every software subscription your business pays for, what you pay, and what you would give up tomorrow if something replaced it."</p>
+          </div>
+          <p><em>This establishes total current software spend per customer — the real pricing ceiling. More valuable than asking willingness to pay for a hypothetical product.</em></p>
+          <p><strong>Interview checklist:</strong></p>
+          <ul class="check-list">
+            <li>Verbal consent at the start: "I would like to record this conversation for my notes, is that okay?"</li>
+            <li>Otter.ai recording started before the conversation begins</li>
+            <li>Stay in discovery mode — do not pitch CurrentFlow</li>
+            <li>Let the interviewee do at least 70% of the talking</li>
+            <li>Note any spontaneous mentions of specific software tools or dollar amounts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">5</div>
+          <div class="step-block-title">Transcript Processing Workflow</div>
+        </div>
+        <div class="step-block-body">
+          <p>Process each transcript immediately after the interview. Patterns that emerge early should sharpen questions in later interviews. Do not batch all five at the end.</p>
+          <div class="workflow">
+            <div class="workflow-step">
+              <div class="workflow-num">1</div>
+              <div class="workflow-text">Interview complete. Download transcript from Otter.ai.</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">2</div>
+              <div class="workflow-text">Paste the full transcript into the CurrentFlow Claude project chat.</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">3</div>
+              <div class="workflow-text">Claude extracts: alias, date, persona, business profile, current software stack and spend, top 2–3 problems, key verbatim quotes.</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">4</div>
+              <div class="workflow-text">Formatted log entry produced and pasted into Section 4.1 below.</div>
+            </div>
+            <div class="workflow-step">
+              <div class="workflow-num">5</div>
+              <div class="workflow-text">Return to outreach. Repeat for each of the 5 interviews. All 5 transcripts feed Stage 5 synthesis.</div>
+            </div>
+          </div>
+          <p class="note">Otter.ai sometimes struggles with solar industry terminology (STC, CEC, inverter brand names). Flag any garbled sections when pasting and Claude will interpret from context.</p>
+        </div>
+      </div>
+
+      <div class="step-block">
+        <div class="step-block-header">
+          <div class="step-block-num">6</div>
+          <div class="step-block-title">Handling Investor / Persona Contacts</div>
+        </div>
+        <div class="step-block-body">
+          <p>Marcin (Volteam), Daniel Lake (Sure Solar), Nick Scafidi (Surge It), Scott (Waysco), Paul (Adapt), and Gary (Halcol) are on the interview list. Their insights carry double weight — they validate the problem and signal investor interest at the same time.</p>
+          <div class="callout">
+            <div class="callout-label">Critical rule for these conversations</div>
+            <p>Keep every conversation in discovery mode. Do not pitch. Do not mention investment. Ask the same problem-focused questions as every other interview. The data is only valid if the conversation is not contaminated by pitch framing.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview log -->
+      <div class="section-header" style="margin-top:32px;">
+        <span class="section-title">4.1 — Interview Log</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="interview-log">
+        <div class="log-header">
+          <div>#</div>
+          <div>Date / Alias</div>
+          <div>Persona</div>
+          <div>Key Insight</div>
+        </div>
+        <div class="log-row">
+          <div class="log-empty">No interviews logged yet. Paste a transcript into Claude to generate the first entry.</div>
+        </div>
+      </div>
+
+      <!-- Lock condition -->
+      <div class="section-header" style="margin-top:32px;">
+        <span class="section-title">Stage Lock Condition</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="lock-block">
+        <div class="lock-title">
+          <svg class="lock-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="7" width="10" height="8" rx="1.5" stroke="#4E9FFF" stroke-width="1.5"/>
+            <path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="#4E9FFF" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Stage 4 does not close until:
+        </div>
+        <ol class="lock-list">
+          <li><span class="lock-num">1</span> Minimum 5 completed interview transcripts are in hand</li>
+          <li><span class="lock-num">2</span> Each interview has a structured log entry in Section 4.1 above</li>
+          <li><span class="lock-num">3</span> Both Persona B and Persona D are represented in the completed interviews</li>
+          <li><span class="lock-num">4</span> Software spend data has been captured from at least 3 interviewees</li>
+        </ol>
+      </div>
+      <p class="note" style="margin-top: 16px;">Do not proceed to Stage 5 Synthesis with fewer than 3 completed transcripts. The minimum exists because patterns do not emerge reliably from fewer data points.</p>
+
+      <!-- Session summary -->
+      <div class="section-header" style="margin-top:32px;">
+        <span class="section-title">Session Summary — 19 March 2026</span>
+        <div class="section-rule"></div>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-card-title">Completed this session</div>
+          <ul class="check-list">
+            <li>Confirmed Stages 1–3 locked via CurrentFlow_Sprint_Stage3_Complete</li>
+            <li>Stage 4 next steps mapped in full</li>
+            <li>Transcript processing workflow agreed</li>
+            <li>Lead list upload deferred to next session</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <div class="summary-card-title">Before next session</div>
+          <ul class="check-list">
+            <li>Lead list CSV ready to upload</li>
+            <li>Calendly 30-minute booking link live</li>
+            <li>Three Tier 1 contacts identified for first outreach calls</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 3 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 3</span><span class="pb-name">Validation and Ideation</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 5 -->
+    <section class="section stage" id="stage5">
+      <div class="stage-head">
+        <div class="stage-head-num">5</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 3 — Validation</div>
+          <div class="stage-head-title">Interview Synthesis</div>
+        </div>
+        <span class="stage-pill pill-locked">Next</span>
+      </div>
+
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">All interviews synthesised. Every insight traces to a real interview. No invented findings.</span>
+      </div>
+
+      <div class="subhead">5.1 Problems People Have</div>
+      <p class="note">Complete from interviews. Each point must trace to at least one real conversation.</p>
+      <div class="subhead-sm">Installer / Owner-Operator Problems</div>
+      <ul class="check-list">
+        <li><span class="tag tag-assum">UNTIL VALIDATED</span> Quoting process is slow and unprofessional compared to competitors</li>
+        <li><span class="tag tag-assum">UNTIL VALIDATED</span> Scheduling breaks down under volume or when weather or product issues arise</li>
+        <li><span class="tag tag-assum">UNTIL VALIDATED</span> Data re-entry across disconnected tools creates errors and wasted admin time</li>
+      </ul>
+      <div class="subhead-sm">Subcontractor-Led Operator Problems</div>
+      <ul class="check-list">
+        <li><span class="tag tag-assum">UNTIL VALIDATED</span> No tool gives subcontractors job visibility without full system access</li>
+      </ul>
+
+      <div class="subhead">5.2 Alternative Solutions People Are Already Using</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Current Solution</th><th>Why It Falls Short</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Pylon</strong></td><td>No subcontractor logins. Expensive at scale. Not built for Australian solar compliance workflow.</td></tr>
+          <tr><td><strong>OpenSolar</strong></td><td>Quoting focused. Weak on CRM, scheduling, and job management.</td></tr>
+          <tr><td><strong>Spreadsheets</strong></td><td>Flexible but breaks under volume. Not mobile-friendly. No automation.</td></tr>
+          <tr><td><strong>WhatsApp / text</strong></td><td>Fast but creates information silos. No audit trail.</td></tr>
+          <tr><td><strong>Paper-based</strong></td><td>Still common in small operators. No visibility, no reporting.</td></tr>
+          <tr><td><strong>ServiceM8 / simPRO</strong></td><td>Field service tools not built for solar — miss CEC, STC, and quoting specifics.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">5.3 Outcomes People Are Seeking</div>
+      <div class="placeholder">Complete from interview synthesis. <strong>No content yet</strong> — opens once Stage 4 interviews are in hand.</div>
+
+      <div class="subhead">5.4 Key Quotes for Messaging</div>
+      <div class="placeholder">Paste verbatim quotes from Otter.ai transcripts here after interviews are complete.</div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 6 -->
+    <section class="section stage" id="stage6">
+      <div class="stage-head">
+        <div class="stage-head-num">6</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 3 — Validation</div>
+          <div class="stage-head-title">Assumption Validation</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">All major assumptions revisited against interview evidence. Invalidated assumptions trigger a Problem Canvas review.</span>
+      </div>
+
+      <div class="subhead">Assumption Register Summary</div>
+      <p class="note">Status key: <span class="tag tag-assum">ASSUMPTION</span> not yet validated · <span class="tag tag-val">VALIDATED</span> confirmed · <span class="tag tag-invalid">INVALIDATED</span> contradicted, pivot required</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">ID</th><th>Assumption</th><th class="col-narrow">Status</th><th class="col-narrow">Conf.</th><th>Evidence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A1</td><td>No good end-to-end solution currently exists for solar installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A2</td><td>Quoting is the primary pain point driving switching behaviour</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A3</td><td>Installers will pay for a tool that saves meaningful time or revenue</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A4</td><td>OpenSolar and Pylon are seen as the main competitors</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A5</td><td>Mobile/tablet access is required for on-site quoting</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A6</td><td>Xero is the dominant accounting tool in the installer market</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A7</td><td>Installers are willing to participate in a structured beta program</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A8</td><td>Rodney's network gives a warm channel to first 20 customers</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>—</td></tr>
+          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed in Pylon</td><td><span class="tag tag-partial">PARTIAL</span></td><td>Medium</td><td>Daniel Lake, Sure Solar — direct conversation</td></tr>
+          <tr><td>A10</td><td>Data re-entry is a documented, measurable operational problem</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 13 entry points reduced to 3</td></tr>
+          <tr><td>A11</td><td>Quoting speed directly impacts revenue and close rate</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 30+ min to 2 min</td></tr>
+          <tr><td>A12</td><td>Industry average close rate is unknown and untracked</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>No published data found — confirmed via research</td></tr>
+          <tr><td>A13</td><td>Procurement substitution workflow is a real operational gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A14</td><td>Maintenance and service follow-up scheduling is a gap in current tools</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A15</td><td>Solar sales reps and quoters have material influence over their employer's software purchasing decision</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 7 -->
+    <section class="section stage" id="stage7">
+      <div class="stage-head">
+        <div class="stage-head-num">7</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 3 — Validation</div>
+          <div class="stage-head-title">How Might We Statements</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">10 to 15 HMWs generated from validated problems. Overarching HMW selected.</span>
+      </div>
+
+      <div class="subhead">7.1 Starter HMWs (refine after interviews)</div>
+      <ul class="check-list">
+        <li>How might we help solar installers produce a professional quote in under 10 minutes?</li>
+        <li>How might we eliminate the gap between quoting and scheduling for small install businesses?</li>
+        <li>How might we give subcontractors job visibility without exposing the full business system?</li>
+        <li>How might we help owner-operators stay on top of their pipeline when they get busy?</li>
+        <li>How might we reduce data re-entry to a single point of entry across the full job lifecycle?</li>
+      </ul>
+
+      <div class="subhead">7.2 Overarching HMW Statement</div>
+      <div class="placeholder">Select after Stage 5 interview synthesis. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 8 -->
+    <section class="section stage" id="stage8">
+      <div class="stage-head">
+        <div class="stage-head-num">8</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 3 — Validation</div>
+          <div class="stage-head-title">Ideation (Crazy 8s)</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">8 distinct solution concepts explored before narrowing. No concept dismissed without discussion.</span>
+      </div>
+      <div class="placeholder">Complete at the Stage 8 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 4 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 4</span><span class="pb-name">Solution Design</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 9 -->
+    <section class="section stage" id="stage9">
+      <div class="stage-head">
+        <div class="stage-head-num">9</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution</div>
+          <div class="stage-head-title">Solution Concepts &amp; Prioritisation</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">Top 3 concepts evaluated. v1 scope clearly defined. Everything else in the Parking Lot.</span>
+      </div>
+      <div class="placeholder">Complete at the Stage 9 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 10 -->
+    <section class="section stage" id="stage10">
+      <div class="stage-head">
+        <div class="stage-head-num">10</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution</div>
+          <div class="stage-head-title">Solution Difficulty Assessment</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="placeholder">Complete at the Stage 10 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 11 -->
+    <section class="section stage" id="stage11">
+      <div class="stage-head">
+        <div class="stage-head-num">11</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution</div>
+          <div class="stage-head-title">Competitor Analysis &amp; Market Attractiveness</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <p>Competitors to assess as a minimum: <strong>Pylon, OpenSolar, SolarPlus, Sunvault, ServiceM8, simPRO</strong>, and any tools identified in interviews.</p>
+      <div class="placeholder">Complete at the Stage 11 session. <strong>Analysis not started.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 5 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 5</span><span class="pb-name">Business Case</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 12 -->
+    <section class="section stage" id="stage12">
+      <div class="stage-head">
+        <div class="stage-head-num">12</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 5 — Business Case</div>
+          <div class="stage-head-title">Financial Modelling and Pricing</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <p>Financial model lives in Google Sheets — link to be added at Stage 12 kickoff. This section contains a summary only.</p>
+      <div class="placeholder">Complete at the Stage 12 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 13 -->
+    <section class="section stage" id="stage13">
+      <div class="stage-head">
+        <div class="stage-head-num">13</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 5 — Business Case</div>
+          <div class="stage-head-title">Go-to-Market Strategy</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="placeholder">Complete at the Stage 13 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ PHASE 6 ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Phase 6</span><span class="pb-name">Investment Preparation</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <!-- STAGE 14 -->
+    <section class="section stage" id="stage14">
+      <div class="stage-head">
+        <div class="stage-head-num">14</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 6 — Investment</div>
+          <div class="stage-head-title">Investor Pitch Preparation</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <p>Pre-product pitch leads with domain authority, network, and distribution — not product features.</p>
+
+      <div class="subhead">14.1 Investor Target List</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Name</th><th>Company</th><th>Role</th><th class="col-narrow">Tier</th><th class="col-narrow">Relationship</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Marcin</td><td>Volteam</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Not contacted as investor</td></tr>
+          <tr><td>Daniel Lake</td><td>Sure Solar</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Interview target — Stage 4</td></tr>
+          <tr><td>Nick Scafidi</td><td>Surge It</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Not contacted as investor</td></tr>
+          <tr><td>Scott</td><td>Waysco</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Not contacted as investor</td></tr>
+          <tr><td>Paul</td><td>Adapt</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Not contacted as investor</td></tr>
+          <tr><td>Gary</td><td>Halcol</td><td>Solar operator</td><td>Tier 1</td><td>Warm</td><td>Not contacted as investor</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">14.2 Pitch Narrative Arc</div>
+      <div class="placeholder">Complete at the Stage 14 session. <strong>No content yet.</strong></div>
+
+      <div class="subhead">14.3 Investor Materials Checklist</div>
+      <ul class="check-list">
+        <li>One-page executive summary (leave-behind)</li>
+        <li>Pitch deck — 10 to 12 slides</li>
+        <li>Financial model summary (3-year) — link from Google Sheets</li>
+        <li>Cap table structure and SAFE note terms</li>
+        <li>Due diligence data room checklist</li>
+        <li>Beta commitment letters</li>
+        <li>Assumption Register (demonstrates validation rigour)</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ WORKSTREAM ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Workstream</span><span class="pb-name">Software Sales Flow &amp; CRM Design — activates Stage 9</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <section class="section stage" id="workstream">
+      <div class="stage-head">
+        <div class="stage-head-num">W</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Workstream</div>
+          <div class="stage-head-title">Sales Pipeline Tracker</div>
+        </div>
+      </div>
+      <p>Dual purpose: documents the CRM module design <strong>and</strong> manages real software sales activity from Stage 9 onwards.</p>
+
+      <div class="subhead">Pipeline Stages</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Stage</th><th>Exit Criteria</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1. Lead</td><td>Contact identified, basic info recorded</td></tr>
+          <tr><td>2. Qualified</td><td>Confirmed installer, current tool identified, pain validated</td></tr>
+          <tr><td>3. Demo Scheduled</td><td>Demo call booked</td></tr>
+          <tr><td>4. Demo Completed</td><td>Product shown, feedback captured</td></tr>
+          <tr><td>5. Proposal Sent</td><td>Pricing and offer sent</td></tr>
+          <tr><td>6. Negotiation</td><td>Objections being handled</td></tr>
+          <tr><td>7. Closed Won</td><td>Commitment received</td></tr>
+          <tr><td>8. Closed Lost</td><td>Reason documented, re-engage date set</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">Objection Register</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Common Objection</th><th>Prepared Response</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>We already use Pylon</td><td><em>To be drafted</em></td></tr>
+          <tr><td>Too expensive</td><td><em>To be drafted</em></td></tr>
+          <tr><td>Not ready to change systems</td><td><em>To be drafted</em></td></tr>
+          <tr><td>Need to see it working first</td><td><em>To be drafted</em></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════ APPENDICES ════════════════ -->
+    <div class="phase-banner">
+      <span class="pb-label">Reference</span><span class="pb-name">Appendices</span>
+      <div class="pb-rule"></div>
+    </div>
+
+    <section class="section stage" id="appendix">
+      <div class="stage-head">
+        <div class="stage-head-num">A</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Reference</div>
+          <div class="stage-head-title">Appendices</div>
+        </div>
+      </div>
+
+      <div class="subhead">Appendix A — Full Assumption Register</div>
+      <p class="note">Running list of all assumptions across all stages. Update status, evidence, and confidence after every session. (Mirrors the Stage 6 summary.)</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">ID</th><th>Assumption</th><th class="col-narrow">Status</th><th class="col-narrow">Conf.</th><th>Evidence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A1</td><td>No good end-to-end solution currently exists for solar installers</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A2</td><td>Quoting is the primary pain point driving switching behaviour</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A3</td><td>Installers will pay for a tool that saves meaningful time or revenue</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A4</td><td>OpenSolar and Pylon are seen as the main competitors</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A5</td><td>Mobile/tablet access is required for on-site quoting</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A6</td><td>Xero is the dominant accounting tool in the installer market</td><td><span class="tag tag-assum">ASSUM</span></td><td>Medium</td><td>—</td></tr>
+          <tr><td>A7</td><td>Installers are willing to participate in a structured beta program</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A8</td><td>Rodney's network gives a warm channel to first 20 customers</td><td><span class="tag tag-assum">ASSUM</span></td><td>High</td><td>—</td></tr>
+          <tr><td>A9</td><td>Subcontractor login gap is genuine and unaddressed in Pylon</td><td><span class="tag tag-partial">PARTIAL</span></td><td>Medium</td><td>Daniel Lake, Sure Solar — direct conversation</td></tr>
+          <tr><td>A10</td><td>Data re-entry is a documented, measurable operational problem</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 13 entry points to 3</td></tr>
+          <tr><td>A11</td><td>Quoting speed directly impacts revenue and close rate</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>Rodney, Envirogroup — 30+ min to 2 min</td></tr>
+          <tr><td>A12</td><td>Industry average close rate is unknown and untracked</td><td><span class="tag tag-val">VALID</span></td><td>High</td><td>No published Australian data found</td></tr>
+          <tr><td>A13</td><td>Procurement substitution workflow is a real operational gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A14</td><td>Maintenance and service follow-up scheduling is a gap</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+          <tr><td>A15</td><td>Solar sales reps and quoters have material influence over their employer's software purchasing decision</td><td><span class="tag tag-assum">ASSUM</span></td><td>Low</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">Appendix B — Interview Transcripts</div>
+      <div class="placeholder">Paste Otter.ai transcript summaries here after each interview. Full transcripts stored in Otter.ai. <strong>None yet.</strong></div>
+
+      <div class="subhead">Appendix C — Session Notes Log</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Date</th><th>Session Summary and Decisions</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mar 2026</td><td>Stage 1 — Problem Canvas. Problem statement written and locked. Four personas identified. CurrentFlow named and domain secured. Assumption Register seeded A1 to A14. Subcontractor login gap in Pylon confirmed by Daniel Lake (A9 partial). Data re-entry (A10) and quoting speed (A11) validated from Envirogroup. Landing page live at currentflow.com.au. Waitlist to Google Sheets. Email forwarding active. GitHub repo connected.</td></tr>
+          <tr><td>Mar 2026</td><td>Stage 2 complete. Persona strategy confirmed: Persona B (Growth-Stage Operator) and Persona D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona E (Solar Quoter / Sales Rep) added as user persona present within B and D businesses. Persona A deprioritised as launch target. Persona C excluded from v1 go-to-market. Persona B canvas built. Persona E canvas and interview script built. Assumption A15 added. Stage 2 locked.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Scroll-spy: highlight the sidebar item for whichever section is in view.
+  (function () {
+    var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item'));
+    var byId = {};
+    navItems.forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) === '#') byId[href.slice(1)] = a;
+    });
+
+    var targets = Array.prototype.slice.call(document.querySelectorAll('main [id]'));
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var active = byId[entry.target.id];
+        if (!active) return;
+        navItems.forEach(function (n) { n.classList.remove('active'); });
+        active.classList.add('active');
+      });
+    }, { rootMargin: '-12% 0px -78% 0px', threshold: 0 });
+
+    targets.forEach(function (t) { observer.observe(t); });
+  })();
+</script>
+
+</body>
+</html>

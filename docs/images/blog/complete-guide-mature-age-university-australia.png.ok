@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "1fbff9a2f1b2c2c8a18814d059d4878d236aff6725d76692e837131710026c4c",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2293981671,
+  "slug": "complete-guide-mature-age-university-australia",
+  "timestamp": "2026-06-12T07:51:03.871650+00:00"
+}
