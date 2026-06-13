@@ -1116,7 +1116,7 @@
       <div style="margin-bottom:6px;">
         <a href="https://currentflow.com.au" target="_blank" rel="noopener">currentflow.com.au</a>
       </div>
-      <div>Last updated: 19 March 2026</div>
+      <div>Last updated: 13 June 2026</div>
     </div>
   </aside>
 
@@ -1145,7 +1145,7 @@
         </div>
         <div class="meta-item">
           <span class="meta-label">Updated</span>
-          <span class="meta-value">19 Mar 2026</span>
+          <span class="meta-value">13 Jun 2026</span>
         </div>
       </div>
     </div>
@@ -2184,7 +2184,71 @@
       <div class="subhead">Appendix B — Interview Transcripts</div>
       <div class="placeholder">Paste Otter.ai transcript summaries here after each interview. Full transcripts stored in Otter.ai. <strong>None yet.</strong></div>
 
-      <div class="subhead">Appendix C — Session Notes Log</div>
+      <div class="subhead">Appendix C — Competitor Landscape Research</div>
+      <p class="note">Scraped via firecrawl — June 2026. Full detail in <code>vault/20_Research/competitor-landscape.md</code>. This is a condensed summary of strategic relevance to the sprint.</p>
+
+      <div class="subhead" style="margin-top:24px;">Tools surveyed</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Tool</th><th>Origin</th><th>Model</th><th>AU relevance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>SolarPlus</strong></td><td>Australian (VIC)</td><td>$190–$750/month AUD per kW-quota</td><td>High — most direct competitor</td></tr>
+          <tr><td><strong>Pylon</strong></td><td>Australian (Sydney)</td><td>$4/$10 per project + $49/user/month CRM add-on</td><td>High — design-first, CRM is bolt-on</td></tr>
+          <tr><td><strong>OpenSolar</strong></td><td>Australian-founded (global)</td><td>Free (partner-funded); paid add-ons</td><td>High — Deloitte Tech Fast 50 #28 (2025)</td></tr>
+          <tr><td><strong>Aurora Solar</strong></td><td>USA</td><td>USD $135–$259/user/month</td><td>Low — US compliance only, USD pricing</td></tr>
+          <tr><td><strong>HelioScope</strong></td><td>USA (Aurora product)</td><td>USD $159–$259/licence/month</td><td>Low — C&amp;I commercial only</td></tr>
+          <tr><td><strong>Scanifly</strong></td><td>USA</td><td>~$4–6k/year + per-credit design services</td><td>Low — drone-first, US permits</td></tr>
+          <tr><td><strong>ServiceM8</strong></td><td>Australian</td><td>$29–$349/month AUD</td><td>Context only — generic trades, Pylon integration target</td></tr>
+          <tr><td><strong>Brighte</strong></td><td>Australian</td><td>Finance provider (not software)</td><td>Partner opportunity — 270k+ households, $3.1B financed</td></tr>
+          <tr><td><strong>Smart Ease</strong></td><td>Australian</td><td>Finance provider</td><td>Partner opportunity — commercial solar finance</td></tr>
+          <tr><td><strong>Solaris Finance</strong></td><td>Australian</td><td>Finance broker</td><td>Partner opportunity — 50+ finance partners</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead" style="margin-top:24px;">Capability gap matrix</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Capability</th><th>SolarPlus</th><th>Pylon</th><th>OpenSolar</th><th>Others</th><th>CurrentFlow</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>STC/SRES lodgement workflow</strong></td><td>None</td><td>None</td><td>None</td><td>None</td><td><span class="tag tag-val">GAP</span></td></tr>
+          <tr><td><strong>STC cashflow visibility</strong></td><td>None</td><td>None</td><td>None</td><td>None</td><td><span class="tag tag-val">GAP</span></td></tr>
+          <tr><td><strong>Subcontractor login / portal</strong></td><td>None</td><td>None</td><td>None</td><td>None</td><td><span class="tag tag-val">GAP</span></td></tr>
+          <tr><td><strong>Installer/sub CEC licence checks</strong></td><td>None</td><td>Blog only</td><td>None</td><td>None</td><td><span class="tag tag-val">GAP</span></td></tr>
+          <tr><td><strong>Commissioning checklist</strong></td><td>Yes</td><td>None</td><td>None</td><td>None</td><td>Match SolarPlus</td></tr>
+          <tr><td><strong>CRM as core (not add-on)</strong></td><td>Yes</td><td>Add-on $49/user</td><td>Yes (free)</td><td>No</td><td>Core</td></tr>
+          <tr><td><strong>Job scheduling / dispatch</strong></td><td>Dashboard only</td><td>None</td><td>None</td><td>ServiceM8 (extra cost)</td><td><span class="tag tag-val">GAP</span></td></tr>
+          <tr><td><strong>AU state rebate tracking</strong></td><td>None</td><td>VEECs only</td><td>None</td><td>None</td><td>PDRS, ESS, VEECs</td></tr>
+          <tr><td><strong>Xero integration</strong></td><td>Optional add-on</td><td>Yes</td><td>Paid connector</td><td>ServiceM8 preferred</td><td>Baseline</td></tr>
+          <tr><td><strong>Solar design (built-in)</strong></td><td>Strong</td><td>Strong</td><td>Strong</td><td>Yes</td><td>Integrate/partner</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead" style="margin-top:24px;">Key strategic findings</div>
+      <ul class="check-list">
+        <li><strong>STC/SRES is the clearest whitespace.</strong> Zero competitors mention STC lodgement, STC calculation, or cashflow visibility tied to certificate timing. Pylon published an STC education blog post in 2020 — five years of inaction confirms this is a deliberate non-investment, not an oversight.</li>
+        <li><strong>Subcontractor management is unaddressed across the entire market.</strong> No tool offers a subcontractor portal, CEC licence verification, insurance tracking, or installer-specific job briefs. ServiceM8 ($29–$349/month) handles generic job dispatch but requires installers to pay for an extra platform and has no solar context. CurrentFlow can own this natively. (Strengthens A9.)</li>
+        <li><strong>SolarPlus is the closest competitor.</strong> Australian, native CRM, commissioning checklist, Xero, HubSpot, SolarQuotes. Weaknesses: pricing is kW-credit-based (overhead commitment for smaller installers), no STC workflow, no subcontractor management, no cashflow dashboard, and pricing is demo-gated.</li>
+        <li><strong>OpenSolar is free and growing fast.</strong> Australian-founded, Deloitte Tech Fast 50 2025, 28,000+ solar pros globally. Revenue comes from hardware/lender partners — not the installer. No STC/SRES, no subcontractor management, no AU-specific compliance layer. Partner-funded model creates a conflict of interest with the installer.</li>
+        <li><strong>The post-quote operational layer is owned by nobody.</strong> Every competitor stops at closing the quote or issuing a proposal. Job scheduling, STC paperwork, installer dispatch, commissioning sign-off, and cashflow around certificate timing — these are CurrentFlow's territory.</li>
+        <li><strong>ServiceM8 pricing shows AU tradie price sensitivity.</strong> $29–$349/month with unlimited users. CurrentFlow pricing should land in this band or justify a premium with solar-specific value.</li>
+        <li><strong>Aurora Solar and HelioScope are irrelevant for the AU small-installer market.</strong> USD pricing, US compliance only (NEC, AHJ database). Safe to ignore.</li>
+      </ul>
+
+      <div class="subhead" style="margin-top:24px;">Assumption updates from competitor research</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">ID</th><th>Update</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A1</td><td>Strengthened. No competitor covers the post-quote operational workflow (STC, subcontractor dispatch, cashflow). The gap is real and broad.</td></tr>
+          <tr><td>A4</td><td>Partially confirmed. Pylon and OpenSolar are indeed present in the market. SolarPlus is a stronger competitor than expected — should be added to the assumption. Aurora is irrelevant.</td></tr>
+          <tr><td>A9</td><td><strong>Evidence extended.</strong> Originally partial-validated against Pylon only (Daniel Lake). Competitor sweep confirms the subcontractor login gap exists in SolarPlus, OpenSolar, ServiceM8, and all others. No tool in the market offers a subcontractor portal. Recommend upgrading to VALID.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead" style="margin-top:24px;">Appendix D — Session Notes Log</div>
       <table class="tier-table">
         <thead>
           <tr><th class="col-narrow">Date</th><th>Session Summary and Decisions</th></tr>
@@ -2192,6 +2256,7 @@
         <tbody>
           <tr><td>Mar 2026</td><td>Stage 1 — Problem Canvas. Problem statement written and locked. Four personas identified. CurrentFlow named and domain secured. Assumption Register seeded A1 to A14. Subcontractor login gap in Pylon confirmed by Daniel Lake (A9 partial). Data re-entry (A10) and quoting speed (A11) validated from Envirogroup. Landing page live at currentflow.com.au. Waitlist to Google Sheets. Email forwarding active. GitHub repo connected.</td></tr>
           <tr><td>Mar 2026</td><td>Stage 2 complete. Persona strategy confirmed: Persona B (Growth-Stage Operator) and Persona D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona E (Solar Quoter / Sales Rep) added as user persona present within B and D businesses. Persona A deprioritised as launch target. Persona C excluded from v1 go-to-market. Persona B canvas built. Persona E canvas and interview script built. Assumption A15 added. Stage 2 locked.</td></tr>
+          <tr><td>Jun 2026</td><td>Competitor landscape research completed via firecrawl sweep (10 tools). Full detail in vault/20_Research/competitor-landscape.md. Key finding: STC/SRES workflow and subcontractor management are unaddressed across the entire market. A9 extended beyond Pylon to all tools. Appendix C added to sprint document. CurrentFlow site CI/CD wired up (GitHub Actions to currentflow-site deploy repo via webhook on opti). ntfy notifications added to tenant config. Research vault expanded with expand-research run.</td></tr>
         </tbody>
       </table>
     </section>
