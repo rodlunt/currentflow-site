@@ -1078,6 +1078,22 @@
         <span class="nav-num">9</span> Concepts
         <span class="nav-status status-locked">Locked</span>
       </a>
+      <a href="#stage9a" class="nav-item upcoming">
+        <span class="nav-num">9a</span> User Stories
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage9b" class="nav-item upcoming">
+        <span class="nav-num">9b</span> Wireframes
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage9c" class="nav-item upcoming">
+        <span class="nav-num">9c</span> Tech Stack
+        <span class="nav-status status-locked">Locked</span>
+      </a>
+      <a href="#stage9d" class="nav-item upcoming">
+        <span class="nav-num">9d</span> Architecture
+        <span class="nav-status status-locked">Locked</span>
+      </a>
       <a href="#stage10" class="nav-item upcoming">
         <span class="nav-num">10</span> Difficulty
         <span class="nav-status status-locked">Locked</span>
@@ -1977,6 +1993,250 @@
         <span class="ss-text">Top 3 concepts evaluated. v1 scope clearly defined. Everything else in the Parking Lot.</span>
       </div>
       <div class="placeholder">Complete at the Stage 9 session. <strong>No content yet.</strong></div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 9a -->
+    <section class="section stage" id="stage9a">
+      <div class="stage-head">
+        <div class="stage-head-num">9a</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution Design</div>
+          <div class="stage-head-title">Epics and User Stories</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">All epics enumerated. Each epic has a minimum of 3 user stories in standard format (As a / I want / So that) with acceptance criteria. Lead Management epic fully expanded. Signed off before Stage 9b wireframes begin.</span>
+      </div>
+
+      <div class="subhead">9a.1 Epic Map</div>
+      <p class="note">Scope source: Jun 14 2026 session decision log. Epics represent independent product verticals with shared data dependencies.</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Epic</th><th>Description</th><th class="col-narrow">Stories</th><th class="col-narrow">Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>E1</strong> Lead Management</td><td>Full inbound lead capture pipeline — manual entry, email forwarding inbox, interactive booking widget, auto-acknowledgment, SLA alerting, call integration, AI transcription, calendar booking, and follow-up sequencing.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
+          <tr><td><strong>E2</strong> Solar Design</td><td>Aerial imagery canvas with panel overlay, string voltage and temperature derating, MPPT configuration, CEC component compliance checking, bill of materials output. The quoting process cannot start without a design.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E3</strong> Quoting and Proposals</td><td>Generate branded proposals from design output. Line-item pricing, finance options, STC value shown as a deduction, PDF export, customer acceptance (e-signature). Realistic install date shown from procurement lead times.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E4</strong> CRM and Pipeline</td><td>Kanban or list pipeline view per salesperson and across the business. Lead temperature gauges driven by inactivity and interaction history. Owned-by assignment, filtering, bulk actions, activity feed per contact.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E5</strong> Procurement and BOM</td><td>Supplier price list management (manual upload or API). BOM generated from design. Component lead times stored per item and surfaced to customer as realistic wait time on the quote. Substitution workflow for out-of-stock items.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E6</strong> Job Scheduling and Dispatch</td><td>Book installs against a shared calendar. Assign employees and subcontractors. Wet weather reschedule flow. Customer online booking portal. Installer view of the day's jobs. Mapping overlay for route efficiency (stretch).</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E7</strong> Contractor Pool</td><td>Self-service job claiming. First-in-first-served eligibility enforced by CEC accreditation, tickets, and quals. Contractor profile with document upload. Owner approval gate for new contractors. Performance rating over time.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E8</strong> STC Compliance</td><td>STC lodgement workflow per job — collect CEC paperwork, owner signatures, grid connection confirmation, install photos. Submit to Formbay (Priority 1) or Greenbank/Bridge Select (Priority 2). Lodgement status tracking and cashflow visibility dashboard.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E9</strong> Post-Install Follow-Up</td><td>6 and 12 month automated follow-up sequence triggered from install date. Review request, referral prompt, service check-in. Performance report (actual vs quoted generation) once inverter monitoring API integrated (v2 dependency).</td><td><span class="tag tag-assum">To expand</span></td><td>v1 (sequence) / v2 (inverter data)</td></tr>
+          <tr><td><strong>E10</strong> Xero Integration</td><td>Create invoice in Xero on job completion. STC receivable as a separate line item. Payment reconciliation. No accounting UI inside CurrentFlow — Xero owns that boundary.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E11</strong> Settings and Administration</td><td>Business profile, user and role management, branding (logo, colours), notification preferences, email template customisation, API keys (Formbay, Nearmap, Xero), SLA response time targets, supplier onboarding.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">9a.2 Epic E1 — Lead Management (fully seeded)</div>
+      <p class="note">Sources: Jun 14 2026 session. Format: As a [role] / I want [capability] / So that [outcome]. Acceptance criteria abbreviated — expand before development begins.</p>
+
+      <div class="subhead-sm">E1.1 — Manual Lead Entry</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to manually enter a new lead with contact details, source, and initial notes, so that no inbound enquiry is lost regardless of channel.</li>
+        <li><strong>AC:</strong> Required fields — name, phone or email (one required). Optional — source, address, system size interest, notes. Lead appears in the pipeline immediately on save. Source dropdown includes: Referral, Solarquotes, Solar Choice, Why Solar, Walk-in, Phone, Email, Other.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.2 — Email Forwarding Inbox</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want a dedicated email address I can forward customer enquiries to, so that emails automatically create leads in the CRM with the enquiry text captured.</li>
+        <li><strong>AC:</strong> Each business gets a unique inbound address (e.g. leads+{slug}@currentflow.com.au). Forwarded email creates a lead with sender name, email, and body as the initial note. Duplicate detection by email address — existing contacts get a new activity note, not a new lead. Attachments stored against the lead.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.3 — Interactive Booking Widget</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a website visitor, I want to book a quote call or site visit online, so that I can progress without waiting for a business to call me back.</li>
+        <li><strong>AC:</strong> Embeddable widget (iframe or script tag). Three entry types: Book a call, Book a site visit, General enquiry. Lead temperature check questions shown after type selection (configurable per business — 3 to 5 questions max). Available time slots pulled from the business calendar. Confirmation email sent to customer immediately on submission. Lead created in CRM automatically.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.4 — Auto-Acknowledgment Email</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a customer, I want to receive an automatic acknowledgment when I submit an enquiry, so that I know someone will contact me and approximately when.</li>
+        <li><strong>AC:</strong> Email sent within 60 seconds of lead creation (any channel). Expected response time shown — default is the business's configured SLA target, with option to show the rolling 30-day average actual callback time instead. Email template fully customisable per business. Tone matches business branding.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.5 — SLA Alerting</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want an alert if a new lead has not been contacted before the SLA window closes, so that no customer slips through without contact.</li>
+        <li><strong>AC:</strong> SLA target configurable per business (default 4 hours, business hours only). Alert sent to assigned salesperson and owner by push notification and email. Alert escalates after a second interval if still uncontacted. Lead flagged visually in the pipeline. SLA clock pauses outside business hours (configurable).</li>
+      </ul>
+
+      <div class="subhead-sm">E1.6 — PWA Call Integration</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson on my phone, I want to tap a contact's number in CurrentFlow and have the call logged automatically, so that I do not have to manually record every outbound call.</li>
+        <li><strong>AC:</strong> Click-to-call via PWA on Android and iOS (tel: protocol). Call attempt logged as an activity against the lead with timestamp, salesperson, and outcome (answered, voicemail, no answer — salesperson selects post-call). Optional: record and transcribe via AI (salesperson opts in per call; customer notified per jurisdiction requirements). Transcription stored against lead; summary surfaced in activity feed.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.7 — Salesperson Notes</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to add timestamped notes to a lead immediately after any contact, so that the full interaction history is visible to anyone handling the account.</li>
+        <li><strong>AC:</strong> Rich text notes with @mention support for other team members. Notes feed the activity timeline. Notes visible on mobile in the same format as desktop. Voice-to-text input supported on mobile (device native).</li>
+      </ul>
+
+      <div class="subhead-sm">E1.8 — Calendar Integration and Auto Follow-Up Email</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to book an appointment directly from a lead and have a confirmation email sent to the customer automatically, so that booking takes under 30 seconds and the customer always gets a confirmation.</li>
+        <li><strong>AC:</strong> Integration with Google Calendar and Outlook Calendar (OAuth). Available slots pulled from the connected calendar. Appointment type determines which email template fires (quote call, site visit, follow-up call, proposal review). Customer receives calendar invite. Appointment appears on the salesperson's calendar and on the lead timeline. Reschedule and cancel flows handled within CurrentFlow.</li>
+      </ul>
+
+      <div class="subhead-sm">E1.9 — Lead Temperature Gauge</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a sales manager, I want each lead to display a temperature score driven by recency of contact and interaction depth, so that the team always works the hottest leads first.</li>
+        <li><strong>AC:</strong> Temperature calculated from: days since last contact, number of interactions, whether a site visit or proposal has been sent, customer responsiveness (replies vs no-replies). Displayed as a colour-coded indicator (hot / warm / cold) on the pipeline card. Configurable weighting per business (stretch). Leads inactive beyond a configurable window auto-move to a "needs attention" view.</li>
+      </ul>
+
+      <div class="subhead">9a.3 Remaining Epics (to expand)</div>
+      <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. Seed the stories from the scope decision log (Jun 14 2026) and the interview synthesis (Stage 5). Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 9b -->
+    <section class="section stage" id="stage9b">
+      <div class="stage-head">
+        <div class="stage-head-num">9b</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution Design</div>
+          <div class="stage-head-title">Wireframes</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">Low-fidelity flows complete for all v1 epics. Key flows (lead capture, design canvas, quoting, STC lodgement, contractor job claim) reviewed and signed off. Mobile PWA flows complete for salesperson and installer views. Figma file linked and organised by epic.</span>
+      </div>
+
+      <div class="subhead">9b.1 Design Principles</div>
+      <ul class="check-list">
+        <li><strong>Mobile-first for field roles.</strong> Salesperson (on-site quoting, call logging, appointment booking) and installer (job brief, checklist, photo upload) must be fully functional on Android and iOS via PWA. Desktop is primary for office roles (scheduling, reporting, STC lodgement).</li>
+        <li><strong>Aerial imagery canvas is a first-class surface.</strong> The design tool is not a modal or a step — it is the central canvas from which quoting flows. Wireframes must show how a user navigates from the canvas to a line-item quote without leaving context.</li>
+        <li><strong>One screen per job context.</strong> An open job should surface everything relevant — design, quote, schedule, installer, STC status, and customer — in a single navigable job record, not separate modules requiring tab-switching.</li>
+        <li><strong>Contractor and employee views are structurally different.</strong> A subcontractor sees their assigned or claimable jobs only. They do not see the CRM, pricing, or other jobs. Wireframes must reflect the role-specific context from the first screen after login.</li>
+      </ul>
+
+      <div class="subhead">9b.2 Figma File</div>
+      <p>Active wireframe file: <strong>Figma key <code>v1pZgWQj625RIY4raYbDMe</code></strong>. Currently 11 pages (9 desktop, 2 mobile PWA). Analytics dashboard page signed off. Remaining epics to be wireframed in this file, one page per epic, with a mobile sub-page for each field-facing flow.</p>
+      <p class="note">Wireframes inform the tech stack decisions in Stage 9c. Do not lock 9c until the lead capture, design canvas, contractor pool, and scheduling flows are at least low-fidelity in Figma.</p>
+
+      <div class="subhead">9b.3 Wireframe Coverage Tracker</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Epic</th><th class="col-narrow">Desktop</th><th class="col-narrow">Mobile</th><th class="col-narrow">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>E1 — Lead Management (booking widget, pipeline, call log, calendar)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E2 — Solar Design (aerial canvas, panel overlay, string config, CEC check)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E3 — Quoting and Proposals (line items, lead times, STC deduction, e-sign)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E4 — CRM and Pipeline (kanban, temperature gauge, activity feed)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E5 — Procurement and BOM (price list, lead times, substitution)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E6 — Job Scheduling (calendar, dispatch, wet weather, customer booking)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E7 — Contractor Pool (job claim board, profile, quals, eligibility gate)</td><td>—</td><td><em>Primary</em></td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E8 — STC Compliance (per-job checklist, submission, cashflow dashboard)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E9 — Post-Install Follow-Up (sequence builder, performance report)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E10 — Xero Integration (invoice preview, STC line item, sync status)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E11 — Settings (roles, branding, SLA, email templates, API keys)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>Analytics dashboard</td><td><span class="tag tag-val">Done</span></td><td>—</td><td><span class="tag tag-val">Signed off</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 9c -->
+    <section class="section stage" id="stage9c">
+      <div class="stage-head">
+        <div class="stage-head-num">9c</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution Design</div>
+          <div class="stage-head-title">Tech Stack and Architecture Decision Records</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">All ADRs in the table below have a status of DECIDED. Stack documented and rationale recorded. Security architect review complete. No ADR left as OPEN when development begins.</span>
+      </div>
+
+      <div class="subhead">9c.1 Architecture Decision Records</div>
+      <p class="note">Each decision records the context (why it matters), the options considered, the decision, and the rationale. Status: OPEN (under consideration) / DECIDED (locked) / SUPERSEDED (replaced).</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">ADR</th><th>Decision area</th><th class="col-narrow">Status</th><th>Key constraints driving the decision</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ADR-01</td><td><strong>Frontend framework</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>PWA-first (Android + iOS field use); aerial imagery canvas; offline capability for field installers; real-time contractor job board. Candidates: Next.js (React), SvelteKit, Remix.</td></tr>
+          <tr><td>ADR-02</td><td><strong>Mobile delivery model</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Must work on Android and iOS for installers and salespeople. PWA with install prompt vs React Native wrapper vs Capacitor. Key constraint: call integration (tel: protocol), camera for photo upload, push notifications.</td></tr>
+          <tr><td>ADR-03</td><td><strong>Backend language and framework</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Rodney's existing expertise; team hiring pipeline; performance under scheduling/concurrency load; Formbay API integration shape. Candidates: Python/FastAPI, Node.js/Hono, Go.</td></tr>
+          <tr><td>ADR-04</td><td><strong>Primary datastore</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Complex relational data: Job, Contact, Quote, LineItem, Installer, Qualification, STCBatch, XeroInvoice, LeadActivity. Multi-tenant isolation required. PostgreSQL is the default — document the rationale or the exception.</td></tr>
+          <tr><td>ADR-05</td><td><strong>Multi-tenancy model</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Schema-per-tenant vs row-level tenant_id vs separate databases. Affects data isolation, backup, cost at scale, and RBAC implementation. Regulatory: customer data cannot leak between businesses.</td></tr>
+          <tr><td>ADR-06</td><td><strong>Aerial imagery provider</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Nearmap: per-capture pricing, high AU coverage, API well-documented. Metromap: AU-focused, included in PVsell, less known. Google Maps: free tier but lower resolution. Must support panel overlay rendering on the returned imagery.</td></tr>
+          <tr><td>ADR-07</td><td><strong>Real-time mechanism</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Contractor job claiming requires concurrency control (first-in-first-served). SLA alerting requires server-push. Options: WebSockets, Server-Sent Events, long polling. Choice affects hosting architecture.</td></tr>
+          <tr><td>ADR-08</td><td><strong>Auth and RBAC</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Roles: Business Owner, Salesperson, Scheduler, Installer (employee), Subcontractor, Customer (portal). Subcontractors must be isolated to their job scope. Options: build in-house vs Auth0/Clerk vs Supabase Auth.</td></tr>
+          <tr><td>ADR-09</td><td><strong>AI transcription provider</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Call recording and transcription for salesperson calls (opt-in). Must comply with AU jurisdiction recording consent laws. Options: OpenAI Whisper (self-hosted or API), AssemblyAI, Deepgram. Cost per minute at scale.</td></tr>
+          <tr><td>ADR-10</td><td><strong>Calendar integration</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Google Calendar and Outlook are the minimum (OAuth). Determines whether to use a calendar abstraction layer (Nylas, Cronofy) or direct Google/Microsoft APIs. Direct is cheaper; abstraction reduces maintenance.</td></tr>
+          <tr><td>ADR-11</td><td><strong>Email infrastructure</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Transactional sending (auto-acknowledgments, follow-ups, appointment confirmations). Inbound parsing (email forwarding inbox feature). Options: Postmark + inbound webhook, Sendgrid, AWS SES + S3 + Lambda. Must handle inbound reliably.</td></tr>
+          <tr><td>ADR-12</td><td><strong>File storage</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Job photos, STC paperwork, CEC accreditation uploads, proposal PDFs. S3-compatible object storage. Options: AWS S3, Cloudflare R2 (no egress cost), Backblaze B2. Volume at scale: estimate 20–50MB per job.</td></tr>
+          <tr><td>ADR-13</td><td><strong>Notifications</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>SLA breach alerts, job claim notifications, appointment reminders, STC lodgement status. Channels: push (PWA), email, SMS. SMS provider options: Twilio, MessageBird, Australian-local (MessageMedia, Burst SMS).</td></tr>
+          <tr><td>ADR-14</td><td><strong>Hosting and infrastructure</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>AU data residency for customer data. Options: AWS ap-southeast-2 (Sydney), Fly.io (Melbourne region), Render. Determine CI/CD pipeline, container vs serverless, and managed vs self-managed database.</td></tr>
+          <tr><td>ADR-15</td><td><strong>STC lodgement integration (Formbay vs Bridge Select)</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Formbay Priority 1 — OAS 3.0 REST API, requires phone activation. Bridge Select / Greenbank Priority 2 — OpenSolar has a live integration proving feasibility. Decision: build Formbay first or build an abstraction layer that can swap.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">9c.2 Known Stack Constraints (pre-decided context)</div>
+      <ul class="check-list">
+        <li>Xero API integration is mandatory — any backend must have a well-supported Xero SDK or REST client.</li>
+        <li>Formbay API is OAS 3.0 REST — any HTTP client works; no vendor lock-in from the integration itself.</li>
+        <li>Nearmap / Metromap APIs are tile-based — the frontend must render map tiles with a custom panel overlay layer, which points toward a library like Mapbox GL or Leaflet.</li>
+        <li>CEC component database is not a public API — a local cache of the approved product list (updated periodically) is required in the datastore.</li>
+        <li>Contractor job claiming requires pessimistic locking or a queue mechanism — "first claimed wins" on a concurrent row update is a race condition without explicit handling.</li>
+        <li>AU data residency is a commercial requirement — all customer data must stay in Australia (ap-southeast-2 or equivalent).</li>
+        <li>pnpm is the package manager for all JavaScript tooling. npm is banned.</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- STAGE 9d -->
+    <section class="section stage" id="stage9d">
+      <div class="stage-head">
+        <div class="stage-head-num">9d</div>
+        <div class="stage-head-meta">
+          <div class="stage-kicker">Phase 4 — Solution Design</div>
+          <div class="stage-head-title">Architecture Diagrams</div>
+        </div>
+        <span class="stage-pill pill-locked">Locked</span>
+      </div>
+      <div class="status-strip">
+        <span class="ss-tag">Lock Condition</span>
+        <span class="ss-text">All five diagram types below produced and reviewed. Data model covers all v1 entities with relationships and foreign keys. API contracts documented for every external integration. Diagrams committed to the repo alongside code — not in a separate document that will go stale.</span>
+      </div>
+
+      <div class="subhead">9d.1 Required Diagrams</div>
+      <table class="tier-table">
+        <thead>
+          <tr><th>Diagram</th><th>Purpose</th><th class="col-narrow">Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>System Context</strong></td><td>CurrentFlow at the centre. External actors: Business Owner, Salesperson, Installer, Subcontractor, Customer. External systems: Nearmap/Metromap, Formbay, Greenbank, Xero, Solarquotes API, Solar Choice API, Google/Outlook Calendar, email provider, SMS provider, inverter monitoring APIs (v2). Shows data flows and trust boundaries.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td><strong>Component Diagram</strong></td><td>Internal module breakdown: Web App (PWA), API Server, Background Worker (SLA alerting, follow-up sequences, STC batch submission), Email Inbound Parser, AI Transcription Worker, Database, Object Storage, Cache (for real-time contractor board). Shows how modules communicate and which team or service owns each.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td><strong>Data Model (ERD)</strong></td><td>Entities: Business (tenant), User, Role, Contact, Lead, LeadActivity, Appointment, Quote, QuoteLineItem, Product, Supplier, ProductLeadTime, Job, JobAssignment, Installer, Qualification, STCLodgement, XeroInvoice, PostInstallSequence. Relationships and cardinality. Multi-tenant isolation shown explicitly.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td><strong>API Contracts</strong></td><td>One contract per external integration: Formbay (POST /client_api/create_form, pv_submit_job, pv_validate_job, pv_recs_calculator), Xero (invoices, line items, contacts), Nearmap/Metromap (tile endpoint, coverage check), Solarquotes (lead ingest), Google Calendar (OAuth, events), email inbound (webhook payload schema). Includes auth mechanism, error handling, and retry strategy for each.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td><strong>Infrastructure Diagram</strong></td><td>Hosting topology: web server, API server, worker processes, managed database, object storage, CDN. Environments: production (AU region), staging, local dev. CI/CD pipeline. Backup and recovery. SSL termination. Monitoring and alerting stack.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">9d.2 Diagramming Conventions</div>
+      <ul class="check-list">
+        <li>Use C4 model notation (Context, Container, Component, Code) as the standard. System Context = C4 Level 1. Component Diagram = C4 Level 2/3.</li>
+        <li>Diagrams live in <code>docs/architecture/</code> in the application repo as source files (draw.io XML or Mermaid), not as exported images only.</li>
+        <li>Every diagram carries a version date. When the architecture changes, the diagram changes in the same commit as the code.</li>
+        <li>The data model is the single source of truth for entity naming. Field names in the diagram become the column names in migrations — no divergence.</li>
+      </ul>
     </section>
 
     <div class="divider"></div>
