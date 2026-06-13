@@ -988,6 +988,37 @@
       .page-title { font-size: 34px; }
     }
 
+    /* ─── Section prev/next nav ─────────────────────────────────────────── */
+    .section-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0 4px;
+      margin-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+    .section-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--surface-2);
+      transition: border-color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .section-nav-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-pale);
+    }
+    .section-nav-spacer { flex: 1; }
+
     @media (max-width: 600px) {
       .steps-grid { grid-template-columns: 1fr; }
     }
@@ -2021,18 +2052,21 @@
         <tbody>
           <tr><td><strong>E1</strong> Lead Management</td><td>Full inbound lead capture pipeline — manual entry, email forwarding inbox, interactive booking widget, auto-acknowledgment, SLA alerting, call integration, AI transcription, calendar booking, and follow-up sequencing.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
           <tr><td><strong>E2</strong> Solar Design</td><td>Aerial imagery canvas with panel overlay, string voltage and temperature derating, MPPT configuration, CEC component compliance checking, bill of materials output. The quoting process cannot start without a design.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
-          <tr><td><strong>E3</strong> Quoting and Proposals</td><td>Generate branded proposals from design output. Line-item pricing, finance options, STC value shown as a deduction, PDF export, customer acceptance (e-signature). Realistic install date shown from procurement lead times.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E3</strong> Quoting and Proposals</td><td>Generate branded proposals from design output. Line-item pricing, finance options, STC value shown as a deduction, PDF export, customer acceptance (e-signature). Realistic install date shown from procurement lead times. Multi-option proposals: send up to 3 configurations in a single document for the customer to compare and choose. Draft persistence: quote saved locally and to DB from first keystroke — never lost to connectivity drop. Quote refresh: reprice against current supplier prices and STC spot value, review a change diff, set a new expiry without rebuilding. Full quote version history retained.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E4</strong> CRM and Pipeline</td><td>Kanban or list pipeline view per salesperson and across the business. Lead temperature gauges driven by inactivity and interaction history. Owned-by assignment, filtering, bulk actions, activity feed per contact.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E5</strong> Procurement and BOM</td><td>Supplier price list management (manual upload or API). BOM generated from design. Component lead times stored per item and surfaced to customer as realistic wait time on the quote. Substitution workflow for out-of-stock items.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E6</strong> Job Scheduling and Dispatch</td><td>Book installs against a shared calendar. Assign employees and subcontractors. Wet weather reschedule flow. Customer online booking portal. Installer view of the day's jobs. Mapping overlay for route efficiency (stretch).</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E7</strong> Contractor Pool</td><td>Self-service job claiming. First-in-first-served eligibility enforced by CEC accreditation, tickets, and quals. Contractor profile with document upload. Owner approval gate for new contractors. Performance rating over time.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
-          <tr><td><strong>E8</strong> STC Compliance</td><td>STC lodgement workflow per job — collect CEC paperwork, owner signatures, grid connection confirmation, install photos. Submit to Formbay (Priority 1) or Greenbank/Bridge Select (Priority 2). Lodgement status tracking and cashflow visibility dashboard.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
+          <tr><td><strong>E8</strong> STC Compliance and Field Documentation</td><td>STC lodgement workflow per job — collect CEC paperwork, owner signatures, grid connection confirmation. Submit to Formbay (Priority 1) or Greenbank/Bridge Select (Priority 2). Lodgement status tracking and cashflow visibility dashboard. Integrated photo capture at two stages: site visit (roof, switchboard, shading — attached to the lead/quote) and install compliance (CEC-required labels, AS/NZS 5033 and AS/NZS 4777 sign-off photos, safety stickers, metering). Serial number capture for panels, inverter, and battery via barcode/QR scan or OCR — no manual typing per panel. Compliance photo fields driven by configurable database templates (CEC requirements, AS standard clauses) — updatable without a code deployment when standards change. Digital installer sign-off per compliance section, linked to the job record and available for audit.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E9</strong> Post-Install Follow-Up</td><td>6 and 12 month automated follow-up sequence triggered from install date. Review request, referral prompt, service check-in. Performance report (actual vs quoted generation) once inverter monitoring API integrated (v2 dependency).</td><td><span class="tag tag-assum">To expand</span></td><td>v1 (sequence) / v2 (inverter data)</td></tr>
           <tr><td><strong>E10</strong> Xero Integration</td><td>Create invoice in Xero on job completion. STC receivable as a separate line item. Payment reconciliation. No accounting UI inside CurrentFlow — Xero owns that boundary.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E11</strong> Settings and Administration</td><td>Business profile, user and role management, branding (logo, colours), notification preferences, email template customisation, API keys (Formbay, Nearmap, Xero), SLA response time targets, supplier onboarding.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E12</strong> Security and Data Compliance</td><td>Multi-tenant data isolation, role-scoped access enforcement, customer PII handling under the Privacy Act 1988 and Australian Privacy Principles (APPs), Notifiable Data Breaches (NDB) scheme readiness, call recording consent compliance, encryption at rest and in transit, audit logging, session management, API credential security, and a documented incident response process.</td><td><span class="tag tag-val">Seeded</span></td><td>v1 — must be cross-cutting, not a late addition</td></tr>
           <tr><td><strong>E13</strong> Payments and Customer Sign-Off</td><td>Customer-facing completion checklist and digital sign-off at job completion. Final payment collection via embedded payment platform (card, bank transfer). Receipt generation. STC receivable shown as a deduction on the customer's final balance. Handoff to Xero for reconciliation. Installer collects payment on-site via PWA.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
           <tr><td><strong>E14</strong> Integrations and API Platform</td><td>Native lead source integrations (Solarquotes, Solar Choice, Why Solar). Finance partner integrations (Brighte, Smart Ease, Solaris Finance). CurrentFlow public REST API and outbound webhooks for enterprise customers and custom integrations. Zapier connector. Imagery provider integration (Nearmap, Metromap). HubSpot and Mailchimp for businesses that already use those tools. V2: inverter monitoring APIs (Fronius, SMA, SolarEdge, Growatt, Goodwe).</td><td><span class="tag tag-val">Seeded</span></td><td>v1 (lead/finance/webhook core) / v2 (monitoring)</td></tr>
+          <tr><td><strong>E15</strong> In-App Messaging</td><td>Internal staff messaging channel for day-to-day team communication. Customer-facing message threads (email, SMS, in-app) attached to the CRM contact record — all channels unified on the contact card regardless of which job they relate to. Staff can tag a customer in any internal message to pin it to their CRM profile. Outbound messages from salesperson and installer are captured on the contact record so no customer communication lives in personal inboxes. Message history surfaces in both the contact timeline and the job timeline.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
+          <tr><td><strong>E16</strong> Repair and Warranty Management</td><td>Customer-facing service request portal for post-install fault reports and warranty claims. Warranty tracking per component (panel, inverter, battery, mounting) with expiry alerts. Repair job creation linked to the original installation job record. Fault triage workflow (remote diagnosis, dispatch decision). Technician dispatch and scheduling via E6. Warranty claim history per customer and per product SKU.</td><td><span class="tag tag-val">Seeded</span></td><td>v1 (intake and repair job) / v2 (inverter monitoring-triggered faults)</td></tr>
+          <tr><td><strong>E17</strong> Commission Management</td><td>Commission calculation and recording for salespeople. Supports the common AU solar industry commission structures: per-job (flat $ or % of job revenue) and per-kW installed (flat $ per kW or % of a kW rate). Trigger event configurable per business: quote signed, job completed, or payment received. Commission ledger per salesperson showing pending and paid commissions. Business owner marks commissions as paid. Clawback flag for cancelled jobs where commission was already recorded. Commission statement for salesperson self-service visibility.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
         </tbody>
       </table>
 
@@ -2054,7 +2088,7 @@
       <div class="subhead-sm">E1.3 — Interactive Booking Widget</div>
       <ul class="check-list">
         <li><strong>Story:</strong> As a website visitor, I want to book a quote call or site visit online, so that I can progress without waiting for a business to call me back.</li>
-        <li><strong>AC:</strong> Embeddable widget (iframe or script tag). Three entry types: Book a call, Book a site visit, General enquiry. Lead temperature check questions shown after type selection (configurable per business — 3 to 5 questions max). Available time slots pulled from the business calendar. Confirmation email sent to customer immediately on submission. Lead created in CRM automatically.</li>
+        <li><strong>AC:</strong> Embeddable widget (iframe or script tag). Three entry types: Book a call, Book a site visit, General enquiry. Form defaults to three fields — Name, Phone, Email — consistent with the AU solar installer conversion standard (reducing from four to three fields yields approximately 50% completion rate improvement per HubSpot research, confirmed by Creative Nurds independent analysis of 12+ AU solar installer websites). Additional fields (system size interest, property address) optional and toggled per business. Lead temperature check questions shown after type selection (configurable per business — 3 to 5 questions max). Available time slots pulled from the business calendar. Confirmation email sent to customer immediately on submission. Lead created in CRM automatically.</li>
       </ul>
 
       <div class="subhead-sm">E1.4 — Auto-Acknowledgment Email</div>
@@ -2228,34 +2262,164 @@
         <li><strong>AC:</strong> HubSpot: OAuth integration. Contacts bi-directionally synced. Deal stage in HubSpot updated when lead status changes in CurrentFlow. Mailchimp: contact sync to a designated audience. Tags applied based on lead status and job outcome. Both integrations optional and independently configurable. Lower priority than lead gen integrations — target launch + 60 days.</li>
       </ul>
 
-      <div class="subhead">9a.6 Competitor-Derived Requirements (mapped to existing epics)</div>
-      <p class="note">Findings from competitor-landscape.md, user-complaints.md, and surgepv-reviews.md that imply specific user stories not yet captured in E1–E14. Each item is assigned to the relevant epic for expansion at the Stage 9a session.</p>
+      <div class="subhead-sm">E14.9 — Lead Ingestion Middleware and Custom Field Mapping</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want every lead source — whether it is Solarquotes, a Facebook ad, a custom referral partner website, or any other webhook-capable system — to deliver leads into CurrentFlow automatically with no copy-paste and no dependency on a third-party automation platform like Zapier.</li>
+        <li><strong>AC:</strong> All lead sources route through a single first-party ingestion middleware (ADR-19). Standard integrations (Solarquotes, Solar Choice, Why Solar, Meta Lead Ads) ship with pre-configured field mappings maintained by CurrentFlow — businesses connect via API key or OAuth in Settings and leads arrive without any manual field configuration. Custom webhook sources: business defines a webhook URL in Settings → Integrations, sends a test payload, and uses a UI field-mapper (incoming JSON path → CurrentFlow lead field) to configure the mapping. Supported target fields: first name, last name, email, phone, address, suburb, postcode, system size interest, battery interest, notes, source tag. Every ingested lead stores the raw payload alongside the mapped record for debugging. Duplicate detection runs before CRM write — existing contacts get a new activity note, not a duplicate lead. No lead from any connected source ever requires manual data entry by a staff member.</li>
+      </ul>
+
+      <div class="subhead">9a.6 Epic E15 — In-App Messaging (seeded)</div>
+      <p class="note">Sources: Jun 14 2026 session. Staff-to-staff messaging plus customer-facing threads attached to the CRM record. All outbound customer messages from salesperson or installer land on the contact record — eliminates customer communication living in personal phone inboxes.</p>
+
+      <div class="subhead-sm">E15.1 — Internal Staff Messaging</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a team member, I want to send and receive messages to other staff members inside CurrentFlow, so that day-to-day operational communication does not require a separate app.</li>
+        <li><strong>AC:</strong> Direct messages between any two users in the same business. Group threads supported (e.g. Scheduling team, Sales). Message history persisted and searchable. Push notification on new message. Available on desktop and mobile PWA. Messages are business-scoped — employees cannot message staff at other businesses on the platform.</li>
+      </ul>
+
+      <div class="subhead-sm">E15.2 — Customer Message Thread (Salesperson)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to send messages to a customer and have them attached to the customer's CRM record, so that any team member who picks up the account can see the full communication history.</li>
+        <li><strong>AC:</strong> Messages sent via SMS (default), email, or in-app (where the customer has the portal), configurable per business. Contact record shows the full communication history for that customer across all jobs — not just the current job. Inbound customer replies captured in the same thread regardless of channel. Thread shows sender identity (salesperson name) and the associated job if applicable. No customer messages live in personal phone inboxes.</li>
+      </ul>
+
+      <div class="subhead-sm">E15.3 — Customer Message Thread (Installer)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer on-site, I want to send job-specific messages to the customer (arrival time, access instructions, completion sign-off reminder) and have those recorded against the job.</li>
+        <li><strong>AC:</strong> Messages sent from the job context in the PWA. Thread is job-specific and linked to the customer's CRM record. Message content and timestamp captured. Office staff can view the thread in the job record. Customer replies captured if sent via SMS or email gateway.</li>
+      </ul>
+
+      <div class="subhead-sm">E15.4 — Message History in Job Timeline</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner reviewing a job after the fact, I want to see all communication with the customer in the job timeline — calls, messages, and emails — so that I have a complete record of what was said and when.</li>
+        <li><strong>AC:</strong> Job timeline shows all activities in chronological order: lead created, call logged, message sent, quote sent, booking confirmed, installer assigned, customer message, payment received. Filter by activity type. Each event shows who initiated it. Export as PDF for dispute resolution.</li>
+      </ul>
+
+      <div class="subhead-sm">E15.5 — Message Notification Settings</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a staff member, I want to control which message notifications I receive and when, so that I am not interrupted by messages from jobs I am not assigned to.</li>
+        <li><strong>AC:</strong> Notification preferences: direct messages to me (always on), mentions in group threads (on by default), messages on jobs I am assigned to (on by default), all messages on any job (off by default). Quiet hours configurable. Push and in-app notification channels independent.</li>
+      </ul>
+
+      <div class="subhead-sm">E15.6 — Customer Contact Communication Hub</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson or business owner, I want to open a customer's CRM contact record and see every message, email, call, and internal note ever associated with them — across all jobs and all channels — so that I have the complete picture before picking up the phone.</li>
+        <li><strong>AC:</strong> The contact record has a unified Communication tab showing: inbound and outbound SMS, inbound and outbound email, in-app customer portal messages, call logs, and internal staff notes tagged to the customer. All items chronological. Filterable by channel and date range. Staff can tag a customer in any internal message or note by typing @[customer name] — that message is pinned to the customer's CRM record regardless of which job or thread it originated in. Tagged items are labelled with the staff member's name and timestamp. Customer can be tagged from the staff chat, from a job note, or from the standalone note field on the contact card.</li>
+      </ul>
+
+      <div class="subhead">9a.7 Epic E16 — Repair and Warranty Management (seeded)</div>
+      <p class="note">Sources: Jun 14 2026 session. Post-install service loop: customer reports a fault, business triages, dispatches a technician, closes the repair job. Warranty tracking per component ensures no claim slips through because nobody knew the inverter was out of warranty. Repair jobs reuse E6 scheduling and E7 contractor dispatch.</p>
+
+      <div class="subhead-sm">E16.1 — Customer Service Request Portal</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a customer, I want to submit a fault report or warranty claim online so that I do not have to phone the office during business hours to report a problem.</li>
+        <li><strong>AC:</strong> Customer accesses portal via a link in their original confirmation email or a QR code left at install. Form captures: fault description, photo upload (optional), preferred contact time. Request linked to the original job record automatically by email address. Business notified immediately. Customer receives acknowledgment email with a reference number.</li>
+      </ul>
+
+      <div class="subhead-sm">E16.2 — Repair Job Creation</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a scheduler, I want to create a repair or warranty job from a service request and link it to the original install job, so that the technician has the full system history before attending site.</li>
+        <li><strong>AC:</strong> Repair job created from the service request in one action. Linked to the original installation job record (design, BOM, install photos, STC lodgement). Fault type tagged (inverter, panel, wiring, battery, mounting). Priority set (urgent, standard, low). Assigned to technician or subcontractor via E6 scheduling. Customer notified when job is booked.</li>
+      </ul>
+
+      <div class="subhead-sm">E16.3 — Warranty Tracking per Component</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want to see the warranty status of every component in every installed system so that I can triage a fault report knowing immediately whether the claim is covered.</li>
+        <li><strong>AC:</strong> Warranty expiry stored per component SKU in the product catalogue (years from install date). On a repair job, the relevant components are shown with warranty status (in warranty / expired / unknown). Alert generated when a component's warranty is within 90 days of expiry across all installed systems (so the business can proactively contact customers). Warranty data editable per job when manufacturer extends or replaces under claim.</li>
+      </ul>
+
+      <div class="subhead-sm">E16.4 — Fault Triage Workflow</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a technician, I want a structured triage workflow that guides me from fault symptom to dispatch decision, so that I do not attend site for issues that can be resolved remotely.</li>
+        <li><strong>AC:</strong> Triage checklist configurable per fault type. Steps: customer call log, remote check (inverter monitoring data if available), phone-guided diagnostic. Outcome options: resolved remotely (close job), attend site (create dispatch), escalate to manufacturer. All triage steps logged on the repair job record with timestamps. Dispatch decision triggers E6 scheduling.</li>
+      </ul>
+
+      <div class="subhead-sm">E16.5 — Warranty Claim History</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want a warranty claim report by product SKU so that I can identify which products fail most often and adjust my procurement decisions.</li>
+        <li><strong>AC:</strong> Report: claim count per SKU, average time to resolution, in-warranty vs out-of-warranty breakdown, cost to business for out-of-warranty repairs. Filterable by date range and product category. Exportable as CSV. Visible to business owner only (not installers or subcontractors).</li>
+      </ul>
+
+      <div class="subhead">9a.8 Epic E17 — Commission Management (seeded)</div>
+      <p class="note">Sources: Jun 14 2026 session. Common AU solar commission structures: per-job flat rate, per-job % of revenue, per-kW flat rate, per-kW % of a kW price. Trigger event (quote signed, job completed, or payment received) is the most common source of commission disputes — configure it clearly per business. All calculations are recorded and auditable.</p>
+
+      <div class="subhead-sm">E17.1 — Commission Structure Setup</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want to define a commission structure for each salesperson so that their earnings are calculated automatically on every job without manual spreadsheet work.</li>
+        <li><strong>AC:</strong> Commission basis: Per job OR Per kW installed (one or both active simultaneously). Rate type: flat $ amount OR % of job revenue (for per-job) / flat $ per kW OR % of a configured kW rate (for per-kW). Trigger event: Quote signed, Job completed, or Payment received — configurable per business. Each salesperson can have their own rate. Default rate configurable for new salespeople. Rates are dated — changing a rate does not retroactively alter recorded commissions. Historical rate visible on each recorded commission entry.</li>
+      </ul>
+
+      <div class="subhead-sm">E17.2 — Automatic Commission Calculation</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want my commission calculated automatically when a job reaches the trigger event, so that I do not have to track it manually or chase the office for figures.</li>
+        <li><strong>AC:</strong> When a job reaches the configured trigger event (quote signed / job completed / payment received), the system calculates commission based on: job revenue (for %-of-revenue structures) or system size in kW (for per-kW structures). Calculation is recorded on the job with a breakdown showing the formula used, the figures applied, and the result. Commission recorded as Pending until the business owner marks it Paid. Salesperson notified when commission is recorded.</li>
+      </ul>
+
+      <div class="subhead-sm">E17.3 — Commission Ledger (Salesperson View)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to see my own commission ledger showing what I have earned, what is pending, and what has been paid, so that I can reconcile against my payslip.</li>
+        <li><strong>AC:</strong> Salesperson sees only their own ledger (not other salespeople's). Each row: job name, customer, trigger date, system size (kW), job value, commission formula, commission amount, status (Pending / Paid / Clawback). Running total for the current pay period. Exportable as PDF for payroll reference. Salesperson cannot edit the ledger — read-only for them.</li>
+      </ul>
+
+      <div class="subhead-sm">E17.4 — Commission Payment Marking (Owner View)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want to see all pending commissions across all salespeople and mark them as paid when I process payroll, so that I have a running record of what has been paid and to whom.</li>
+        <li><strong>AC:</strong> Commission report: filterable by salesperson, date range, and status (Pending / Paid / Clawback). Bulk-mark as Paid for a selected pay period. Each payment record includes the pay date and who marked it paid. Total payable per salesperson for the selected period shown prominently. Xero handoff: option to create a bill in Xero for the commission amount (v1 stretch goal — may ship as v2).</li>
+      </ul>
+
+      <div class="subhead-sm">E17.5 — Commission Override and Manual Entry</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want to manually adjust a calculated commission or add a one-off commission entry, so that I can handle bonuses, partial credit splits, and exceptional circumstances without breaking the automated ledger.</li>
+        <li><strong>AC:</strong> Business owner can edit the calculated amount on any Pending commission entry. Reason field required for any manual adjustment. Original calculated amount retained alongside the adjusted amount. Manual entries can be added directly to any salesperson's ledger (for one-off bonuses or referral payments). All overrides are audit-logged with the name of the owner who made the change.</li>
+      </ul>
+
+      <div class="subhead-sm">E17.6 — Clawback on Job Cancellation</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want the system to flag a clawback automatically when a job is cancelled after commission was already recorded, so that I do not have to manually reconcile cancelled jobs against the commission ledger.</li>
+        <li><strong>AC:</strong> When a job is cancelled and its commission status is Pending, the commission is automatically voided. When a job is cancelled and its commission status is Paid, the entry is flagged as Clawback with the cancelled date. Clawback entries appear in the salesperson's ledger and in the owner's commission report. No automatic deduction is made — owner confirms the clawback handling manually (deduct from next pay period, or waive). Salesperson notified of the clawback flag.</li>
+      </ul>
+
+      <div class="subhead">9a.9 Competitor-Derived Requirements (mapped to existing epics)</div>
+      <p class="note">Findings from competitor-landscape.md, user-complaints.md, surgepv-reviews.md, and creativenurds-research.md that imply specific user stories not yet captured in the seeded epics. Each item is assigned to the relevant epic for expansion at the Stage 9a session.</p>
       <table class="tier-table">
         <thead>
           <tr><th class="col-narrow">Epic</th><th>Competitor Finding</th><th>Required User Story</th><th class="col-narrow">Source</th></tr>
         </thead>
         <tbody>
+          <tr><td>E2</td><td>Pylon's 10.28% energy production error rate — the worst of four tools in independent testing (Creative Nurds, Feb 2023; SolarProof 6.67%, OpenSolar 7.17%, HelioScope 12.36%) — did not prevent it becoming the AU residential solar design market leader. Ease of use, proposal quality, and UI modernity drove adoption ahead of more accurate competitors. Speed and usability beat simulation precision for residential solar.</td><td>As an installer evaluating design tools, I want fast design flows and polished client-facing proposals so that I can close deals efficiently — the tool must be accurate enough for residential solar but need not be a simulation engine for commercial or research-grade projects.</td><td>Creative Nurds (2023)</td></tr>
           <tr><td>E2</td><td>OpenSolar: single manufacturer per project — cannot mix panel brands in one design. Common AU workflow mixes brands by availability.</td><td>As an installer, I want to specify different panel manufacturers per string or roof section in a single job design.</td><td>SurgePV / user-complaints</td></tr>
           <tr><td>E2</td><td>Pylon: energy production estimates run 10% high vs AEMO actuals — documented by multiple users. Customers compare to metered output post-install.</td><td>As an installer, I want the system to document its calculation methodology (performance ratio, degradation assumptions, orientation corrections) so I can stand behind the estimate at 12 months.</td><td>user-complaints</td></tr>
           <tr><td>E2</td><td>Pylon: maximum 5 design variations per job — commercial installers routinely quote 3 to 5 system sizes and need more.</td><td>As a commercial installer, I want unlimited saved design variations per job so I can show a range of system sizes without losing earlier versions.</td><td>competitor-landscape</td></tr>
           <tr><td>E2</td><td>All competitors (Aurora, SolarPlus, OpenSolar): no automated Single Line Diagram (SLD) generation. Aurora requires AutoCAD separately (~$2,000 USD/year). SolarPlus semi-automated takes 25–35 minutes. None of the AU tools auto-generate a permit-ready SLD.</td><td>As an installer, I want CurrentFlow to generate a Single Line Diagram automatically from the design so I do not use AutoCAD or spend 30 minutes on manual SLD work per job.</td><td>SurgePV reviews</td></tr>
+          <tr><td>E2</td><td>Site visit photography at quote time: salesperson assesses roof condition, shading obstacles, switchboard accessibility, meter box location, and existing infrastructure. These photos are captured on personal phones, shared via WhatsApp, and never reliably attached to the CRM. If the salesperson leaves, photos are gone. The installer who later does the job has no visual reference and must re-assess on arrival.</td><td>As a salesperson conducting a site assessment, I want a structured photo capture checklist in the CurrentFlow PWA for the quote visit — roof sections, shading obstacles, switchboard, meter box, cable entry points — so that all site photos are attached to the lead record, labelled correctly, visible to the installer before they arrive, and retained regardless of staff turnover.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E3</td><td>Customers return: they may not proceed with the original quote, come back after an insurance claim (storm, fire damage), move to a new property, or want a battery added to an existing system. A one-quote-per-customer model loses this history and forces staff to create duplicate contacts or overwrite previous work.</td><td>As a salesperson, I want to create a new quote against an existing customer without losing or overwriting their previous quotes, so that I can handle returning customers, insurance jobs, and new properties on the same contact record. As a business owner, I want to see the full quote history per customer — including declined and expired quotes — so that I understand lifetime value and win/loss patterns per contact.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E3</td><td>Quote draft state: a quote in progress must be held locally (IndexedDB — offline-first, ties to ADR-17) and synced to the database on each save. The customer must never see a draft. A salesperson building a quote on-site with no connectivity must not lose their work. No quote is final until explicitly sent.</td><td>As a salesperson, I want a quote I am building to auto-save locally and sync to the server in the background, so that I never lose a partially completed quote due to connectivity loss, an accidental close, or a browser crash. The quote must remain in Draft state — invisible to the customer — until I explicitly choose to send it.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E3</td><td>Quote refresh and reprice: supplier prices move (panel and inverter cost changes), and the STC spot price fluctuates on the open market. A quote built last month may be materially wrong today. Rebuilding from scratch is wasteful — the design, line items, and structure are still correct; only the prices need updating. The business should be able to set a new expiry without redoing the whole quote.</td><td>As a salesperson, I want to refresh the pricing on an existing quote by pulling current supplier prices and the current STC value, review a change summary showing what moved and by how much, confirm the update, and set a new expiry date — all without rebuilding the quote from scratch. As a business owner, I want the original quote version archived so I can see what was originally offered versus what was sent after repricing.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E3</td><td>Multi-option proposals: customers frequently want to review more than one configuration — a budget system vs a larger recommended system, or a system with and without battery storage. Emailing separate PDFs creates confusion over which document is current. A single proposal with labelled options (e.g. Option A: 6.6kW, Option B: 10kW, Option C: 10kW + Battery) lets the customer compare and accept in one interaction. Each option links to its own E2 design variation.</td><td>As a salesperson, I want to include up to three named quote options in a single proposal document so that the customer can compare configurations side by side and accept the one they prefer — without me managing multiple PDF versions over email. Each option must show its own system size, line-item breakdown, STC deduction, total price, and finance option. When the customer accepts one option, that option becomes the active quote and drives the job.</td><td>Session Jun 14 2026</td></tr>
           <tr><td>E3</td><td>All competitors: no cashflow forecasting showing when STC payment will arrive vs when invoices are due — installers manage this in spreadsheets.</td><td>As a business owner, I want a cashflow view that shows outstanding job balances, pending STC certificate values, and expected receipt dates so I can manage cash without a spreadsheet.</td><td>competitor-landscape</td></tr>
           <tr><td>E4</td><td>ServiceM8: no profit per job reporting. No quote conversion reporting. Users export to Excel for every business analysis.</td><td>As a business owner, I want a reports dashboard showing close rate, average deal value, profit per job, and revenue by installer so I can manage the business without spreadsheets.</td><td>user-complaints</td></tr>
           <tr><td>E5</td><td>ServiceM8: no inventory management or purchase order creation — all tracked manually outside the system.</td><td>As a scheduler, I want to generate a purchase order from the job's BOM so that I can send it directly to the supplier without re-typing the parts list.</td><td>user-complaints</td></tr>
           <tr><td>E6</td><td>ServiceM8: iOS-only for full functionality. 60%+ of field staff use Android. Confirmed as most-cited complaint across all review platforms.</td><td>As an Android installer, I need the job scheduling, job brief, photo upload, and sign-off features to be fully functional on Android so I do not need an iPhone to use the system.</td><td>user-complaints (critical)</td></tr>
           <tr><td>E6</td><td>Salesperson offline mode: poor connectivity at customer sites means CRM becomes unavailable at the moment of closing a deal. Common quote items and recent contacts should be available without a network connection.</td><td>As a salesperson visiting a customer with poor connectivity, I want my common product catalogue, recent contacts, and in-progress quotes pre-loaded on my device so I can continue working and sync when I regain connection.</td><td>Session Jun 14 2026</td></tr>
           <tr><td>E6</td><td>Installer offline mode: install sites frequently have no mobile coverage. Installers must be able to access their job brief, checklist, and record photos without connectivity.</td><td>As an installer at a remote site, I want today's assigned jobs — including the job brief, equipment list, completion checklist, and photo capture — to work offline and sync automatically when I reconnect.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E6</td><td>Jobs are not always completed in a single visit. An installer may run out of daylight, encounter an unexpected structural issue, or be waiting on a part. The job must be re-bookable without losing progress, with admin override available if the system's suggested next slot does not suit.</td><td>As an installer, I want to flag a job as "not completed today" and have the system propose the next available slot to rebook, so that partially completed jobs are rescheduled without manual follow-up. As a scheduler, I want to override the proposed slot and pick any date manually before confirming the rebook.</td><td>Session Jun 14 2026</td></tr>
           <tr><td>E8</td><td>SolarPlus: AS/NZS 4777 compliance documentation saves 45–60 minutes per project. None of the other competitors have this. Documentation automation is a stated SolarPlus strength.</td><td>As an installer, I want AS/NZS 4777.1 and 4777.2 compliance documentation generated automatically from the design data so I do not complete it manually for each job.</td><td>competitor-landscape</td></tr>
           <tr><td>E8</td><td>Pylon, SolarPlus, OpenSolar: no AU state rebate tracking beyond VEECs. PDRS (NSW), ESS (NSW), VEECs (VIC) all have separate application processes not covered by any design tool.</td><td>As an installer working across multiple AU states, I want CurrentFlow to track which state rebates each job is eligible for and surface the application steps for PDRS, ESS, and VEECs alongside STC lodgement.</td><td>competitor-landscape</td></tr>
+          <tr><td>E8</td><td>Install compliance photo capture: Formbay STC lodgement and CEC installation requirements mandate specific photographic evidence — DC array isolator, AC isolator label, safety warning stickers, inverter nameplate, metering, panel overview. Installers photograph these on personal phones, transfer via WhatsApp or email, and admin manually attaches them to the lodgement. The chain of custody is unreliable; missing or mislabelled photos cause lodgement rejections and STC payment delays. No design tool in the AU market provides a structured compliance photo capture flow linked directly to the lodgement submission.</td><td>As an installer, I want a structured compliance photo checklist in the CurrentFlow PWA that tells me exactly which photos I need to take at install time, labels each required photo with the relevant standard reference (e.g. "AC main switch label — CEC Installation Requirements cl. 4.3"; "DC array isolator — AS/NZS 5033:2021 cl. 7.6"), and captures the photos directly against the job record — so that every required photo is collected correctly at install time, ready for lodgement, without a WhatsApp handover step.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E8</td><td>Serial number capture: Formbay STC lodgement requires the serial number of every panel, inverter, and battery. On a typical 6.6kW system with 18 panels, this is 20 serial numbers entered manually into a web form — 15 to 30 minutes of error-prone data entry per job. Every competing design tool requires the same manual entry; none provides barcode/QR scanning or OCR in the field.</td><td>As an installer, I want to capture panel, inverter, and battery serial numbers by pointing my phone camera at the barcode, QR code, or serial number label on each component, so that serial numbers are captured accurately in under 2 minutes per job and populate the lodgement form without manual typing. Where scan fails, manual entry with a large numeric keyboard is the fallback.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E8</td><td>Updatable compliance templates: CEC installation requirements, AS/NZS 5033, and AS/NZS 4777 are revised periodically. When requirements change, the photo fields and sign-off sections in the compliance checklist must be updated. If the checklist is hardcoded, every standard revision requires a code deployment. If fields are stored as configurable database records, an admin can update the template when the standard changes without touching the codebase.</td><td>As a CurrentFlow admin, I want compliance photo checklists to be defined as versioned database templates — each field with a label, instruction text, required/optional flag, and standard reference (e.g. "AS/NZS 5033:2021 cl. 7.6.2") — so that when CEC or AS standards are updated, the required fields can be revised and published without a code deployment. Jobs in progress retain the template version they were started on; new jobs pick up the latest version.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E8</td><td>Digital installer sign-off: STC lodgement and AS/NZS standards require the installer to certify that the installation meets the relevant standards. This certification currently happens on paper dockets. A digital sign-off per compliance section (cabling, earthing, labelling, metering, array) creates an auditable record tied to the installer's user account, timestamped, and linked to the specific job — retrievable for any future audit, warranty dispute, or DNO inquiry.</td><td>As an installer, I want to digitally sign off on each section of the compliance checklist once I have captured all required photos and verified the installation meets the standard, so that my sign-off is recorded against my user account, timestamped, and permanently linked to the job record — replacing a paper docket with an auditable digital record.</td><td>Session Jun 14 2026</td></tr>
           <tr><td>E11</td><td>SolarPlus requires $500–$1,000 training and implementation fee at sign-up. Pylon requires demo before pricing. Aurora requires contact sales. High onboarding friction is a category-wide issue.</td><td>As a small installer, I want to sign up, connect my Solarquotes account, and create my first quote without speaking to a salesperson, so that I can evaluate CurrentFlow in under 30 minutes.</td><td>competitor-landscape / user-complaints</td></tr>
           <tr><td>E11</td><td>SolarPlus kW-credit pricing model creates unpredictable monthly bills at variable job volumes. Multiple users flag this as a pain point.</td><td>As a business owner, I want a flat monthly price that does not change based on how many jobs I complete so I can budget accurately.</td><td>SurgePV / user-complaints</td></tr>
           <tr><td>E11</td><td>SolarPlus charges $20/month extra for Xero integration. OpenSolar charges for the Xero connector. Bundled integrations are an expectation in the market.</td><td>As an installer, I want Xero integration included in my CurrentFlow subscription at no extra cost so I am not charged per-integration on top of a monthly fee.</td><td>competitor-landscape</td></tr>
           <tr><td>E12</td><td>OpenSolar partner-funded model raises product recommendation bias concerns. Users actively flag this on review platforms. Equipment recommendations in CurrentFlow must be independent.</td><td>As an installer, I want the system's CEC compliance checks and component recommendations to be based solely on the CEC approved product list and my own price list — with no manufacturer-sponsored placements or influenced defaults.</td><td>SurgePV reviews</td></tr>
+          <tr><td>E1</td><td>The booking widget (E1.3) is only useful if a business can put it on their website without developer involvement. Businesses also need a shareable link for social media (link-in-bio, Stories, SMS) and print (QR code). Creative Nurds research confirms solar installer websites are typically built on Webflow or WordPress without in-house developers.</td><td>As a business owner, I want to copy a ready-to-use embed snippet (script tag or iframe) from my CurrentFlow settings and paste it into my website builder, so that the booking form is live on my site in under 5 minutes. I also want a direct URL I can share on social media and a QR code I can print for showrooms, vehicles, and post-install handover packs.</td><td>Session Jun 14 2026 / Creative Nurds</td></tr>
+          <tr><td>E14</td><td>Facebook and Instagram Lead Ads generate high-volume solar enquiries in AU. Without a native integration, businesses manually copy lead data from Meta Ads Manager into their CRM — the same copy-paste problem that Solarquotes → CRM creates. Meta Lead Ads supports a webhook for real-time lead delivery.</td><td>As a business owner running Facebook or Instagram lead generation ads, I want new leads to appear in CurrentFlow automatically the moment a prospect submits the Meta lead form, so that I can respond within minutes without copying data from Ads Manager.</td><td>Session Jun 14 2026</td></tr>
         </tbody>
       </table>
 
-      <div class="subhead">9a.7 Remaining Epics (to expand)</div>
-      <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. Seed the stories from the scope decision log (Jun 14 2026), the interview synthesis (Stage 5), and the competitor-derived requirements table above. Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
+      <div class="subhead">9a.10 Remaining Epics (to expand)</div>
+      <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. E1, E12, E13, E14, E15, E16, and E17 are seeded. Seed E2–E11 stories from the scope decision log (Jun 14 2026), the interview synthesis (Stage 5), and the competitor-derived requirements table above. Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
     </section>
 
     <div class="divider"></div>
@@ -2307,6 +2471,9 @@
           <tr><td>E12 — Security (consent UI, audit log view, session/MFA settings)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E13 — Payments and Sign-Off (completion checklist, sign-off screen, payment page, receipt)</td><td>—</td><td><em>Primary</em></td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E14 — Integrations (Settings screens for Solarquotes/Solar Choice/Why Solar API keys; webhook config; API docs)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E15 — In-App Messaging (staff chat, customer contact hub, @tagging, job timeline)</td><td>—</td><td><em>Primary</em></td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E16 — Repair and Warranty (service request portal, repair job, warranty status, triage)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E17 — Commission Management (structure setup, ledger, pay marking, clawback)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>Analytics dashboard</td><td><span class="tag tag-val">Done</span></td><td>—</td><td><span class="tag tag-val">Signed off</span></td></tr>
         </tbody>
       </table>
@@ -2354,6 +2521,8 @@
           <tr><td>ADR-16</td><td><strong>Payment platform</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Must support: card-present (tap-to-pay on installer's phone), card-not-present (remote payment link), AU bank transfer, BNPL handoff (Brighte / Smart Ease). PCI DSS compliance must be provider-handled — CurrentFlow cannot store card data. Options: Stripe (Terminal + PaymentIntents, strong AU support), Square (tap-to-pay strong), Monoova (AU bank transfer specialist, may need Stripe alongside). Decision blocks E13 wireframes.</td></tr>
           <tr><td>ADR-17</td><td><strong>Offline-first strategy</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Two distinct offline personas: (1) Salesperson at a customer site with poor connectivity — needs pre-loaded common product catalogue, pricing, and in-progress quotes; (2) Installer at a remote site — needs the day's assigned jobs, job briefs, equipment lists, completion checklist, and photo capture. Both must sync automatically on reconnection with conflict resolution (server wins on pricing/scheduling; local wins on photos/notes). Implementation options: Service Worker + IndexedDB (PWA-native, no native app required), or a native app shell. Conflict resolution strategy must be defined before building — last-write-wins is not acceptable for job status or payment data. Decision affects ADR-02 (mobile delivery model) and ADR-03 (backend sync protocol).</td></tr>
           <tr><td>ADR-18</td><td><strong>Design patterns and architecture quality review</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Before any code is written, the team must agree on which patterns are appropriate for each subsystem and why — and commit to a review mechanism to enforce them. Areas to decide: (1) Layered architecture vs clean architecture vs modular monolith (the monolith wins early; microservices are premature). (2) Repository pattern for data access — prevents business logic from leaking into query code. (3) Command/Query Responsibility Segregation (CQRS) for the audit log — writes are append-only commands; reads are separate queries. (4) Event-driven internal architecture for the activity feed and SLA alerting — domain events decoupled from handlers. (5) Domain-driven design (DDD) bounded contexts: Lead, Job, Compliance (STC), Finance, Identity are natural boundaries. (6) API design standard: REST with OpenAPI 3.0 spec as the contract (no code-first auto-generation without spec review). (7) Enforcement mechanism: architecture fitness functions in CI (ArchUnit or equivalent), documented in ADR, reviewed in code review. Security architect must sign off on this ADR before development begins.</td></tr>
+          <tr><td>ADR-20</td><td><strong>Compliance template architecture — database-driven field definitions, not hardcoded</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>All compliance photo and sign-off field definitions — CEC installation requirements, AS/NZS 5033:2021 (PV array installation), AS/NZS 4777.1 (grid connection), AS/NZS 3000:2018 (wiring rules) — are stored as versioned database records, not hardcoded in application logic. Schema: ComplianceTemplate (id, name, version, published_at, standard_references) → ComplianceSection (id, template_id, name, order) → ComplianceField (id, section_id, name, instruction_text, field_type [photo | serial_number | text | signature | checkbox], required, standard_clause, example_image_url). Jobs reference a specific template version at the time the compliance submission is started — standard updates do not change in-progress jobs. CurrentFlow maintains the standard templates and publishes updates when AS or CEC requirements change; businesses can extend with custom sections for their own additional requirements (e.g. DNO-specific inspections, council requirements). Decision options: (a) store templates as JSON in object storage with a version key, (b) store as normalised rows in a relational schema — normalised rows preferred for auditability and filtering by field. Research required: pull the current CEC installation requirements document and AS/NZS 5033:2021 table of contents to enumerate all required photo/evidence fields before building the first template. These standards must be verified against the current versions before sprint begin — they are not stable over time.</td></tr>
+          <tr><td>ADR-19</td><td><strong>Lead ingestion middleware — first-party, field-mapping layer, not Zapier</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>CurrentFlow builds and owns a first-party lead ingestion middleware layer. All lead sources — Solarquotes, Solar Choice, Why Solar, Meta Lead Ads, email parse (E1.2), inbound webhook, and any future source — route through this single layer before a CRM lead is created. No copy-paste from any source is ever required. Zapier, Make, and n8n are explicitly NOT the backend mechanism for lead ingest (they may be offered as a consumer-facing Zapier connector via E14.7, but the middleware is the authoritative path). Architecture: (1) Receiver — a normalised webhook endpoint per source, or an email parser for email-based sources. (2) Validator — schema and format checks on the raw payload. (3) Field mapper — maps source-specific field names to the canonical CurrentFlow LeadPayload schema (name, email, phone, address, system size interest, source, notes, raw payload archived). Mapping is pre-configured for standard integrations; UI-configurable for custom webhook sources (E14.9). (4) Deduplicator — phone/email match against existing contacts before creating a new lead. (5) CRM writer — creates the lead and fires the lead.created domain event. This design ensures: every lead has a source tag and an archived raw payload for debugging; the integration team adds a new source by writing one receiver + one field map, not a bespoke CRM-writer per source; no third-party platform sits in the critical path for a live lead.</td></tr>
         </tbody>
       </table>
 
@@ -2368,7 +2537,7 @@
         <li>pnpm is the package manager for all JavaScript tooling. npm is banned.</li>
         <li>Offline-first is a hard requirement for salesperson and installer mobile use cases — not a post-launch enhancement. The data sync and conflict resolution strategy must be decided in ADR-17 before the mobile architecture is built, not retrofitted.</li>
         <li>SLD generation is a significant differentiator across the entire AU market (no competitor auto-generates it). The approach — rules-based generation, template engine, or code library — must be decided before E2 development begins.</li>
-        <li>Lead source integrations (Solarquotes, Solar Choice, Why Solar) are business-critical at launch. The integration settings UI and webhook receiver infrastructure should be designed as a reusable integration framework, not three one-off scripts.</li>
+        <li>Lead source integrations (Solarquotes, Solar Choice, Why Solar, Meta Lead Ads, custom webhooks) are business-critical at launch. All lead sources flow through a single first-party ingestion middleware — no copy-paste from any source, no Zapier dependency in the backend. ADR-19 is the architectural decision; E14.9 is the user-facing story. The middleware is a receiver, validator, field mapper, deduplicator, and CRM writer pipeline. Adding a new source means writing one receiver and one field map, not a bespoke integration per source.</li>
       </ul>
     </section>
 
@@ -2397,7 +2566,7 @@
         <tbody>
           <tr><td><strong>System Context</strong></td><td>CurrentFlow at the centre. External actors: Business Owner, Salesperson, Installer, Subcontractor, Customer. External systems: Nearmap/Metromap, Formbay, Greenbank, Xero, Solarquotes API, Solar Choice API, Google/Outlook Calendar, email provider, SMS provider, inverter monitoring APIs (v2). Shows data flows and trust boundaries.</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td><strong>Component Diagram</strong></td><td>Internal module breakdown: Web App (PWA), API Server, Background Worker (SLA alerting, follow-up sequences, STC batch submission), Email Inbound Parser, AI Transcription Worker, Database, Object Storage, Cache (for real-time contractor board). Shows how modules communicate and which team or service owns each.</td><td><span class="tag tag-assum">Not started</span></td></tr>
-          <tr><td><strong>Data Model (ERD)</strong></td><td>Entities: Business (tenant), User, Role, Contact, Lead, LeadActivity, Appointment, Quote, QuoteLineItem, Product, Supplier, ProductLeadTime, Job, JobAssignment, Installer, Qualification, STCLodgement, XeroInvoice, PostInstallSequence. Relationships and cardinality. Multi-tenant isolation shown explicitly.</td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td><strong>Data Model (ERD)</strong></td><td>Entities: Business (tenant), User, Role, Contact, Lead, LeadActivity, Appointment, Quote, QuoteVersion, QuoteOption, QuoteLineItem, Product, Supplier, ProductLeadTime, Job, JobAssignment, SitePhoto, ComplianceTemplate, ComplianceSection, ComplianceField, ComplianceSubmission, ComplianceFieldResponse, Installer, Qualification, STCLodgement, XeroInvoice, PostInstallSequence. Photo and compliance entities: SitePhoto (id, job_id, stage [site_visit|install], label, photo_url, captured_at, captured_by); ComplianceTemplate → ComplianceSection → ComplianceField (field_type: photo, serial_number, text, signature, checkbox; standard_clause); ComplianceSubmission (job_id, template_version, signed_off_at, signed_by); ComplianceFieldResponse (submission_id, field_id, value, photo_url, captured_at). Key cardinality and design constraints: Contact → many Leads (customer may return for insurance, new property, upgrade); Lead → many Quotes; Quote → many QuoteVersions (each reprice creates a new version — V1 is archived, V2 becomes active); QuoteVersion → many QuoteOptions (up to 3 named configurations in a single proposal — Option A, B, C — each with its own design reference, line items, STC value, and total; customer accepts one option which becomes the job); Quote has QuoteType (new_install, insurance_replacement, upgrade, new_property) and InstallAddress separate from Contact.address. Quote.state: draft (local + DB, not visible to customer), sent, accepted, declined, expired. Draft state is held in IndexedDB locally (ADR-17) and synced to DB — a draft quote survives connectivity loss. A new quote against an existing contact creates a new Lead — does not touch prior quotes or pipeline stage. Multi-tenant isolation shown explicitly.</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td><strong>API Contracts</strong></td><td>One contract per external integration: Formbay (POST /client_api/create_form, pv_submit_job, pv_validate_job, pv_recs_calculator), Xero (invoices, line items, contacts), Nearmap/Metromap (tile endpoint, coverage check), Solarquotes (lead ingest), Google Calendar (OAuth, events), email inbound (webhook payload schema). Includes auth mechanism, error handling, and retry strategy for each.</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td><strong>Infrastructure Diagram</strong></td><td>Hosting topology: web server, API server, worker processes, managed database, object storage, CDN. Environments: production (AU region), staging, local dev. CI/CD pipeline. Backup and recovery. SSL termination. Monitoring and alerting stack.</td><td><span class="tag tag-assum">Not started</span></td></tr>
         </tbody>
@@ -2736,6 +2905,60 @@
     }, { rootMargin: '-12% 0px -78% 0px', threshold: 0 });
 
     targets.forEach(function (t) { observer.observe(t); });
+  })();
+</script>
+
+<script>
+  // Section prev/next navigation — reads sidebar order, injects footer into each section.
+  (function () {
+    var navLinks = Array.prototype.slice.call(
+      document.querySelectorAll('.sidebar .nav-item[href^="#"]')
+    );
+
+    // Extract a clean label: "9a User Stories" (strip status badge text)
+    function label(a) {
+      var clone = a.cloneNode(true);
+      var badge = clone.querySelector('.nav-status');
+      if (badge) badge.parentNode.removeChild(badge);
+      return clone.textContent.replace(/\s+/g, ' ').trim();
+    }
+
+    var order = navLinks.map(function (a) { return a.getAttribute('href').slice(1); });
+
+    order.forEach(function (id, i) {
+      var section = document.getElementById(id);
+      if (!section) return;
+
+      var prevId   = i > 0             ? order[i - 1]     : null;
+      var nextId   = i < order.length - 1 ? order[i + 1] : null;
+      var prevText = prevId ? label(navLinks[i - 1]) : null;
+      var nextText = nextId ? label(navLinks[i + 1]) : null;
+
+      var nav = document.createElement('div');
+      nav.className = 'section-nav';
+
+      if (prevId) {
+        var p = document.createElement('a');
+        p.href = '#' + prevId;
+        p.className = 'section-nav-btn';
+        p.textContent = '← ' + prevText;
+        nav.appendChild(p);
+      }
+
+      var spacer = document.createElement('span');
+      spacer.className = 'section-nav-spacer';
+      nav.appendChild(spacer);
+
+      if (nextId) {
+        var n = document.createElement('a');
+        n.href = '#' + nextId;
+        n.className = 'section-nav-btn';
+        n.textContent = nextText + ' →';
+        nav.appendChild(n);
+      }
+
+      section.appendChild(nav);
+    });
   })();
 </script>
 
