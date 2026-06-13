@@ -2032,6 +2032,7 @@
           <tr><td><strong>E11</strong> Settings and Administration</td><td>Business profile, user and role management, branding (logo, colours), notification preferences, email template customisation, API keys (Formbay, Nearmap, Xero), SLA response time targets, supplier onboarding.</td><td><span class="tag tag-assum">To expand</span></td><td>v1</td></tr>
           <tr><td><strong>E12</strong> Security and Data Compliance</td><td>Multi-tenant data isolation, role-scoped access enforcement, customer PII handling under the Privacy Act 1988 and Australian Privacy Principles (APPs), Notifiable Data Breaches (NDB) scheme readiness, call recording consent compliance, encryption at rest and in transit, audit logging, session management, API credential security, and a documented incident response process.</td><td><span class="tag tag-val">Seeded</span></td><td>v1 — must be cross-cutting, not a late addition</td></tr>
           <tr><td><strong>E13</strong> Payments and Customer Sign-Off</td><td>Customer-facing completion checklist and digital sign-off at job completion. Final payment collection via embedded payment platform (card, bank transfer). Receipt generation. STC receivable shown as a deduction on the customer's final balance. Handoff to Xero for reconciliation. Installer collects payment on-site via PWA.</td><td><span class="tag tag-val">Seeded</span></td><td>v1</td></tr>
+          <tr><td><strong>E14</strong> Integrations and API Platform</td><td>Native lead source integrations (Solarquotes, Solar Choice, Why Solar). Finance partner integrations (Brighte, Smart Ease, Solaris Finance). CurrentFlow public REST API and outbound webhooks for enterprise customers and custom integrations. Zapier connector. Imagery provider integration (Nearmap, Metromap). HubSpot and Mailchimp for businesses that already use those tools. V2: inverter monitoring APIs (Fronius, SMA, SolarEdge, Growatt, Goodwe).</td><td><span class="tag tag-val">Seeded</span></td><td>v1 (lead/finance/webhook core) / v2 (monitoring)</td></tr>
         </tbody>
       </table>
 
@@ -2176,8 +2177,85 @@
         <li><strong>AC:</strong> Add ADR-16 to Stage 9c: Stripe (full AU support, Terminal for tap-to-pay, strong API) vs Square (tap-to-pay strong, less developer-friendly) vs Monoova (AU bank transfer specialist). PCI DSS compliance handled by the chosen provider — CurrentFlow must never store card numbers. Decision required before Stage 9b wireframes for E13 begin.</li>
       </ul>
 
-      <div class="subhead">9a.5 Remaining Epics (to expand)</div>
-      <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. Seed the stories from the scope decision log (Jun 14 2026) and the interview synthesis (Stage 5). Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
+      <div class="subhead">9a.5 Epic E14 — Integrations and API Platform (seeded)</div>
+      <p class="note">Sources: solar-lead-gen-apis.md, competitor-landscape.md, stc-traders-api.md. Solarquotes is the single highest-priority integration in the entire product — no competitor has built it natively; Creative Nurds charges $9.99/mo for a Zapier workaround, proving demand exists and willingness to pay.</p>
+
+      <div class="subhead-sm">E14.1 — Solarquotes Native Integration</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer who buys Solarquotes leads, I want new leads to appear in CurrentFlow automatically with all 15 data fields populated, so that I do not re-type lead data or pay $9.99/month for a Zapier workaround.</li>
+        <li><strong>AC:</strong> Server-to-server API integration with Solarquotes. Fields mapped: contact name/phone/email, property address, roof type, system size interest, battery interest, financing interest, timeline, monthly bill estimate, how-heard. Lead created in CRM on receipt within 60 seconds. Source tagged as "Solarquotes". Duplicate detection by phone/email. Business configures API credentials in Settings. Estimated integration effort: approximately 1 day per Solarquotes IT team. Priority 1 — build before launch.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.2 — Solar Choice Integration</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer using Solar Choice as a lead source, I want Solar Choice leads to auto-populate in CurrentFlow so that I do not manage two systems.</li>
+        <li><strong>AC:</strong> API key model — installer enters their Solar Choice API key in Settings. Leads polled or pushed on receipt. Fields mapped: battery preference, monthly usage, number of residents, service address. Source tagged "Solar Choice". Pylon has documented this pattern — replicate. Priority 2.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.3 — Why Solar Integration</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As an installer receiving exclusive Why Solar leads, I want the full lead payload (including switchboard photo and cable run details) to arrive in CurrentFlow and job close data to flow back automatically.</li>
+        <li><strong>AC:</strong> Webhook receiver for inbound Why Solar leads. Attachments (switchboard photo, cable run) stored against the lead record. Two-way data sync: when a lead is marked Won/Lost in CurrentFlow, close outcome posted back to Why Solar API. Exclusivity model means one active slot per installer — settings must show active/inactive status. Priority 3.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.4 — Finance Partner Integrations (Brighte, Smart Ease, Solaris Finance)</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a salesperson, I want to offer Brighte, Smart Ease, or Solaris Finance options directly from the quote so that customers can apply for finance without leaving the proposal flow.</li>
+        <li><strong>AC:</strong> Finance options rendered as a section in the proposal. Customer selects a finance option and is redirected to the partner's application (or an embedded iframe where supported). Application status notifications returned via partner webhook — visible in the job record. Installer receives payment in full from the finance partner once installation is complete (Brighte model). Business configures which finance partners to show in Settings. At least one finance partner integrated at launch. Solaris Finance covers stock finance (supplier credit) as well as customer finance — separate configuration path.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.5 — CurrentFlow Public REST API</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a developer or enterprise installer, I want access to CurrentFlow's API so that I can build custom integrations, automate workflows, and pull data into my own dashboards without CSV exports.</li>
+        <li><strong>AC:</strong> REST API with API key authentication (per-user, generated in Settings). Rate-limited per plan tier. Endpoints cover at minimum: Contacts (CRUD), Leads (CRUD), Jobs (read, status update), Quotes (read), Installers (read). API versioned from day one (/v1/). OpenAPI 3.0 spec published and hosted as interactive docs. SDKs not required at launch — spec is sufficient. Changelog published when endpoints change.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.6 — Outbound Webhooks</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business owner, I want to configure webhook endpoints that receive events when key things happen in CurrentFlow, so that my other tools (accounting, marketing, field service) are notified in real time without polling the API.</li>
+        <li><strong>AC:</strong> Business configures up to 10 webhook endpoints in Settings with a URL and secret. Events fired: lead.created, lead.updated, job.created, job.status_changed, job.completed, payment.received, stc.lodged, stc.settled, installer.assigned. Payload is JSON. Failed deliveries retried with exponential back-off (up to 24 hours). Delivery log accessible in Settings for debugging. HMAC-SHA256 signature on every payload for verification.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.7 — Zapier Integration</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a non-technical business owner, I want CurrentFlow to appear as a Zapier app so that I can connect it to any other tool I use without a developer.</li>
+        <li><strong>AC:</strong> Published Zapier integration using CurrentFlow's public API. Triggers: New Lead, Job Status Changed, Payment Received. Actions: Create Lead, Update Job Status, Add Note. Zapier integration built after the public API is stable (launch + 30 days). Directly displaces the Creative Nurds $9.99/month Solarquotes Zapier workaround.</li>
+      </ul>
+
+      <div class="subhead-sm">E14.8 — HubSpot and Mailchimp Sync</div>
+      <ul class="check-list">
+        <li><strong>Story:</strong> As a business already using HubSpot or Mailchimp, I want contacts and deal outcomes to sync so that I do not duplicate marketing data between CurrentFlow and my existing marketing platform.</li>
+        <li><strong>AC:</strong> HubSpot: OAuth integration. Contacts bi-directionally synced. Deal stage in HubSpot updated when lead status changes in CurrentFlow. Mailchimp: contact sync to a designated audience. Tags applied based on lead status and job outcome. Both integrations optional and independently configurable. Lower priority than lead gen integrations — target launch + 60 days.</li>
+      </ul>
+
+      <div class="subhead">9a.6 Competitor-Derived Requirements (mapped to existing epics)</div>
+      <p class="note">Findings from competitor-landscape.md, user-complaints.md, and surgepv-reviews.md that imply specific user stories not yet captured in E1–E14. Each item is assigned to the relevant epic for expansion at the Stage 9a session.</p>
+      <table class="tier-table">
+        <thead>
+          <tr><th class="col-narrow">Epic</th><th>Competitor Finding</th><th>Required User Story</th><th class="col-narrow">Source</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>E2</td><td>OpenSolar: single manufacturer per project — cannot mix panel brands in one design. Common AU workflow mixes brands by availability.</td><td>As an installer, I want to specify different panel manufacturers per string or roof section in a single job design.</td><td>SurgePV / user-complaints</td></tr>
+          <tr><td>E2</td><td>Pylon: energy production estimates run 10% high vs AEMO actuals — documented by multiple users. Customers compare to metered output post-install.</td><td>As an installer, I want the system to document its calculation methodology (performance ratio, degradation assumptions, orientation corrections) so I can stand behind the estimate at 12 months.</td><td>user-complaints</td></tr>
+          <tr><td>E2</td><td>Pylon: maximum 5 design variations per job — commercial installers routinely quote 3 to 5 system sizes and need more.</td><td>As a commercial installer, I want unlimited saved design variations per job so I can show a range of system sizes without losing earlier versions.</td><td>competitor-landscape</td></tr>
+          <tr><td>E2</td><td>All competitors (Aurora, SolarPlus, OpenSolar): no automated Single Line Diagram (SLD) generation. Aurora requires AutoCAD separately (~$2,000 USD/year). SolarPlus semi-automated takes 25–35 minutes. None of the AU tools auto-generate a permit-ready SLD.</td><td>As an installer, I want CurrentFlow to generate a Single Line Diagram automatically from the design so I do not use AutoCAD or spend 30 minutes on manual SLD work per job.</td><td>SurgePV reviews</td></tr>
+          <tr><td>E3</td><td>All competitors: no cashflow forecasting showing when STC payment will arrive vs when invoices are due — installers manage this in spreadsheets.</td><td>As a business owner, I want a cashflow view that shows outstanding job balances, pending STC certificate values, and expected receipt dates so I can manage cash without a spreadsheet.</td><td>competitor-landscape</td></tr>
+          <tr><td>E4</td><td>ServiceM8: no profit per job reporting. No quote conversion reporting. Users export to Excel for every business analysis.</td><td>As a business owner, I want a reports dashboard showing close rate, average deal value, profit per job, and revenue by installer so I can manage the business without spreadsheets.</td><td>user-complaints</td></tr>
+          <tr><td>E5</td><td>ServiceM8: no inventory management or purchase order creation — all tracked manually outside the system.</td><td>As a scheduler, I want to generate a purchase order from the job's BOM so that I can send it directly to the supplier without re-typing the parts list.</td><td>user-complaints</td></tr>
+          <tr><td>E6</td><td>ServiceM8: iOS-only for full functionality. 60%+ of field staff use Android. Confirmed as most-cited complaint across all review platforms.</td><td>As an Android installer, I need the job scheduling, job brief, photo upload, and sign-off features to be fully functional on Android so I do not need an iPhone to use the system.</td><td>user-complaints (critical)</td></tr>
+          <tr><td>E6</td><td>Salesperson offline mode: poor connectivity at customer sites means CRM becomes unavailable at the moment of closing a deal. Common quote items and recent contacts should be available without a network connection.</td><td>As a salesperson visiting a customer with poor connectivity, I want my common product catalogue, recent contacts, and in-progress quotes pre-loaded on my device so I can continue working and sync when I regain connection.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E6</td><td>Installer offline mode: install sites frequently have no mobile coverage. Installers must be able to access their job brief, checklist, and record photos without connectivity.</td><td>As an installer at a remote site, I want today's assigned jobs — including the job brief, equipment list, completion checklist, and photo capture — to work offline and sync automatically when I reconnect.</td><td>Session Jun 14 2026</td></tr>
+          <tr><td>E8</td><td>SolarPlus: AS/NZS 4777 compliance documentation saves 45–60 minutes per project. None of the other competitors have this. Documentation automation is a stated SolarPlus strength.</td><td>As an installer, I want AS/NZS 4777.1 and 4777.2 compliance documentation generated automatically from the design data so I do not complete it manually for each job.</td><td>competitor-landscape</td></tr>
+          <tr><td>E8</td><td>Pylon, SolarPlus, OpenSolar: no AU state rebate tracking beyond VEECs. PDRS (NSW), ESS (NSW), VEECs (VIC) all have separate application processes not covered by any design tool.</td><td>As an installer working across multiple AU states, I want CurrentFlow to track which state rebates each job is eligible for and surface the application steps for PDRS, ESS, and VEECs alongside STC lodgement.</td><td>competitor-landscape</td></tr>
+          <tr><td>E11</td><td>SolarPlus requires $500–$1,000 training and implementation fee at sign-up. Pylon requires demo before pricing. Aurora requires contact sales. High onboarding friction is a category-wide issue.</td><td>As a small installer, I want to sign up, connect my Solarquotes account, and create my first quote without speaking to a salesperson, so that I can evaluate CurrentFlow in under 30 minutes.</td><td>competitor-landscape / user-complaints</td></tr>
+          <tr><td>E11</td><td>SolarPlus kW-credit pricing model creates unpredictable monthly bills at variable job volumes. Multiple users flag this as a pain point.</td><td>As a business owner, I want a flat monthly price that does not change based on how many jobs I complete so I can budget accurately.</td><td>SurgePV / user-complaints</td></tr>
+          <tr><td>E11</td><td>SolarPlus charges $20/month extra for Xero integration. OpenSolar charges for the Xero connector. Bundled integrations are an expectation in the market.</td><td>As an installer, I want Xero integration included in my CurrentFlow subscription at no extra cost so I am not charged per-integration on top of a monthly fee.</td><td>competitor-landscape</td></tr>
+          <tr><td>E12</td><td>OpenSolar partner-funded model raises product recommendation bias concerns. Users actively flag this on review platforms. Equipment recommendations in CurrentFlow must be independent.</td><td>As an installer, I want the system's CEC compliance checks and component recommendations to be based solely on the CEC approved product list and my own price list — with no manufacturer-sponsored placements or influenced defaults.</td><td>SurgePV reviews</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subhead">9a.7 Remaining Epics (to expand)</div>
+      <p class="note">Epics E2 through E11 to be expanded with full user stories at the Stage 9a session. Seed the stories from the scope decision log (Jun 14 2026), the interview synthesis (Stage 5), and the competitor-derived requirements table above. Aim for 3 to 8 stories per epic. Each story needs acceptance criteria before Stage 9b wireframes are drawn for that flow.</p>
     </section>
 
     <div class="divider"></div>
@@ -2228,6 +2306,7 @@
           <tr><td>E11 — Settings (roles, branding, SLA, email templates, API keys)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E12 — Security (consent UI, audit log view, session/MFA settings)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>E13 — Payments and Sign-Off (completion checklist, sign-off screen, payment page, receipt)</td><td>—</td><td><em>Primary</em></td><td><span class="tag tag-assum">Not started</span></td></tr>
+          <tr><td>E14 — Integrations (Settings screens for Solarquotes/Solar Choice/Why Solar API keys; webhook config; API docs)</td><td>—</td><td>—</td><td><span class="tag tag-assum">Not started</span></td></tr>
           <tr><td>Analytics dashboard</td><td><span class="tag tag-val">Done</span></td><td>—</td><td><span class="tag tag-val">Signed off</span></td></tr>
         </tbody>
       </table>
@@ -2273,6 +2352,8 @@
           <tr><td>ADR-14</td><td><strong>Hosting and infrastructure</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>AU data residency for customer data. Options: AWS ap-southeast-2 (Sydney), Fly.io (Melbourne region), Render. Determine CI/CD pipeline, container vs serverless, and managed vs self-managed database.</td></tr>
           <tr><td>ADR-15</td><td><strong>STC lodgement integration (Formbay vs Bridge Select)</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Formbay Priority 1 — OAS 3.0 REST API, requires phone activation. Bridge Select / Greenbank Priority 2 — OpenSolar has a live integration proving feasibility. Decision: build Formbay first or build an abstraction layer that can swap.</td></tr>
           <tr><td>ADR-16</td><td><strong>Payment platform</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Must support: card-present (tap-to-pay on installer's phone), card-not-present (remote payment link), AU bank transfer, BNPL handoff (Brighte / Smart Ease). PCI DSS compliance must be provider-handled — CurrentFlow cannot store card data. Options: Stripe (Terminal + PaymentIntents, strong AU support), Square (tap-to-pay strong), Monoova (AU bank transfer specialist, may need Stripe alongside). Decision blocks E13 wireframes.</td></tr>
+          <tr><td>ADR-17</td><td><strong>Offline-first strategy</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Two distinct offline personas: (1) Salesperson at a customer site with poor connectivity — needs pre-loaded common product catalogue, pricing, and in-progress quotes; (2) Installer at a remote site — needs the day's assigned jobs, job briefs, equipment lists, completion checklist, and photo capture. Both must sync automatically on reconnection with conflict resolution (server wins on pricing/scheduling; local wins on photos/notes). Implementation options: Service Worker + IndexedDB (PWA-native, no native app required), or a native app shell. Conflict resolution strategy must be defined before building — last-write-wins is not acceptable for job status or payment data. Decision affects ADR-02 (mobile delivery model) and ADR-03 (backend sync protocol).</td></tr>
+          <tr><td>ADR-18</td><td><strong>Design patterns and architecture quality review</strong></td><td><span class="tag tag-assum">OPEN</span></td><td>Before any code is written, the team must agree on which patterns are appropriate for each subsystem and why — and commit to a review mechanism to enforce them. Areas to decide: (1) Layered architecture vs clean architecture vs modular monolith (the monolith wins early; microservices are premature). (2) Repository pattern for data access — prevents business logic from leaking into query code. (3) Command/Query Responsibility Segregation (CQRS) for the audit log — writes are append-only commands; reads are separate queries. (4) Event-driven internal architecture for the activity feed and SLA alerting — domain events decoupled from handlers. (5) Domain-driven design (DDD) bounded contexts: Lead, Job, Compliance (STC), Finance, Identity are natural boundaries. (6) API design standard: REST with OpenAPI 3.0 spec as the contract (no code-first auto-generation without spec review). (7) Enforcement mechanism: architecture fitness functions in CI (ArchUnit or equivalent), documented in ADR, reviewed in code review. Security architect must sign off on this ADR before development begins.</td></tr>
         </tbody>
       </table>
 
@@ -2285,6 +2366,9 @@
         <li>Contractor job claiming requires pessimistic locking or a queue mechanism — "first claimed wins" on a concurrent row update is a race condition without explicit handling.</li>
         <li>AU data residency is a commercial requirement — all customer data must stay in Australia (ap-southeast-2 or equivalent).</li>
         <li>pnpm is the package manager for all JavaScript tooling. npm is banned.</li>
+        <li>Offline-first is a hard requirement for salesperson and installer mobile use cases — not a post-launch enhancement. The data sync and conflict resolution strategy must be decided in ADR-17 before the mobile architecture is built, not retrofitted.</li>
+        <li>SLD generation is a significant differentiator across the entire AU market (no competitor auto-generates it). The approach — rules-based generation, template engine, or code library — must be decided before E2 development begins.</li>
+        <li>Lead source integrations (Solarquotes, Solar Choice, Why Solar) are business-critical at launch. The integration settings UI and webhook receiver infrastructure should be designed as a reusable integration framework, not three one-off scripts.</li>
       </ul>
     </section>
 
