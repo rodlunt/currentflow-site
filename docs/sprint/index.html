@@ -1079,7 +1079,7 @@
       </a>
       <a href="#stage3" class="nav-item">
         <span class="nav-num">3</span> Interview Scripts
-        <span class="nav-status status-done">Done</span>
+        <span class="nav-status status-active">Active</span>
       </a>
       <a href="#stage4" class="nav-item">
         <span class="nav-num">4</span> Customer Interviews
@@ -1163,7 +1163,7 @@
       <div style="margin-bottom:6px;">
         <a href="https://currentflow.com.au" target="_blank" rel="noopener">currentflow.com.au</a>
       </div>
-      <div>Last updated: 14 June 2026</div>
+      <div>Last updated: 16 June 2026</div>
     </div>
   </aside>
 
@@ -1192,7 +1192,7 @@
         </div>
         <div class="meta-item">
           <span class="meta-label">Updated</span>
-          <span class="meta-value">14 Jun 2026</span>
+          <span class="meta-value">16 Jun 2026</span>
         </div>
       </div>
     </div>
@@ -1244,6 +1244,7 @@
           <tr><td>Mar 2026 / Stage 1</td><td>Subcontractor login gap in Pylon confirmed by Daniel Lake (Sure Solar) as a direct conversation. Added as partial validation for A9.</td></tr>
           <tr><td>Mar 2026 / Stage 1b</td><td>Landing page live at currentflow.com.au. Waitlist form to Google Sheets. Email forwarding hello@currentflow.com.au active. GitHub repo connected.</td></tr>
           <tr><td>Mar 2026 / Stage 2</td><td>Personas B (Growth-Stage Operator) and D (Subcontractor-Led Operator) confirmed as primary beachhead targets. Persona A (Owner-Operator) deprioritised as a launch target and will self-select over time. Persona C (Enterprise) excluded from v1 go-to-market as the competitor market adequately serves that segment. Persona E (Solar Quoter / Sales Rep) added as a user persona present within B and D businesses. Decision anchored to revenue potential and structural market gap.</td></tr>
+          <tr><td>Jun 16 2026 / Stage 3</td><td>Persona F (Office Admin / Operations Manager) added. The admin role was implicit in Persona B canvases and referenced throughout epic ACs but had no interview persona or script. Identified as the heaviest daily user across the widest range of workflows (scheduling, invoicing, STC lodgement, customer communication, contractor coordination, WHS paperwork, RMA tracking) and the highest practical influence on product adoption and retention inside any Persona B or D customer. Canvas 2.5 added to Stage 2. Interview script 3.5 added to Stage 3. Access path: ask Persona B and D owners to connect you with whoever handles their day-to-day admin and scheduling — conduct as a separate interview, not a combined one.</td></tr>
           <tr><td>Jun 14 2026 / Pre-Stage 9</td><td>Product scope confirmed as a full end-to-end solar business operating system — not a CRM with design bolt-on. Design is integral to the quoting process and is v1 scope, not a future add-on. Full scope: solar design (aerial imagery, panel overlay, string voltage, MPPT, temperature derating, CEC compliance), quoting, CRM (pipeline, lead temperature, follow-up sequences), procurement (BOM, supplier price lists), scheduling (employees and contractors, weather rescheduling, customer booking), compliance (STC/SRES lodgement via Formbay/Greenbank, CEC component checks), and post-install follow-up (6/12 month automated performance review). Xero handles accounting only — invoice, STC receivable as a line item, payment reconciliation. Out of scope for v1: inverter monitoring API integrations for automated performance data (v2), multi-trader STC switching (v2), real-time CEC accreditation API verification (v2). Contractor pool model confirmed as v1: self-service job claiming, first-come-first-served, eligibility gated by CEC accreditation, quals, and tickets. Hungry installers earn work; Persona D is served natively. Decisions taken in session; no competitor research contradicted any scope item.</td></tr>
         </tbody>
       </table>
@@ -1446,6 +1447,26 @@
           <tr><td><strong>Where to Find</strong></td><td>Rodney's direct network. Sales reps inside Tradezone customer businesses.</td></tr>
         </tbody>
       </table>
+
+      <div class="subhead">2.5 Persona Canvas — Persona F: The Office Admin / Operations Manager</div>
+      <p><em>User persona, not a buyer. Present inside Persona B and D businesses once they reach the point of hiring dedicated admin support — typically from 15 installs per month upward. Often the first non-owner hire who stays long enough to know how everything actually runs. Touches more workflows daily than any other persona. Does not control the purchasing decision but has the highest practical influence of any user — a system that makes their job harder will be quietly resisted until the owner notices.</em></p>
+      <table class="tier-table">
+        <tbody>
+          <tr><td class="col-narrow"><strong>Role / Title</strong></td><td>Office manager, operations coordinator, admin officer, or scheduler within a solar install business</td></tr>
+          <tr><td><strong>Business Size</strong></td><td>Works inside a Persona B or D business. Typically present from 15 to 20+ installs per month where the owner can no longer manage administration themselves.</td></tr>
+          <tr><td><strong>Location</strong></td><td>Australia-wide. Often office-based while installers and subbies are in the field.</td></tr>
+          <tr><td><strong>Age Range</strong></td><td>28 to 50</td></tr>
+          <tr><td><strong>Tech Comfort</strong></td><td>Moderate. Comfortable with spreadsheets, email, and business software. Not technical but learns systems quickly out of necessity.</td></tr>
+          <tr><td><strong>Current Tools</strong></td><td>Pylon or OpenSolar for job data, Xero for invoicing, spreadsheets for scheduling, email and WhatsApp for coordinator communication, paper or PDF job sheets for installers. Often managing 4 to 6 separate systems with no integration between them.</td></tr>
+          <tr><td><strong>Primary Goal</strong></td><td>Keep jobs moving without dropping anything. Make sure installers have what they need, customers are informed, invoices go out on time, and the owner is not fielding calls they should not have to take.</td></tr>
+          <tr><td><strong>Biggest Frustration</strong></td><td>Re-entering the same job data into multiple systems. Scheduling rescheduling cascades that require manually contacting every affected installer and customer. No single place to see the status of all open jobs — information is spread across email, Pylon, Xero, and WhatsApp. STC lodgement requires pulling data from the job system and re-entering it somewhere else. Customer calls asking for status updates they have no easy way to answer.</td></tr>
+          <tr><td><strong>Workarounds</strong></td><td>Master scheduling spreadsheet that duplicates data from Pylon. Personal notebook for daily task tracking. WhatsApp status as a makeshift installer check-in. Copying and pasting between Pylon and Xero for invoice creation.</td></tr>
+          <tr><td><strong>Decision Trigger</strong></td><td>A week where a job fell through because a communication step was missed and they got blamed. Or the realisation that they are spending more than half the day on data transfer rather than anything that actually moves work forward.</td></tr>
+          <tr><td><strong>Budget Sensitivity</strong></td><td>Not a buyer. Has no budget authority. Influence on the purchasing decision is high if the owner asks "what do you think of this system?" — their answer shapes the outcome. If a new tool saves them two hours a day they will advocate for it; if it creates more steps they will find workarounds and the adoption will fail quietly.</td></tr>
+          <tr><td><strong>Why They Matter</strong></td><td>The office admin is the system's heaviest daily user across the widest range of workflows — scheduling, invoicing, customer communication, STC paperwork, compliance documents, and contractor coordination. Winning this persona means winning retention inside every Persona B and D customer. Losing them through poor UX means churn disguised as owner dissatisfaction. Their workflow is also the richest source of data re-entry pain — the single biggest validated problem in the product (A10).</td></tr>
+          <tr><td><strong>Where to Find</strong></td><td>Inside Persona B and D businesses already in Rodney's network. Ask owners directly: "Can I also speak to whoever handles your day-to-day admin and scheduling?"</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <div class="divider"></div>
@@ -1463,7 +1484,7 @@
 
       <div class="status-strip">
         <span class="ss-tag">Status: In Review</span>
-        <span class="ss-text">Scripts updated Jun 15 2026 following full epic review (E1–E24). All four scripts revised to probe 25 new assumptions (A23–A47) — STC workflow, ACL cooling-off, dual-role identity (ADR-22), contractor payment, WHS compliance, lead source attribution, BNPL finance, data residency, close rate tracking. Use these updated versions for all Stage 4 interviews.</span>
+        <span class="ss-text">Scripts updated Jun 16 2026. Five interview scripts across all personas. Persona F (Office Admin / Operations Manager) added — interview script 3.5. All scripts revised to probe 25 new assumptions (A23–A47) — STC workflow, ACL cooling-off, dual-role identity (ADR-22), contractor payment, WHS compliance, lead source attribution, BNPL finance, data residency, close rate tracking. Use these updated versions for all Stage 4 interviews.</span>
       </div>
 
       <div class="subhead">3.1 Interview Script — Persona A: The Owner-Operator</div>
@@ -1613,6 +1634,49 @@
       </ul>
       <div class="subhead-sm">Section 5 — Wrap-Up (2 min)</div>
       <p>This has been really useful. I'm building something in this space and the sales rep perspective is one I don't hear enough about. I'd love to keep you in the loop as it develops. Would you be open to a follow-up conversation in a few months?</p>
+
+      <div class="subhead">3.5 Interview Script — Persona F: The Office Admin / Operations Manager</div>
+      <p><em>Access this persona by asking Persona B and D owners directly: "Can I also speak to whoever handles your day-to-day admin and scheduling?" Conduct separately from the owner interview — you will get different answers. Record with Otter.ai. State consent before starting. Target 30 to 40 minutes.</em></p>
+      <div class="callout">
+        <div class="callout-label">Verbal Consent Statement</div>
+        <p>"Before we get into it, I'd like to record this conversation so I can refer back to my notes accurately. Is that okay with you?"</p>
+      </div>
+      <div class="subhead-sm">Section 1 — Introduction (2 min)</div>
+      <p>Hi [name], thanks for making time. I'm Rodney. I've been in the solar industry for over 20 years, most recently at Tradezone. I'm doing research into how solar businesses actually operate day to day — and honestly the person I most want to talk to is the one running the office, not just the owner. You're the one who knows where things actually break. This is not a sales call. I'm not pitching anything. I just want to understand your world. Sound good?</p>
+      <div class="subhead-sm">Section 2 — Their Current World (8 to 10 min)</div>
+      <ul class="check-list">
+        <li>Walk me through what a normal day looks like for you from when you sit down in the morning. What does the first hour look like?</li>
+        <li>What tools do you use across the day? Walk me through every system you open regularly — what each one does for you and how often you are in it.</li>
+        <li>When a new job comes in, what do you do with it? Walk me through every step from the moment it is sold to when the installer leaves the site.</li>
+        <li>Who do you communicate with most during the day — the owner, customers, installers, suppliers? How does that communication happen?</li>
+      </ul>
+      <div class="subhead-sm">Section 3 — The Problem Area (10 to 12 min)</div>
+      <ul class="check-list">
+        <li>Tell me about a day that went badly — not a disaster, just one of those days where everything felt like it was fighting you. What happened?</li>
+        <li>When a job changes — a reschedule, a product substitution, a cancellation — how many people do you have to contact and how do you do that?</li>
+        <li>Do you ever have to enter the same information in more than one place? Walk me through a specific example of that. How many times does a customer's address or job details get entered across all your systems?</li>
+        <li>How do you manage invoicing? When does an invoice go out, who creates it, and how does the job information get into Xero?</li>
+        <li>Walk me through how you currently lodge STC claims. What system does that start in, what do you have to do manually, and how long does it take per job?</li>
+        <li>How do customers find out what is happening with their install — before it, during it, and after? What triggers a customer call to your office asking for an update?</li>
+        <li>When a customer calls to ask about their job status, how quickly can you find the answer and how do you find it?</li>
+      </ul>
+      <div class="subhead-sm">Section 3b — Contractors, Compliance, and Warranty (5 min)</div>
+      <ul class="check-list">
+        <li>How do you coordinate with installers or subcontractors? How do they get their job details, and how do you know the job is done?</li>
+        <li>How do you check that a subcontractor's CEC accreditation and insurance are current? Is that on you to track, or someone else?</li>
+        <li>How do you handle WHS paperwork — inductions, equipment inspection records, incident reporting? Is that in a system or on paper?</li>
+        <li>How do you manage warranty or manufacturer RMA claims? Who tracks those and where does that information live?</li>
+        <li>When a product is out of stock and a job needs a substitution, what has to happen and who does it involve?</li>
+      </ul>
+      <div class="subhead-sm">Section 4 — Alternatives and Workarounds (3 to 5 min)</div>
+      <ul class="check-list">
+        <li>What workarounds have you built that are not in any official system — your own spreadsheets, checklists, personal tracking methods?</li>
+        <li>If you could change one thing about the tools your business uses, what would it be? Not the whole system — just one thing that would save you the most time.</li>
+        <li>Have you used tools at a previous job that handled any of this better? What made them better?</li>
+        <li>If someone built a system where all of this lived in one place — the job, the schedule, the installer, the invoice, the STC paperwork, and the customer communication — what would you need to see to actually believe it worked before your boss committed to it?</li>
+      </ul>
+      <div class="subhead-sm">Section 5 — Wrap-Up (2 min)</div>
+      <p>This has been genuinely useful — the office perspective is one most product people never hear about and it is the most important one. I'm building something in this space and I'd love to keep you in the loop. Would you be open to a follow-up conversation, and would you be comfortable if I came back to you with a prototype to get your reaction before it goes live?</p>
     </section>
 
     <div class="divider"></div>
