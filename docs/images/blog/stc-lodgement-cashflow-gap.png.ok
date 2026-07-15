@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "865ab2e704f9f8e1ac8e3fe446e5a1ea5e4f75f770a344da293417661ffb7081",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 1608212095,
+  "slug": "stc-lodgement-cashflow-gap",
+  "timestamp": "2026-07-15T10:31:20.203448+00:00"
+}

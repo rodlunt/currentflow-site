@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "32a83a0397e550007cc46dff9696c41c6b04c79c78feabda1a36c896dee925c6",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3218273777,
+  "slug": "speed-to-quote-wins-solar-jobs",
+  "timestamp": "2026-07-15T10:23:19.047469+00:00"
+}

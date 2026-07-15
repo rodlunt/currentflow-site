@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "4c771f6a4abd0553c50771c09dedd2c210d5027fde33e8aaf70bdea4c623c664",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 1838695727,
+  "slug": "solar-deposit-australia-consumer-rights",
+  "timestamp": "2026-07-15T10:18:46.421814+00:00"
+}

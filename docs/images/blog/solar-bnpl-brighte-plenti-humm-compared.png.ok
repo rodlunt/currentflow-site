@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "46d6207497842c5223dc90219560a673d4e152b52be0555299e7f50684acec7c",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2048603960,
+  "slug": "solar-bnpl-brighte-plenti-humm-compared",
+  "timestamp": "2026-07-15T10:15:20.624325+00:00"
+}

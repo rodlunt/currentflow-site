@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "041c29a689c9c6df3065f54f2e1b4dc1df9d6eb3478f88c1a5218241bdfc827b",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3021289711,
+  "slug": "solar-contract-cooling-off-cancellation",
+  "timestamp": "2026-07-15T10:17:38.106133+00:00"
+}
