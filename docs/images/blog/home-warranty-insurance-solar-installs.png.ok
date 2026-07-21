@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "10440c98b96ae2c5e3967741afff2fe76ac26ce61ce3fbe50a8720afdf652af0",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 226619262,
+  "slug": "home-warranty-insurance-solar-installs",
+  "timestamp": "2026-07-21T18:04:30.449167+00:00"
+}
