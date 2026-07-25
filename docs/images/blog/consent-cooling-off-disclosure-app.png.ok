@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "6b1c51ec1e9a7deade6e38943af544e94cd1e73a08b4ab4de4bddec67b099f69",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2057811063,
+  "slug": "consent-cooling-off-disclosure-app",
+  "timestamp": "2026-07-25T18:02:34.362108+00:00"
+}

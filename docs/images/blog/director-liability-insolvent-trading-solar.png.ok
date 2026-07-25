@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "f72fef9858f6134d702fd5569931a523a34e7f0a2aa1e768b22db25a01929d9c",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3821435414,
+  "slug": "director-liability-insolvent-trading-solar",
+  "timestamp": "2026-07-25T18:03:12.670557+00:00"
+}
