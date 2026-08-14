@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "c640d0e9a34b951da3c389be2cb9eefe88b40815c68f1be29bd09b2959372998",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3764664457,
+  "slug": "check-solar-company-abn-registration",
+  "timestamp": "2026-08-10T18:04:27.587842+00:00"
+}
