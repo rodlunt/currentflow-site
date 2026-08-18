@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "2952104f87ff6a7402642cdf17d01661e83dc040a7953ae6e9c4b43962675c7e",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3411753616,
+  "slug": "audit-solar-sales-rep-compliance",
+  "timestamp": "2026-08-18T18:03:13.661041+00:00"
+}
