@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "767a70efa69085760b68a8362ea495ce52d96b681a6bdb5f37ab62d636288e66",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 4140689766,
+  "slug": "call-recording-consent-solar-sales",
+  "timestamp": "2026-08-26T18:03:47.385456+00:00"
+}

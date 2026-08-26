@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "f1ba072d82a44b88d56a2a89116f819bcb55d19e6dd375aa721424441bf31482",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3769056481,
+  "slug": "call-scoring-coaching-software-solar-sales",
+  "timestamp": "2026-08-26T18:05:08.216615+00:00"
+}
