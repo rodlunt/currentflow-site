@@ -1,0 +1,17 @@
+# CurrentFlow — llms.txt
+
+> CurrentFlow is solar business management software for Australian solar installers, combining quoting, STC tracking, CRM, and job scheduling in one connected platform.
+
+## About
+
+- [About CurrentFlow](https://www.currentflow.com.au/about/): CurrentFlow is a solar CRM built by an industry insider for Australian solar installers.
+
+## Top Guides
+
+- [Solar Business Management Software: What Australian Installers Actually Need](https://www.currentflow.com.au/blog/solar-business-management-software/): There is no shortage of solar software. There is a shortage of software that manages the whole solar business, not just design, not just invoicing, but the full job lifecycle from lead to certificate.
+- [Why Australian Solar Businesses Run Three Software Tools (And Still Have Gaps)](https://www.currentflow.com.au/blog/solar-software-three-tool-problem/): Most Australian solar install businesses use a design tool, a jobs tool and an accounting tool, and re-enter data between each one. Here is what that costs and why the gap exists.
+- [How to Find and Keep Solar Subbies Who Are Worth Keeping](https://www.currentflow.com.au/blog/how-to-select-solar-subbies/): Licence and price are table stakes. Here's what to actually look for when vetting solar subcontractors, and how to spot the ones who will cost you customers before they cost you money.
+- [Managing Solar Subcontractors Without the Chaos](https://www.currentflow.com.au/blog/solar-subcontractor-management/): Subcontractors make a solar install business scalable. They also introduce every type of communication and scheduling problem that slows jobs down. Here is how to run subbies without the chaos.
+- [STCs Aren't a Rebate: How Australia's Solar Certificate Scheme Actually Works](https://www.currentflow.com.au/blog/stcs-are-not-a-rebate/): Everyone calls STCs a rebate. They are not. Here is how the small-scale certificate scheme actually works, and why understanding the real mechanism protects your cashflow.
+- [CEC Code of Conduct: What It Means for Solar Sales Reps](https://www.currentflow.com.au/blog/cec-solar-retailer-code-conduct/): A plain-English guide to the CEC Solar Retailer Code of Conduct's sales and quoting rules, and what still applies after the 2023 wind-down.
+- [What to Look for in a Solar Supplier (Beyond the Unit Price)](https://www.currentflow.com.au/blog/solar-supplier-relationships-over-price/): Unit price is easy to compare. Freight reliability, tech support, credit terms, and how fast someone answers the phone when you have a problem on-site are not. A framework for evaluating solar suppliers on what actually affects your margin.

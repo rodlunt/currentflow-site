@@ -14,4 +14,4 @@ Disallow: /sprint/
 # keeping the pages out of the index.
 
 # Sitemap reference helps search engines discover all canonical URLs
-Sitemap: https://currentflow.com.au/sitemap.xml
+Sitemap: https://www.currentflow.com.au/sitemap.xml
