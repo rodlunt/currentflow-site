@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "a0dbce84e366642e437c33fce0d28b4e73777d6a42c07d1e2aa141a58105d1bb",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 3052906421,
+  "slug": "accc-fair-trading-solar-complaints",
+  "timestamp": "2026-09-11T18:02:33.748873+00:00"
+}
