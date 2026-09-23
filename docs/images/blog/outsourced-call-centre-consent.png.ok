@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "f09419d98beaf45bac3f6d8582aae15c08dbcd2186926864ca1c81a6c745247b",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2948568715,
+  "slug": "outsourced-call-centre-consent",
+  "timestamp": "2026-09-23T18:21:31.522119+00:00"
+}
