@@ -1,0 +1,16 @@
+{
+  "l1": "ok",
+  "l2": {
+    "skipped": true
+  },
+  "l3": "ok",
+  "l3_5": {
+    "skipped": true
+  },
+  "model_hash": "f6694941193b10148dbf1f0f498d4ccd3e9875c127fc53946213b68580c66f10",
+  "prompt_hash": "adadfec070e1ce5afec54e2eed7287226020b39d558a9172e310823712112838",
+  "sd_cpp_version": "master-558-8afbeb6",
+  "seed": 2680904131,
+  "slug": "retention-title-clause-solar-panels",
+  "timestamp": "2026-10-21T18:35:17.666111+00:00"
+}
